@@ -52,7 +52,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\bullet-2.82-r2704\src; $(SolutionDir)\..\bullet-2.82-r2704\Glut; $(SolutionDir)\..\bullet-2.82-r2704\Demos\OpenGL; %(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\bullet-2.82-r2704\Demos\OpenGL;%(AdditionalIncludeDirectories); $(SolutionDir)\..\bullet-2.82-r2704\Glut;$(SolutionDir)..\bullet-2.82-r2704\src;  </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -68,7 +68,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\bullet-2.82-r2704\src; $(SolutionDir)\..\bullet-2.82-r2704\Glut; $(SolutionDir)\..\bullet-2.82-r2704\Demos\OpenGL; %(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\bullet-2.82-r2704\Demos\OpenGL;%(AdditionalIncludeDirectories); $(SolutionDir)\..\bullet-2.82-r2704\Glut;$(SolutionDir)..\bullet-2.82-r2704\src;  </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
