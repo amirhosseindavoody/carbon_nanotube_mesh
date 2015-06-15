@@ -1,16 +1,27 @@
-﻿Build started 6/15/2015 11:15:21 AM.
+﻿Build started 6/15/2015 12:06:36 PM.
      1>Project "C:\Users\Gabory\Documents\Visual Studio 2013\Projects\CarbonNanotubeMesh\CNT_Mesh_Project\CNT_Mesh_Project\CNT_Mesh_Project.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"..\bullet-2.82-r2704\src" /I"..\bullet-2.82-r2704\Glut" /I"..\bullet-2.82-r2704\Demos\OpenGL" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\CNT_Mesh_Project.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
-         stdafx.cpp
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"..\bullet-2.82-r2704\src" /I"..\bullet-2.82-r2704\Glut" /I"..\bullet-2.82-r2704\Demos\OpenGL" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\CNT_Mesh_Project.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CNT_Mesh_Project.cpp
-         CNT_Mesh_Project.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Gabory\Documents\Visual Studio 2013\Projects\CarbonNanotubeMesh\CNT_Mesh_Project\\..\bullet-2.82-r2704\src" /I"C:\Users\Gabory\Documents\Visual Studio 2013\Projects\CarbonNanotubeMesh\CNT_Mesh_Project\\..\bullet-2.82-r2704\Glut" /I"C:\Users\Gabory\Documents\Visual Studio 2013\Projects\CarbonNanotubeMesh\CNT_Mesh_Project\\..\bullet-2.82-r2704\Demos\OpenGL" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\CNT_Mesh_Project.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt BasicTubeDemo.cpp CNT_Mesh_Main.cpp
+         CNT_Mesh_Main.cpp
+         Note: including lib: glut32.lib
+         
+         BasicTubeDemo.cpp
+         Note: including lib: glut32.lib
+         
+         Generating Code...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Gabory\Documents\Visual Studio 2013\Projects\CarbonNanotubeMesh\CNT_Mesh_Project\Debug\CNT_Mesh_Project.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Gabory\Documents\Visual Studio 2013\Projects\CarbonNanotubeMesh\CNT_Mesh_Project\Debug\CNT_Mesh_Project.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Gabory\Documents\Visual Studio 2013\Projects\CarbonNanotubeMesh\CNT_Mesh_Project\Debug\CNT_Mesh_Project.lib" /MACHINE:X86 Debug\CNT_Mesh_Project.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Gabory\Documents\Visual Studio 2013\Projects\CarbonNanotubeMesh\CNT_Mesh_Project\Debug\CNT_Mesh_Project.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Gabory\Documents\Visual Studio 2013\Projects\CarbonNanotubeMesh\CNT_Mesh_Project\Debug\CNT_Mesh_Project.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Gabory\Documents\Visual Studio 2013\Projects\CarbonNanotubeMesh\CNT_Mesh_Project\Debug\CNT_Mesh_Project.lib" /MACHINE:X86 Debug\BasicTubeDemo.obj
+         Debug\CNTFunc.obj
+         Debug\CNT_Mesh_Main.obj
          Debug\stdafx.obj
+         Debug\tube.obj
+         C:\PhysicsEngineDev\tutorial\BulletBuild\lib\Debug\OpenGLSupport_Debug.lib
+         C:\PhysicsEngineDev\tutorial\BulletBuild\lib\Debug\BulletCollision_Debug.lib
+         C:\PhysicsEngineDev\tutorial\BulletBuild\lib\Debug\BulletDynamics_Debug.lib
+         C:\PhysicsEngineDev\tutorial\BulletBuild\lib\Debug\LinearMath_Debug.lib
          CNT_Mesh_Project.vcxproj -> C:\Users\Gabory\Documents\Visual Studio 2013\Projects\CarbonNanotubeMesh\CNT_Mesh_Project\Debug\CNT_Mesh_Project.exe
      1>Done Building Project "C:\Users\Gabory\Documents\Visual Studio 2013\Projects\CarbonNanotubeMesh\CNT_Mesh_Project\CNT_Mesh_Project\CNT_Mesh_Project.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.58
+Time Elapsed 00:00:04.67

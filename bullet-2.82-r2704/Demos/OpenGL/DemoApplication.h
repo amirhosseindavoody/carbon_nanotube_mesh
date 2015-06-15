@@ -32,7 +32,7 @@ subject to the following restrictions:
 #include "LinearMath/btAlignedObjectArray.h"
 
 //Need to change on next version of program
-#include "../../../tutorial/BasicDemo/BasicDemo/tube.h"
+#include "../../../CNT_Mesh_Project/CNT_Mesh_Project/tube.h"
 
 
 class	btCollisionShape;

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Document">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element name="numberTubes" type="xs:unsignedByte" />
+        <xs:element name="friction" type="xs:decimal" />
+        <xs:element name="gravity" type="xs:decimal" />
+        <xs:element name="spacing">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Units" type="xs:string" />
+              <xs:element name="min" type="xs:decimal" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Lengths">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Units" type="xs:string" />
+              <xs:element name="Lmin" type="xs:decimal" />
+              <xs:element name="Lmax" type="xs:decimal" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DeviceDimensions">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Units" type="xs:string" />
+              <xs:element name="xdim" type="xs:decimal" />
+              <xs:element name="ydim" type="xs:decimal" />
+              <xs:element name="zdim" type="xs:decimal" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="chirality">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="cnt">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="m" type="xs:unsignedByte" />
+                    <xs:element name="n" type="xs:unsignedByte" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="Type" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

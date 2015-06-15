@@ -52,7 +52,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\bullet-2.82-r2704\src; ..\bullet-2.82-r2704\Glut; ..\bullet-2.82-r2704\Demos\OpenGL; %(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\bullet-2.82-r2704\src; $(SolutionDir)\..\bullet-2.82-r2704\Glut; $(SolutionDir)\..\bullet-2.82-r2704\Demos\OpenGL; %(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -68,7 +68,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\bullet-2.82-r2704\src; ..\bullet-2.82-r2704\Glut; ..\bullet-2.82-r2704\Demos\OpenGL; %(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\bullet-2.82-r2704\src; $(SolutionDir)\..\bullet-2.82-r2704\Glut; $(SolutionDir)\..\bullet-2.82-r2704\Demos\OpenGL; %(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,15 +81,47 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasicTubeDemo.h" />
+    <ClInclude Include="CNTFunc.h" />
+    <ClInclude Include="CNTMeshConfig.h">
+      <DependentUpon>CNTMeshConfig.xsd</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="rapidxml.hpp" />
+    <ClInclude Include="rapidxml_iterators.hpp" />
+    <ClInclude Include="rapidxml_utils.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="tube.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CNT_Mesh_Project.cpp" />
+    <ClCompile Include="BasicTubeDemo.cpp" />
+    <ClCompile Include="CNTFunc.cpp" />
+    <ClCompile Include="CNT_Mesh_Main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="tube.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BulletBuild\Demos\OpenGL\OpenGLSupport.vcxproj">
+      <Project>{121d25af-6601-4ea7-a575-a2e6b1530d5c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BulletBuild\src\BulletCollision\BulletCollision.vcxproj">
+      <Project>{543ce51e-b1b4-45ec-97fe-fa73fefd0899}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BulletBuild\src\BulletDynamics\BulletDynamics.vcxproj">
+      <Project>{3716a143-ba40-45a9-8b3c-4633233d8ef1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BulletBuild\src\LinearMath\LinearMath.vcxproj">
+      <Project>{781a54f5-f681-484a-99cf-3dbcaa8dc457}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Xsd Include="CNTMeshConfig.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="CNTMeshConfig.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
