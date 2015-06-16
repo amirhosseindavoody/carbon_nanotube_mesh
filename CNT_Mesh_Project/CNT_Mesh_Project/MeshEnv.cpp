@@ -36,6 +36,7 @@ using namespace rapidxml;
 using namespace std;
 static GLDebugDrawer gDebugDraw;
 extern string inputXMLPath;
+string outputPath;
 
 SIMD_FORCE_INLINE btVector3 
 MeshEnv::multOperator(const btMatrix3x3& m, const btVector3& v)
@@ -345,6 +346,34 @@ void	MeshEnv::initPhysics(float camDistance)
 		currNode = currNode->next_sibling();
 	}
 	delete currNode;
+
+	time_t timer;
+	struct tm currTime;
+	if(time(&timer) != -1)
+	{
+		errno_t err = localtime_s(&currTime, &timer);
+		if (err)
+		{
+			printf("Invalid argument to localtime");
+			exit(1);
+		}
+	}
+	string timeStamp = "Date_";
+	timeStamp = operator+(timeStamp, to_string(currTime.tm_mday));
+	timeStamp = operator+(timeStamp, ".");
+	timeStamp = operator+(timeStamp, to_string(currTime.tm_mon+1));
+	timeStamp = operator+(timeStamp, ".");
+	timeStamp = operator+(timeStamp, to_string(currTime.tm_year%100));
+	timeStamp = operator+(timeStamp, "_Time_");
+	timeStamp = operator+(timeStamp, to_string(currTime.tm_hour));
+	timeStamp = operator+(timeStamp, ".");
+	timeStamp = operator+(timeStamp, to_string(currTime.tm_min));
+	timeStamp = operator+(timeStamp, ".");
+	timeStamp = operator+(timeStamp, to_string(currTime.tm_sec));
+	timeStamp = operator+(timeStamp, "/");
+
+	outputPath = operator+(outputFolderPath, timeStamp);
+	
 
 	/////////////////////////////// END OF ENVIRONMENT PARAMETERS //////////////////////////////////
 
@@ -799,14 +828,14 @@ void MeshEnv::clientMoveAndDisplay()
 		if (simComplete)
 		{
 			//iterate for file output
-			string folder = "C:/Users/Gabory/Dropbox/Research/OutputFiles/";
+			//string folder = "C:/Users/Gabory/Dropbox/Research/OutputFiles/";
 			for (list<shared_ptr<tube>>::iterator itrTube = m_tubeList.begin();
 				itrTube != m_tubeList.end() && simComplete; ++itrTube)
 			{
 				//create file with some filename
 				int tubeNum = (*itrTube)->getTubeNum();
 				stringstream filePathMaker;
-				filePathMaker << folder << "CNT_Num_" << tubeNum << ".csv";
+				filePathMaker << outputPath << "CNT_Num_" << tubeNum << ".csv";
 				string fileName = filePathMaker.str();
 				ofstream file;
 				file.open(fileName);
