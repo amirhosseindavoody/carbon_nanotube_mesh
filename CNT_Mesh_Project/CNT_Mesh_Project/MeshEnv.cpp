@@ -35,6 +35,7 @@
 using namespace rapidxml;
 using namespace std;
 static GLDebugDrawer gDebugDraw;
+extern string inputXMLPath;
 
 SIMD_FORCE_INLINE btVector3 
 MeshEnv::multOperator(const btMatrix3x3& m, const btVector3& v)
@@ -292,10 +293,12 @@ void	MeshEnv::initPhysics(float camDistance)
 	setCameraDistance(camDistance);
 
 	xml_document<> doc; //create xml object
-	file<> xmlFile("C:/PhysicsEngineDev/tutorial/BasicDemo/BasicDemo/CNTMeshConfig.xml"); //open file
+	file<> xmlFile(inputXMLPath.c_str()); //open file
 	doc.parse<0>(xmlFile.data()); //parse contents of file
 	xml_node<>* currNode = doc.first_node(); //gets the node "Document" or the root node
-	currNode = currNode->first_node(); //NUMTUBES NODE
+	currNode = currNode->first_node(); //OUTPUT FOLDER
+	string outputFolderPath = currNode->value();
+	currNode = currNode->next_sibling(); //NUMTUBES NODE
 	int numTubes = atoi(currNode->value());
 	currNode = currNode->next_sibling(); //FRICTION NODE
 	btScalar friction = atof(currNode->value());
@@ -342,6 +345,8 @@ void	MeshEnv::initPhysics(float camDistance)
 		currNode = currNode->next_sibling();
 	}
 	delete currNode;
+
+	/////////////////////////////// END OF ENVIRONMENT PARAMETERS //////////////////////////////////
 
 	///collision configuration contains default setup for memory, collision setup
 	m_collisionConfiguration = new btDefaultCollisionConfiguration();

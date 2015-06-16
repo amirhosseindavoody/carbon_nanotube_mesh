@@ -64,13 +64,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Xsd Include="CNTMeshConfig.xsd">
-      <Filter>Header Files</Filter>
-    </Xsd>
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="CNTMeshConfig.xml">
-      <Filter>Source Files</Filter>
-    </Xml>
+    <Xml Include="..\CNT_Mesh_Config.xml" />
   </ItemGroup>
 </Project>

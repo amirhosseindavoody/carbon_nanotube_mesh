@@ -83,9 +83,6 @@
   <ItemGroup>
     <ClInclude Include="MeshEnv.h" />
     <ClInclude Include="CNTFunc.h" />
-    <ClInclude Include="CNTMeshConfig.h">
-      <DependentUpon>CNTMeshConfig.xsd</DependentUpon>
-    </ClInclude>
     <ClInclude Include="rapidxml.hpp" />
     <ClInclude Include="rapidxml_iterators.hpp" />
     <ClInclude Include="rapidxml_utils.hpp" />
@@ -104,12 +101,6 @@
     <ClCompile Include="tube.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xsd Include="CNTMeshConfig.xsd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="CNTMeshConfig.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\BulletBuild\Demos\OpenGL\OpenGLSupport.vcxproj">
       <Project>{121d25af-6601-4ea7-a575-a2e6b1530d5c}</Project>
     </ProjectReference>
@@ -122,6 +113,9 @@
     <ProjectReference Include="..\..\BulletBuild\src\LinearMath\LinearMath.vcxproj">
       <Project>{781a54f5-f681-484a-99cf-3dbcaa8dc457}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\CNT_Mesh_Config.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

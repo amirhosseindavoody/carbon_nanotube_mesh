@@ -10,16 +10,20 @@
 #include "MeshEnv.h"
 #include "GlutStuff.h"
 #include "btBulletDynamicsCommon.h"
-//#include "CNTFunc.h"
+#include <string>
+#include <iostream>
+#include <regex>
 
-int _tmain(int argc, char** argv)
+string inputXMLPath;
+
+int main(int argc, char *argv[])
 {
-	//CNT x1 = CNT(7, 5);
-	//CNT x2 = CNT(7, 6);
-	//CNT x3 = CNT(8, 6);
-	//CNT x4 = CNT(8, 7);
-	//CNT x5 = CNT(9, 7);
-
+	if (argc != 2)
+	{
+		string errMess = "Incorrect parameters. Only enter file path of config xml";
+		throw std::exception(errMess.c_str());
+	}
+	inputXMLPath = argv[1];
 	MeshEnv ccdDemo;
 	ccdDemo.initPhysics(btScalar(300));
 	ccdDemo.setDebugMode(btIDebugDraw::DBG_DrawConstraints + btIDebugDraw::DBG_DrawConstraintLimits);
