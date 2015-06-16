@@ -1,5 +1,5 @@
 /*****************************************************************************
-* BasicTubeDemo.cpp
+* MeshEnv.cpp
 * Written By:
 *			Alex Gabourie
 *
@@ -17,7 +17,7 @@
 
 #define SIMD_QUARTER_PI (SIMD_PI * btScalar(0.25)) 
 
-#include "BasicTubeDemo.h"
+#include "MeshEnv.h"
 #include "GlutStuff.h"
 ///btBulletDynamicsCommon.h is the main Bullet include file, contains most common include files.
 #include "btBulletDynamicsCommon.h"
@@ -37,7 +37,7 @@ using namespace std;
 static GLDebugDrawer gDebugDraw;
 
 SIMD_FORCE_INLINE btVector3 
-BasicTubeDemo::multOperator(const btMatrix3x3& m, const btVector3& v)
+MeshEnv::multOperator(const btMatrix3x3& m, const btVector3& v)
 {
 	return btVector3(m[0].dot(v), m[1].dot(v), m[2].dot(v));
 }
@@ -83,7 +83,7 @@ struct AGCustomFilterCallback : public btOverlapFilterCallback
 };
 
 //Rotates the given rigid body object as the rotation matrix specifies
-void BasicTubeDemo::rotateAboutOrigin(btMatrix3x3 &rotMatrix, btRigidBody* obj)
+void MeshEnv::rotateAboutOrigin(btMatrix3x3 &rotMatrix, btRigidBody* obj)
 {
 	btMatrix3x3 basis = obj->getWorldTransform().getBasis();
 	btVector3 origin = obj->getWorldTransform().getOrigin();
@@ -94,21 +94,21 @@ void BasicTubeDemo::rotateAboutOrigin(btMatrix3x3 &rotMatrix, btRigidBody* obj)
 
 }
 
-void BasicTubeDemo::rotateAndShift(btMatrix3x3 &rotMatrix, btRigidBody* obj, btVector3 &shift)
+void MeshEnv::rotateAndShift(btMatrix3x3 &rotMatrix, btRigidBody* obj, btVector3 &shift)
 {
 	rotateAboutOrigin(rotMatrix, obj);
 	btTransform* objTransform = &obj->getWorldTransform();
 	objTransform->setOrigin(objTransform->getOrigin() + shift);
 }
 
-void BasicTubeDemo::shift(btRigidBody* obj, btVector3& shift)
+void MeshEnv::shift(btRigidBody* obj, btVector3& shift)
 {
 	btTransform* objTransform = &obj->getWorldTransform();
 	objTransform->setOrigin(objTransform->getOrigin() + shift);
 }
 
 
-BasicTubeDemo::tubeParams* BasicTubeDemo::extractTubeParams(const shared_ptr<CNT> cnt, const double length)
+MeshEnv::tubeParams* MeshEnv::extractTubeParams(const shared_ptr<CNT> cnt, const double length)
 {
 	double a_min = 20.0; //Angstroms
 	double a = a_min;
@@ -133,7 +133,7 @@ BasicTubeDemo::tubeParams* BasicTubeDemo::extractTubeParams(const shared_ptr<CNT
 		//checks to make sure calculation went alright
 		if (!tubeSepRes->converge)
 		{
-			BasicTubeDemo::exitPhysics();
+			MeshEnv::exitPhysics();
 			delete tubeSepRes;
 			throw new exception("Tube separation calculation did not converge");
 		}
@@ -156,7 +156,7 @@ BasicTubeDemo::tubeParams* BasicTubeDemo::extractTubeParams(const shared_ptr<CNT
 	//check if height calc went alright
 	if (!heightInfo->converge)
 	{
-		BasicTubeDemo::exitPhysics();
+		MeshEnv::exitPhysics();
 		delete heightInfo;
 		throw new exception("Section height calculation did not converge");
 	}
@@ -168,7 +168,7 @@ BasicTubeDemo::tubeParams* BasicTubeDemo::extractTubeParams(const shared_ptr<CNT
 	//checks to make sure calculation went alright
 	if (!tubeSepFinal->converge)
 	{
-		BasicTubeDemo::exitPhysics();
+		MeshEnv::exitPhysics();
 		delete tubeSepFinal;
 		throw new exception("Tube separation calculation did not converge");
 	}
@@ -180,12 +180,12 @@ BasicTubeDemo::tubeParams* BasicTubeDemo::extractTubeParams(const shared_ptr<CNT
 	return returnParams;
 }
 
-BasicTubeDemo::heightResult* 
-BasicTubeDemo::getCylHeight(const shared_ptr<CNT> cnt, const double heightGuess, int const numSections, const double length)
+MeshEnv::heightResult* 
+MeshEnv::getCylHeight(const shared_ptr<CNT> cnt, const double heightGuess, int const numSections, const double length)
 {
 	double tol = pow(10, -10);
 	int iterlim = 500;
-	BasicTubeDemo::heightResult* result = new BasicTubeDemo::heightResult();
+	MeshEnv::heightResult* result = new MeshEnv::heightResult();
 	double a = heightGuess;
 	double h = .001;
 
@@ -197,7 +197,7 @@ BasicTubeDemo::getCylHeight(const shared_ptr<CNT> cnt, const double heightGuess,
 		//checks to make sure calculation went alright
 		if (!(t->converge && tplus->converge && tminus->converge))
 		{
-			BasicTubeDemo::exitPhysics();
+			MeshEnv::exitPhysics();
 			delete t;
 			throw new exception("Tube separation calculation did not converge");
 		}
@@ -224,12 +224,12 @@ BasicTubeDemo::getCylHeight(const shared_ptr<CNT> cnt, const double heightGuess,
 	return result;
 }
 
-BasicTubeDemo::tubeSepResult* BasicTubeDemo::getTubeSeparation(const shared_ptr<CNT> cnt, const double height, const double guess)
+MeshEnv::tubeSepResult* MeshEnv::getTubeSeparation(const shared_ptr<CNT> cnt, const double height, const double guess)
 {
 	double tol = pow(10, -10);
 	int iterlim = 500;
 
-	BasicTubeDemo::tubeSepResult* result = new BasicTubeDemo::tubeSepResult();
+	MeshEnv::tubeSepResult* result = new MeshEnv::tubeSepResult();
 	double x = guess;
 
 	double radius = cnt->getDiameter() / 2;
@@ -249,7 +249,7 @@ BasicTubeDemo::tubeSepResult* BasicTubeDemo::getTubeSeparation(const shared_ptr<
 	return result;
 }
 
-double BasicTubeDemo::convertUnits(string unit, double val)
+double MeshEnv::convertUnits(string unit, double val)
 {
 	if (unit.compare("mm") == 0 || unit.compare("millimeter") == 0)
 	{
@@ -278,12 +278,12 @@ double BasicTubeDemo::convertUnits(string unit, double val)
 }
 
 
-void	BasicTubeDemo::initPhysics()
+void	MeshEnv::initPhysics()
 {
-	BasicTubeDemo::initPhysics(btScalar(25.));
+	MeshEnv::initPhysics(btScalar(25.));
 }
 
-void	BasicTubeDemo::initPhysics(float camDistance)
+void	MeshEnv::initPhysics(float camDistance)
 {
 
 	//////////////////// ENVIRONMENT PARAMETERS /////////////////////////////////////////////
@@ -756,7 +756,7 @@ struct	MyOverlapCallback : public btBroadphaseAabbCallback
 };
 
 //steps the simulation, then it renders the dynamics world
-void BasicTubeDemo::clientMoveAndDisplay()
+void MeshEnv::clientMoveAndDisplay()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -857,7 +857,7 @@ void BasicTubeDemo::clientMoveAndDisplay()
 }
 
 //renders the dynamics world as it stands currently
-void BasicTubeDemo::displayCallback(void) {
+void MeshEnv::displayCallback(void) {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -872,13 +872,13 @@ void BasicTubeDemo::displayCallback(void) {
 }
 
 
-void	BasicTubeDemo::clientResetScene()
+void	MeshEnv::clientResetScene()
 {
 	initPhysics(exitPhysics());
 }
 
 
-float	BasicTubeDemo::exitPhysics()
+float	MeshEnv::exitPhysics()
 {
 
 	//cleanup in the reverse order of creation/initialization

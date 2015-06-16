@@ -81,7 +81,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BasicTubeDemo.h" />
+    <ClInclude Include="MeshEnv.h" />
     <ClInclude Include="CNTFunc.h" />
     <ClInclude Include="CNTMeshConfig.h">
       <DependentUpon>CNTMeshConfig.xsd</DependentUpon>
@@ -94,7 +94,7 @@
     <ClInclude Include="tube.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BasicTubeDemo.cpp" />
+    <ClCompile Include="MeshEnv.cpp" />
     <ClCompile Include="CNTFunc.cpp" />
     <ClCompile Include="CNT_Mesh_Main.cpp" />
     <ClCompile Include="stdafx.cpp">

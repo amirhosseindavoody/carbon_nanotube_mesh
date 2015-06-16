@@ -1,5 +1,5 @@
-#ifndef BASIC_DEMO_H
-#define BASIC_DEMO_H
+#ifndef MESH_ENV_H
+#define MESH_ENV_H
 
 #include "GlutDemoApplication.h"
 #define PlatformDemoApplication GlutDemoApplication
@@ -34,11 +34,11 @@ class btConstraintSolver;
 struct btCollisionAlgorithmCreateFunc;
 class btDefaultCollisionConfiguration;
 
-///BasicTubeDemo takes the basic demo and works off of it.
+///MeshEnv takes the basic demo and works off of it.
 
 using namespace std;
 
-class BasicTubeDemo : public PlatformDemoApplication
+class MeshEnv : public PlatformDemoApplication
 {
 
 	//keep the collision shapes, for deletion/cleanup
@@ -54,10 +54,10 @@ class BasicTubeDemo : public PlatformDemoApplication
 
 public:
 
-	BasicTubeDemo()
+	MeshEnv()
 	{
 	}
-	virtual ~BasicTubeDemo()
+	virtual ~MeshEnv()
 	{
 		exitPhysics();
 	}
@@ -73,7 +73,7 @@ public:
 
 	static DemoApplication* Create()
 	{
-		BasicTubeDemo* demo = new BasicTubeDemo;
+		MeshEnv* demo = new MeshEnv;
 		demo->myinit();
 		demo->initPhysics();
 		return demo;
@@ -141,7 +141,7 @@ public:
 	void shift(btRigidBody* obj, btVector3 &shift);
 
 	//Newtons method to find tube separation
-	//BasicTubeDemo::tubeSepResult* 
+	//MeshEnv::tubeSepResult* 
 	//	getTubeSeparation(btScalar height, btScalar diameter, btScalar curvature, btScalar guess);
 
 	/*
@@ -156,12 +156,12 @@ public:
 
 	It also appears that guessing between -2 and 2 should allow for convergence for all of the relevant nanotubes
 	*/
-	BasicTubeDemo::tubeSepResult* getTubeSeparation(const shared_ptr<CNT> cnt, const double height, const double guess);
+	MeshEnv::tubeSepResult* getTubeSeparation(const shared_ptr<CNT> cnt, const double height, const double guess);
 
 	//Gets relevant parameters for creating a nanotube
-	BasicTubeDemo::tubeParams* extractTubeParams(const shared_ptr<CNT> cnt, const double length);
+	MeshEnv::tubeParams* extractTubeParams(const shared_ptr<CNT> cnt, const double length);
 
-	BasicTubeDemo::heightResult* 
+	MeshEnv::heightResult* 
 		getCylHeight(const shared_ptr<CNT> cnt, const double heightGuess, int const numSections, const double length);
 
 	//converts the units of the xml doc to the units of the simulation

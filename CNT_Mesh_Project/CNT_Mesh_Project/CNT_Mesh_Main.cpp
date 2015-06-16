@@ -7,7 +7,7 @@
 ******************************************************************************/
 
 #include "stdafx.h"
-#include "BasicTubeDemo.h"
+#include "MeshEnv.h"
 #include "GlutStuff.h"
 #include "btBulletDynamicsCommon.h"
 //#include "CNTFunc.h"
@@ -20,7 +20,7 @@ int _tmain(int argc, char** argv)
 	//CNT x4 = CNT(8, 7);
 	//CNT x5 = CNT(9, 7);
 
-	BasicTubeDemo ccdDemo;
+	MeshEnv ccdDemo;
 	ccdDemo.initPhysics(btScalar(300));
 	ccdDemo.setDebugMode(btIDebugDraw::DBG_DrawConstraints + btIDebugDraw::DBG_DrawConstraintLimits);
 
@@ -28,7 +28,7 @@ int _tmain(int argc, char** argv)
 #ifdef CHECK_MEMORY_LEAKS
 	ccdDemo.exitPhysics();
 #else
-	return glutmain(argc, argv, 1910, 1010, "Bullet Physics Demo. http://bulletphysics.org", &ccdDemo);
+	return glutmain(argc, argv, 1910, 1010, "CNT Mesh World", &ccdDemo);
 #endif
 
 	//default glut doesn't return from mainloop
