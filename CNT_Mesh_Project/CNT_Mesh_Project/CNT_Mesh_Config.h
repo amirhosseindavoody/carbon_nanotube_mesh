@@ -25,18 +25,21 @@ System::Xml::Serialization::XmlRootAttribute(L"NewDataSet"),
 System::ComponentModel::Design::HelpKeywordAttribute(L"vs.data.DataSet")]
 public ref class NewDataSet : public ::System::Data::DataSet {
     public : ref class DocumentDataTable;
+    public : ref class MeshPropertiesDataTable;
     public : ref class spacingDataTable;
     public : ref class LengthsDataTable;
     public : ref class DeviceDimensionsDataTable;
     public : ref class chiralityDataTable;
     public : ref class cntDataTable;
     public : ref class DocumentRow;
+    public : ref class MeshPropertiesRow;
     public : ref class spacingRow;
     public : ref class LengthsRow;
     public : ref class DeviceDimensionsRow;
     public : ref class chiralityRow;
     public : ref class cntRow;
     public : ref class DocumentRowChangeEvent;
+    public : ref class MeshPropertiesRowChangeEvent;
     public : ref class spacingRowChangeEvent;
     public : ref class LengthsRowChangeEvent;
     public : ref class DeviceDimensionsRowChangeEvent;
@@ -44,6 +47,8 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     public : ref class cntRowChangeEvent;
     
     private: NewDataSet::DocumentDataTable^  tableDocument;
+    
+    private: NewDataSet::MeshPropertiesDataTable^  tableMeshProperties;
     
     private: NewDataSet::spacingDataTable^  tablespacing;
     
@@ -55,13 +60,15 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     
     private: NewDataSet::cntDataTable^  tablecnt;
     
-    private: ::System::Data::DataRelation^  relationDocument_spacing;
+    private: ::System::Data::DataRelation^  relationDocument_MeshProperties;
     
-    private: ::System::Data::DataRelation^  relationDocument_Lengths;
+    private: ::System::Data::DataRelation^  relationMeshProperties_spacing;
     
-    private: ::System::Data::DataRelation^  relationDocument_DeviceDimensions;
+    private: ::System::Data::DataRelation^  relationMeshProperties_Lengths;
     
-    private: ::System::Data::DataRelation^  relationDocument_chirality;
+    private: ::System::Data::DataRelation^  relationMeshProperties_DeviceDimensions;
+    
+    private: ::System::Data::DataRelation^  relationMeshProperties_chirality;
     
     private: ::System::Data::DataRelation^  relationchirality_cnt;
     
@@ -69,6 +76,9 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     
     public : [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
     delegate System::Void DocumentRowChangeEventHandler(::System::Object^  sender, NewDataSet::DocumentRowChangeEvent^  e);
+    
+    public : [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+    delegate System::Void MeshPropertiesRowChangeEventHandler(::System::Object^  sender, NewDataSet::MeshPropertiesRowChangeEvent^  e);
     
     public : [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
     delegate System::Void spacingRowChangeEventHandler(::System::Object^  sender, NewDataSet::spacingRowChangeEvent^  e);
@@ -97,6 +107,14 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     System::ComponentModel::DesignerSerializationVisibility(::System::ComponentModel::DesignerSerializationVisibility::Content)]
     property NewDataSet::DocumentDataTable^  Document {
         NewDataSet::DocumentDataTable^  get();
+    }
+    
+    public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+    System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0"), 
+    System::ComponentModel::Browsable(false), 
+    System::ComponentModel::DesignerSerializationVisibility(::System::ComponentModel::DesignerSerializationVisibility::Content)]
+    property NewDataSet::MeshPropertiesDataTable^  MeshProperties {
+        NewDataSet::MeshPropertiesDataTable^  get();
     }
     
     public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
@@ -204,6 +222,10 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     
     private: [System::Diagnostics::DebuggerNonUserCodeAttribute]
     [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+    ::System::Boolean ShouldSerializeMeshProperties();
+    
+    private: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+    [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
     ::System::Boolean ShouldSerializespacing();
     
     private: [System::Diagnostics::DebuggerNonUserCodeAttribute]
@@ -239,14 +261,6 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         private: ::System::Data::DataColumn^  columnType;
         
-        private: ::System::Data::DataColumn^  columnoutputDirectory;
-        
-        private: ::System::Data::DataColumn^  columnnumberTubes;
-        
-        private: ::System::Data::DataColumn^  columnfriction;
-        
-        private: ::System::Data::DataColumn^  columngravity;
-        
         private: ::System::Data::DataColumn^  columnDocument_Id;
         
         public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -278,30 +292,6 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property ::System::Data::DataColumn^  outputDirectoryColumn {
-            ::System::Data::DataColumn^  get();
-        }
-        
-        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
-        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property ::System::Data::DataColumn^  numberTubesColumn {
-            ::System::Data::DataColumn^  get();
-        }
-        
-        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
-        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property ::System::Data::DataColumn^  frictionColumn {
-            ::System::Data::DataColumn^  get();
-        }
-        
-        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
-        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property ::System::Data::DataColumn^  gravityColumn {
-            ::System::Data::DataColumn^  get();
-        }
-        
-        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
-        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         property ::System::Data::DataColumn^  Document_IdColumn {
             ::System::Data::DataColumn^  get();
         }
@@ -325,8 +315,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        NewDataSet::DocumentRow^  AddDocumentRow(System::String^  Type, System::String^  outputDirectory, System::Byte numberTubes, 
-                    System::Decimal friction, System::Decimal gravity);
+        NewDataSet::DocumentRow^  AddDocumentRow(System::String^  Type);
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -390,13 +379,168 @@ public ref class NewDataSet : public ::System::Data::DataSet {
 ///</summary>
     [System::Serializable, 
     System::Xml::Serialization::XmlSchemaProviderAttribute(L"GetTypedTableSchema")]
+    ref class MeshPropertiesDataTable : public ::System::Data::DataTable, public ::System::Collections::IEnumerable {
+        
+        private: ::System::Data::DataColumn^  columnoutputDirectory;
+        
+        private: ::System::Data::DataColumn^  columnnumberTubes;
+        
+        private: ::System::Data::DataColumn^  columnfriction;
+        
+        private: ::System::Data::DataColumn^  columngravity;
+        
+        private: ::System::Data::DataColumn^  columnMeshProperties_Id;
+        
+        private: ::System::Data::DataColumn^  columnDocument_Id;
+        
+        public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        event NewDataSet::MeshPropertiesRowChangeEventHandler^  MeshPropertiesRowChanging;
+        
+        public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        event NewDataSet::MeshPropertiesRowChangeEventHandler^  MeshPropertiesRowChanged;
+        
+        public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        event NewDataSet::MeshPropertiesRowChangeEventHandler^  MeshPropertiesRowDeleting;
+        
+        public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        event NewDataSet::MeshPropertiesRowChangeEventHandler^  MeshPropertiesRowDeleted;
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        MeshPropertiesDataTable();
+        internal: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        MeshPropertiesDataTable(::System::Data::DataTable^  table);
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        MeshPropertiesDataTable(::System::Runtime::Serialization::SerializationInfo^  info, ::System::Runtime::Serialization::StreamingContext context);
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  outputDirectoryColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  numberTubesColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  frictionColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  gravityColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  MeshProperties_IdColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  Document_IdColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0"), 
+        System::ComponentModel::Browsable(false)]
+        property ::System::Int32 Count {
+            ::System::Int32 get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property NewDataSet::MeshPropertiesRow^  default [::System::Int32 ] {
+            NewDataSet::MeshPropertiesRow^  get(::System::Int32 index);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void AddMeshPropertiesRow(NewDataSet::MeshPropertiesRow^  row);
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        NewDataSet::MeshPropertiesRow^  AddMeshPropertiesRow(System::String^  outputDirectory, System::Byte numberTubes, 
+                    System::Decimal friction, System::Decimal gravity, NewDataSet::DocumentRow^  parentDocumentRowByDocument_MeshProperties);
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Collections::IEnumerator^  GetEnumerator();
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Data::DataTable^  Clone() override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Data::DataTable^  CreateInstance() override;
+        
+        internal: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void InitVars();
+        
+        private: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void InitClass();
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        NewDataSet::MeshPropertiesRow^  NewMeshPropertiesRow();
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Data::DataRow^  NewRowFromBuilder(::System::Data::DataRowBuilder^  builder) override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Type^  GetRowType() override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Void OnRowChanged(::System::Data::DataRowChangeEventArgs^  e) override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Void OnRowChanging(::System::Data::DataRowChangeEventArgs^  e) override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Void OnRowDeleted(::System::Data::DataRowChangeEventArgs^  e) override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Void OnRowDeleting(::System::Data::DataRowChangeEventArgs^  e) override;
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void RemoveMeshPropertiesRow(NewDataSet::MeshPropertiesRow^  row);
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        static ::System::Xml::Schema::XmlSchemaComplexType^  GetTypedTableSchema(::System::Xml::Schema::XmlSchemaSet^  xs);
+    };
+    
+    public : /// <summary>
+///Represents the strongly named DataTable class.
+///</summary>
+    [System::Serializable, 
+    System::Xml::Serialization::XmlSchemaProviderAttribute(L"GetTypedTableSchema")]
     ref class spacingDataTable : public ::System::Data::DataTable, public ::System::Collections::IEnumerable {
         
         private: ::System::Data::DataColumn^  columnUnits;
         
         private: ::System::Data::DataColumn^  columnmin;
         
-        private: ::System::Data::DataColumn^  columnDocument_Id;
+        private: ::System::Data::DataColumn^  columnMeshProperties_Id;
         
         public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         event NewDataSet::spacingRowChangeEventHandler^  spacingRowChanging;
@@ -433,7 +577,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property ::System::Data::DataColumn^  Document_IdColumn {
+        property ::System::Data::DataColumn^  MeshProperties_IdColumn {
             ::System::Data::DataColumn^  get();
         }
         
@@ -456,7 +600,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        NewDataSet::spacingRow^  AddspacingRow(System::String^  Units, System::Decimal min, NewDataSet::DocumentRow^  parentDocumentRowByDocument_spacing);
+        NewDataSet::spacingRow^  AddspacingRow(System::String^  Units, System::Decimal min, NewDataSet::MeshPropertiesRow^  parentMeshPropertiesRowByMeshProperties_spacing);
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -528,7 +672,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         private: ::System::Data::DataColumn^  columnLmax;
         
-        private: ::System::Data::DataColumn^  columnDocument_Id;
+        private: ::System::Data::DataColumn^  columnMeshProperties_Id;
         
         public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         event NewDataSet::LengthsRowChangeEventHandler^  LengthsRowChanging;
@@ -571,7 +715,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property ::System::Data::DataColumn^  Document_IdColumn {
+        property ::System::Data::DataColumn^  MeshProperties_IdColumn {
             ::System::Data::DataColumn^  get();
         }
         
@@ -594,7 +738,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        NewDataSet::LengthsRow^  AddLengthsRow(System::String^  Units, System::Decimal Lmin, System::Decimal Lmax, NewDataSet::DocumentRow^  parentDocumentRowByDocument_Lengths);
+        NewDataSet::LengthsRow^  AddLengthsRow(System::String^  Units, System::Decimal Lmin, System::Decimal Lmax, NewDataSet::MeshPropertiesRow^  parentMeshPropertiesRowByMeshProperties_Lengths);
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -668,7 +812,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         private: ::System::Data::DataColumn^  columnzdim;
         
-        private: ::System::Data::DataColumn^  columnDocument_Id;
+        private: ::System::Data::DataColumn^  columnMeshProperties_Id;
         
         public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         event NewDataSet::DeviceDimensionsRowChangeEventHandler^  DeviceDimensionsRowChanging;
@@ -717,7 +861,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property ::System::Data::DataColumn^  Document_IdColumn {
+        property ::System::Data::DataColumn^  MeshProperties_IdColumn {
             ::System::Data::DataColumn^  get();
         }
         
@@ -741,7 +885,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         NewDataSet::DeviceDimensionsRow^  AddDeviceDimensionsRow(System::String^  Units, System::Decimal xdim, System::Decimal ydim, 
-                    System::Decimal zdim, NewDataSet::DocumentRow^  parentDocumentRowByDocument_DeviceDimensions);
+                    System::Decimal zdim, NewDataSet::MeshPropertiesRow^  parentMeshPropertiesRowByMeshProperties_DeviceDimensions);
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -809,7 +953,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         private: ::System::Data::DataColumn^  columnchirality_Id;
         
-        private: ::System::Data::DataColumn^  columnDocument_Id;
+        private: ::System::Data::DataColumn^  columnMeshProperties_Id;
         
         public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         event NewDataSet::chiralityRowChangeEventHandler^  chiralityRowChanging;
@@ -840,7 +984,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property ::System::Data::DataColumn^  Document_IdColumn {
+        property ::System::Data::DataColumn^  MeshProperties_IdColumn {
             ::System::Data::DataColumn^  get();
         }
         
@@ -863,7 +1007,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        NewDataSet::chiralityRow^  AddchiralityRow(NewDataSet::DocumentRow^  parentDocumentRowByDocument_chirality);
+        NewDataSet::chiralityRow^  AddchiralityRow(NewDataSet::MeshPropertiesRow^  parentMeshPropertiesRowByMeshProperties_chirality);
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -1071,6 +1215,28 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property System::Int32 Document_Id {
+            System::Int32 get();
+            System::Void set(System::Int32 value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        cli::array< NewDataSet::MeshPropertiesRow^  >^  GetMeshPropertiesRows();
+    };
+    
+    public : /// <summary>
+///Represents strongly named DataRow class.
+///</summary>
+    ref class MeshPropertiesRow : public ::System::Data::DataRow {
+        
+        private: NewDataSet::MeshPropertiesDataTable^  tableMeshProperties;
+        
+        internal: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        MeshPropertiesRow(::System::Data::DataRowBuilder^  rb);
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         property System::String^  outputDirectory {
             System::String^  get();
             System::Void set(System::String^  value);
@@ -1099,10 +1265,32 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property System::Int32 MeshProperties_Id {
+            System::Int32 get();
+            System::Void set(System::Int32 value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         property System::Int32 Document_Id {
             System::Int32 get();
             System::Void set(System::Int32 value);
         }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property NewDataSet::DocumentRow^  DocumentRow {
+            NewDataSet::DocumentRow^  get();
+            System::Void set(NewDataSet::DocumentRow^  value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Boolean IsDocument_IdNull();
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void SetDocument_IdNull();
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -1147,25 +1335,25 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property System::Int32 Document_Id {
+        property System::Int32 MeshProperties_Id {
             System::Int32 get();
             System::Void set(System::Int32 value);
         }
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property NewDataSet::DocumentRow^  DocumentRow {
-            NewDataSet::DocumentRow^  get();
-            System::Void set(NewDataSet::DocumentRow^  value);
+        property NewDataSet::MeshPropertiesRow^  MeshPropertiesRow {
+            NewDataSet::MeshPropertiesRow^  get();
+            System::Void set(NewDataSet::MeshPropertiesRow^  value);
         }
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        ::System::Boolean IsDocument_IdNull();
+        ::System::Boolean IsMeshProperties_IdNull();
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        ::System::Void SetDocument_IdNull();
+        ::System::Void SetMeshProperties_IdNull();
     };
     
     public : /// <summary>
@@ -1201,25 +1389,25 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property System::Int32 Document_Id {
+        property System::Int32 MeshProperties_Id {
             System::Int32 get();
             System::Void set(System::Int32 value);
         }
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property NewDataSet::DocumentRow^  DocumentRow {
-            NewDataSet::DocumentRow^  get();
-            System::Void set(NewDataSet::DocumentRow^  value);
+        property NewDataSet::MeshPropertiesRow^  MeshPropertiesRow {
+            NewDataSet::MeshPropertiesRow^  get();
+            System::Void set(NewDataSet::MeshPropertiesRow^  value);
         }
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        ::System::Boolean IsDocument_IdNull();
+        ::System::Boolean IsMeshProperties_IdNull();
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        ::System::Void SetDocument_IdNull();
+        ::System::Void SetMeshProperties_IdNull();
     };
     
     public : /// <summary>
@@ -1262,25 +1450,25 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property System::Int32 Document_Id {
+        property System::Int32 MeshProperties_Id {
             System::Int32 get();
             System::Void set(System::Int32 value);
         }
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property NewDataSet::DocumentRow^  DocumentRow {
-            NewDataSet::DocumentRow^  get();
-            System::Void set(NewDataSet::DocumentRow^  value);
+        property NewDataSet::MeshPropertiesRow^  MeshPropertiesRow {
+            NewDataSet::MeshPropertiesRow^  get();
+            System::Void set(NewDataSet::MeshPropertiesRow^  value);
         }
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        ::System::Boolean IsDocument_IdNull();
+        ::System::Boolean IsMeshProperties_IdNull();
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        ::System::Void SetDocument_IdNull();
+        ::System::Void SetMeshProperties_IdNull();
     };
     
     public : /// <summary>
@@ -1302,25 +1490,25 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property System::Int32 Document_Id {
+        property System::Int32 MeshProperties_Id {
             System::Int32 get();
             System::Void set(System::Int32 value);
         }
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property NewDataSet::DocumentRow^  DocumentRow {
-            NewDataSet::DocumentRow^  get();
-            System::Void set(NewDataSet::DocumentRow^  value);
+        property NewDataSet::MeshPropertiesRow^  MeshPropertiesRow {
+            NewDataSet::MeshPropertiesRow^  get();
+            System::Void set(NewDataSet::MeshPropertiesRow^  value);
         }
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        ::System::Boolean IsDocument_IdNull();
+        ::System::Boolean IsMeshProperties_IdNull();
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        ::System::Void SetDocument_IdNull();
+        ::System::Void SetMeshProperties_IdNull();
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -1391,6 +1579,32 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         property NewDataSet::DocumentRow^  Row {
             NewDataSet::DocumentRow^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataRowAction Action {
+            ::System::Data::DataRowAction get();
+        }
+    };
+    
+    public : /// <summary>
+///Row event argument class
+///</summary>
+    [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+    ref class MeshPropertiesRowChangeEvent : public ::System::EventArgs {
+        
+        private: NewDataSet::MeshPropertiesRow^  eventRow;
+        
+        private: ::System::Data::DataRowAction eventAction;
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        MeshPropertiesRowChangeEvent(NewDataSet::MeshPropertiesRow^  row, ::System::Data::DataRowAction action);
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property NewDataSet::MeshPropertiesRow^  Row {
+            NewDataSet::MeshPropertiesRow^  get();
         }
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
@@ -1557,6 +1771,9 @@ inline NewDataSet::NewDataSet(::System::Runtime::Serialization::SerializationInf
         if (ds->Tables[L"Document"] != nullptr) {
             __super::Tables->Add((gcnew NewDataSet::DocumentDataTable(ds->Tables[L"Document"])));
         }
+        if (ds->Tables[L"MeshProperties"] != nullptr) {
+            __super::Tables->Add((gcnew NewDataSet::MeshPropertiesDataTable(ds->Tables[L"MeshProperties"])));
+        }
         if (ds->Tables[L"spacing"] != nullptr) {
             __super::Tables->Add((gcnew NewDataSet::spacingDataTable(ds->Tables[L"spacing"])));
         }
@@ -1592,6 +1809,10 @@ inline NewDataSet::NewDataSet(::System::Runtime::Serialization::SerializationInf
 
 inline NewDataSet::DocumentDataTable^  NewDataSet::Document::get() {
     return this->tableDocument;
+}
+
+inline NewDataSet::MeshPropertiesDataTable^  NewDataSet::MeshProperties::get() {
+    return this->tableMeshProperties;
 }
 
 inline NewDataSet::spacingDataTable^  NewDataSet::spacing::get() {
@@ -1658,6 +1879,9 @@ inline ::System::Void NewDataSet::ReadXmlSerializable(::System::Xml::XmlReader^ 
         if (ds->Tables[L"Document"] != nullptr) {
             __super::Tables->Add((gcnew NewDataSet::DocumentDataTable(ds->Tables[L"Document"])));
         }
+        if (ds->Tables[L"MeshProperties"] != nullptr) {
+            __super::Tables->Add((gcnew NewDataSet::MeshPropertiesDataTable(ds->Tables[L"MeshProperties"])));
+        }
         if (ds->Tables[L"spacing"] != nullptr) {
             __super::Tables->Add((gcnew NewDataSet::spacingDataTable(ds->Tables[L"spacing"])));
         }
@@ -1706,6 +1930,12 @@ inline ::System::Void NewDataSet::InitVars(::System::Boolean initTable) {
             this->tableDocument->InitVars();
         }
     }
+    this->tableMeshProperties = (cli::safe_cast<NewDataSet::MeshPropertiesDataTable^  >(__super::Tables[L"MeshProperties"]));
+    if (initTable == true) {
+        if (this->tableMeshProperties != nullptr) {
+            this->tableMeshProperties->InitVars();
+        }
+    }
     this->tablespacing = (cli::safe_cast<NewDataSet::spacingDataTable^  >(__super::Tables[L"spacing"]));
     if (initTable == true) {
         if (this->tablespacing != nullptr) {
@@ -1736,10 +1966,11 @@ inline ::System::Void NewDataSet::InitVars(::System::Boolean initTable) {
             this->tablecnt->InitVars();
         }
     }
-    this->relationDocument_spacing = this->Relations[L"Document_spacing"];
-    this->relationDocument_Lengths = this->Relations[L"Document_Lengths"];
-    this->relationDocument_DeviceDimensions = this->Relations[L"Document_DeviceDimensions"];
-    this->relationDocument_chirality = this->Relations[L"Document_chirality"];
+    this->relationDocument_MeshProperties = this->Relations[L"Document_MeshProperties"];
+    this->relationMeshProperties_spacing = this->Relations[L"MeshProperties_spacing"];
+    this->relationMeshProperties_Lengths = this->Relations[L"MeshProperties_Lengths"];
+    this->relationMeshProperties_DeviceDimensions = this->Relations[L"MeshProperties_DeviceDimensions"];
+    this->relationMeshProperties_chirality = this->Relations[L"MeshProperties_chirality"];
     this->relationchirality_cnt = this->Relations[L"chirality_cnt"];
 }
 
@@ -1751,6 +1982,8 @@ inline ::System::Void NewDataSet::InitClass() {
     this->SchemaSerializationMode = ::System::Data::SchemaSerializationMode::IncludeSchema;
     this->tableDocument = (gcnew NewDataSet::DocumentDataTable());
     __super::Tables->Add(this->tableDocument);
+    this->tableMeshProperties = (gcnew NewDataSet::MeshPropertiesDataTable());
+    __super::Tables->Add(this->tableMeshProperties);
     this->tablespacing = (gcnew NewDataSet::spacingDataTable());
     __super::Tables->Add(this->tablespacing);
     this->tableLengths = (gcnew NewDataSet::LengthsDataTable());
@@ -1762,26 +1995,32 @@ inline ::System::Void NewDataSet::InitClass() {
     this->tablecnt = (gcnew NewDataSet::cntDataTable());
     __super::Tables->Add(this->tablecnt);
     ::System::Data::ForeignKeyConstraint^  fkc;
-    fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"Document_spacing", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
-        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablespacing->Document_IdColumn}));
+    fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"Document_MeshProperties", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableMeshProperties->Document_IdColumn}));
+    this->tableMeshProperties->Constraints->Add(fkc);
+    fkc->AcceptRejectRule = ::System::Data::AcceptRejectRule::None;
+    fkc->DeleteRule = ::System::Data::Rule::Cascade;
+    fkc->UpdateRule = ::System::Data::Rule::Cascade;
+    fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"MeshProperties_spacing", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableMeshProperties->MeshProperties_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablespacing->MeshProperties_IdColumn}));
     this->tablespacing->Constraints->Add(fkc);
     fkc->AcceptRejectRule = ::System::Data::AcceptRejectRule::None;
     fkc->DeleteRule = ::System::Data::Rule::Cascade;
     fkc->UpdateRule = ::System::Data::Rule::Cascade;
-    fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"Document_Lengths", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
-        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableLengths->Document_IdColumn}));
+    fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"MeshProperties_Lengths", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableMeshProperties->MeshProperties_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableLengths->MeshProperties_IdColumn}));
     this->tableLengths->Constraints->Add(fkc);
     fkc->AcceptRejectRule = ::System::Data::AcceptRejectRule::None;
     fkc->DeleteRule = ::System::Data::Rule::Cascade;
     fkc->UpdateRule = ::System::Data::Rule::Cascade;
-    fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"Document_DeviceDimensions", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
-        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDeviceDimensions->Document_IdColumn}));
+    fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"MeshProperties_DeviceDimensions", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableMeshProperties->MeshProperties_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDeviceDimensions->MeshProperties_IdColumn}));
     this->tableDeviceDimensions->Constraints->Add(fkc);
     fkc->AcceptRejectRule = ::System::Data::AcceptRejectRule::None;
     fkc->DeleteRule = ::System::Data::Rule::Cascade;
     fkc->UpdateRule = ::System::Data::Rule::Cascade;
-    fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"Document_chirality", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
-        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablechirality->Document_IdColumn}));
+    fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"MeshProperties_chirality", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableMeshProperties->MeshProperties_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablechirality->MeshProperties_IdColumn}));
     this->tablechirality->Constraints->Add(fkc);
     fkc->AcceptRejectRule = ::System::Data::AcceptRejectRule::None;
     fkc->DeleteRule = ::System::Data::Rule::Cascade;
@@ -1792,22 +2031,26 @@ inline ::System::Void NewDataSet::InitClass() {
     fkc->AcceptRejectRule = ::System::Data::AcceptRejectRule::None;
     fkc->DeleteRule = ::System::Data::Rule::Cascade;
     fkc->UpdateRule = ::System::Data::Rule::Cascade;
-    this->relationDocument_spacing = (gcnew ::System::Data::DataRelation(L"Document_spacing", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
-        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablespacing->Document_IdColumn}, false));
-    this->relationDocument_spacing->Nested = true;
-    this->Relations->Add(this->relationDocument_spacing);
-    this->relationDocument_Lengths = (gcnew ::System::Data::DataRelation(L"Document_Lengths", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
-        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableLengths->Document_IdColumn}, false));
-    this->relationDocument_Lengths->Nested = true;
-    this->Relations->Add(this->relationDocument_Lengths);
-    this->relationDocument_DeviceDimensions = (gcnew ::System::Data::DataRelation(L"Document_DeviceDimensions", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
-        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDeviceDimensions->Document_IdColumn}, false));
-    this->relationDocument_DeviceDimensions->Nested = true;
-    this->Relations->Add(this->relationDocument_DeviceDimensions);
-    this->relationDocument_chirality = (gcnew ::System::Data::DataRelation(L"Document_chirality", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
-        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablechirality->Document_IdColumn}, false));
-    this->relationDocument_chirality->Nested = true;
-    this->Relations->Add(this->relationDocument_chirality);
+    this->relationDocument_MeshProperties = (gcnew ::System::Data::DataRelation(L"Document_MeshProperties", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableMeshProperties->Document_IdColumn}, false));
+    this->relationDocument_MeshProperties->Nested = true;
+    this->Relations->Add(this->relationDocument_MeshProperties);
+    this->relationMeshProperties_spacing = (gcnew ::System::Data::DataRelation(L"MeshProperties_spacing", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableMeshProperties->MeshProperties_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablespacing->MeshProperties_IdColumn}, false));
+    this->relationMeshProperties_spacing->Nested = true;
+    this->Relations->Add(this->relationMeshProperties_spacing);
+    this->relationMeshProperties_Lengths = (gcnew ::System::Data::DataRelation(L"MeshProperties_Lengths", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableMeshProperties->MeshProperties_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableLengths->MeshProperties_IdColumn}, false));
+    this->relationMeshProperties_Lengths->Nested = true;
+    this->Relations->Add(this->relationMeshProperties_Lengths);
+    this->relationMeshProperties_DeviceDimensions = (gcnew ::System::Data::DataRelation(L"MeshProperties_DeviceDimensions", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableMeshProperties->MeshProperties_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDeviceDimensions->MeshProperties_IdColumn}, false));
+    this->relationMeshProperties_DeviceDimensions->Nested = true;
+    this->Relations->Add(this->relationMeshProperties_DeviceDimensions);
+    this->relationMeshProperties_chirality = (gcnew ::System::Data::DataRelation(L"MeshProperties_chirality", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableMeshProperties->MeshProperties_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablechirality->MeshProperties_IdColumn}, false));
+    this->relationMeshProperties_chirality->Nested = true;
+    this->Relations->Add(this->relationMeshProperties_chirality);
     this->relationchirality_cnt = (gcnew ::System::Data::DataRelation(L"chirality_cnt", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablechirality->chirality_IdColumn}, 
         gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablecnt->chirality_IdColumn}, false));
     this->relationchirality_cnt->Nested = true;
@@ -1815,6 +2058,10 @@ inline ::System::Void NewDataSet::InitClass() {
 }
 
 inline ::System::Boolean NewDataSet::ShouldSerializeDocument() {
+    return false;
+}
+
+inline ::System::Boolean NewDataSet::ShouldSerializeMeshProperties() {
     return false;
 }
 
@@ -1921,22 +2168,6 @@ inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::TypeColumn::g
     return this->columnType;
 }
 
-inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::outputDirectoryColumn::get() {
-    return this->columnoutputDirectory;
-}
-
-inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::numberTubesColumn::get() {
-    return this->columnnumberTubes;
-}
-
-inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::frictionColumn::get() {
-    return this->columnfriction;
-}
-
-inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::gravityColumn::get() {
-    return this->columngravity;
-}
-
 inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::Document_IdColumn::get() {
     return this->columnDocument_Id;
 }
@@ -1953,11 +2184,9 @@ inline ::System::Void NewDataSet::DocumentDataTable::AddDocumentRow(NewDataSet::
     this->Rows->Add(row);
 }
 
-inline NewDataSet::DocumentRow^  NewDataSet::DocumentDataTable::AddDocumentRow(System::String^  Type, System::String^  outputDirectory, 
-            System::Byte numberTubes, System::Decimal friction, System::Decimal gravity) {
+inline NewDataSet::DocumentRow^  NewDataSet::DocumentDataTable::AddDocumentRow(System::String^  Type) {
     NewDataSet::DocumentRow^  rowDocumentRow = (cli::safe_cast<NewDataSet::DocumentRow^  >(this->NewRow()));
-    cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(6) {Type, outputDirectory, 
-        numberTubes, friction, gravity, nullptr};
+    cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(2) {Type, nullptr};
     rowDocumentRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowDocumentRow);
     return rowDocumentRow;
@@ -1979,34 +2208,18 @@ inline ::System::Data::DataTable^  NewDataSet::DocumentDataTable::CreateInstance
 
 inline ::System::Void NewDataSet::DocumentDataTable::InitVars() {
     this->columnType = __super::Columns[L"Type"];
-    this->columnoutputDirectory = __super::Columns[L"outputDirectory"];
-    this->columnnumberTubes = __super::Columns[L"numberTubes"];
-    this->columnfriction = __super::Columns[L"friction"];
-    this->columngravity = __super::Columns[L"gravity"];
     this->columnDocument_Id = __super::Columns[L"Document_Id"];
 }
 
 inline ::System::Void NewDataSet::DocumentDataTable::InitClass() {
     this->columnType = (gcnew ::System::Data::DataColumn(L"Type", ::System::String::typeid, nullptr, ::System::Data::MappingType::Attribute));
     __super::Columns->Add(this->columnType);
-    this->columnoutputDirectory = (gcnew ::System::Data::DataColumn(L"outputDirectory", ::System::String::typeid, nullptr, ::System::Data::MappingType::Element));
-    __super::Columns->Add(this->columnoutputDirectory);
-    this->columnnumberTubes = (gcnew ::System::Data::DataColumn(L"numberTubes", ::System::Byte::typeid, nullptr, ::System::Data::MappingType::Element));
-    __super::Columns->Add(this->columnnumberTubes);
-    this->columnfriction = (gcnew ::System::Data::DataColumn(L"friction", ::System::Decimal::typeid, nullptr, ::System::Data::MappingType::Element));
-    __super::Columns->Add(this->columnfriction);
-    this->columngravity = (gcnew ::System::Data::DataColumn(L"gravity", ::System::Decimal::typeid, nullptr, ::System::Data::MappingType::Element));
-    __super::Columns->Add(this->columngravity);
     this->columnDocument_Id = (gcnew ::System::Data::DataColumn(L"Document_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
     __super::Columns->Add(this->columnDocument_Id);
     this->Constraints->Add((gcnew ::System::Data::UniqueConstraint(L"Constraint1", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->columnDocument_Id}, 
             true)));
     this->columnType->AllowDBNull = false;
     this->columnType->Namespace = L"";
-    this->columnoutputDirectory->AllowDBNull = false;
-    this->columnnumberTubes->AllowDBNull = false;
-    this->columnfriction->AllowDBNull = false;
-    this->columngravity->AllowDBNull = false;
     this->columnDocument_Id->AutoIncrement = true;
     this->columnDocument_Id->AllowDBNull = false;
     this->columnDocument_Id->Unique = true;
@@ -2122,6 +2335,240 @@ inline ::System::Xml::Schema::XmlSchemaComplexType^  NewDataSet::DocumentDataTab
 }
 
 
+inline NewDataSet::MeshPropertiesDataTable::MeshPropertiesDataTable() {
+    this->TableName = L"MeshProperties";
+    this->BeginInit();
+    this->InitClass();
+    this->EndInit();
+}
+
+inline NewDataSet::MeshPropertiesDataTable::MeshPropertiesDataTable(::System::Data::DataTable^  table) {
+    this->TableName = table->TableName;
+    if (table->CaseSensitive != table->DataSet->CaseSensitive) {
+        this->CaseSensitive = table->CaseSensitive;
+    }
+    if (table->Locale->ToString() != table->DataSet->Locale->ToString()) {
+        this->Locale = table->Locale;
+    }
+    if (table->Namespace != table->DataSet->Namespace) {
+        this->Namespace = table->Namespace;
+    }
+    this->Prefix = table->Prefix;
+    this->MinimumCapacity = table->MinimumCapacity;
+}
+
+inline NewDataSet::MeshPropertiesDataTable::MeshPropertiesDataTable(::System::Runtime::Serialization::SerializationInfo^  info, 
+            ::System::Runtime::Serialization::StreamingContext context) : 
+        ::System::Data::DataTable(info, context) {
+    this->InitVars();
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::MeshPropertiesDataTable::outputDirectoryColumn::get() {
+    return this->columnoutputDirectory;
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::MeshPropertiesDataTable::numberTubesColumn::get() {
+    return this->columnnumberTubes;
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::MeshPropertiesDataTable::frictionColumn::get() {
+    return this->columnfriction;
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::MeshPropertiesDataTable::gravityColumn::get() {
+    return this->columngravity;
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::MeshPropertiesDataTable::MeshProperties_IdColumn::get() {
+    return this->columnMeshProperties_Id;
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::MeshPropertiesDataTable::Document_IdColumn::get() {
+    return this->columnDocument_Id;
+}
+
+inline ::System::Int32 NewDataSet::MeshPropertiesDataTable::Count::get() {
+    return this->Rows->Count;
+}
+
+inline NewDataSet::MeshPropertiesRow^  NewDataSet::MeshPropertiesDataTable::default::get(::System::Int32 index) {
+    return (cli::safe_cast<NewDataSet::MeshPropertiesRow^  >(this->Rows[index]));
+}
+
+inline ::System::Void NewDataSet::MeshPropertiesDataTable::AddMeshPropertiesRow(NewDataSet::MeshPropertiesRow^  row) {
+    this->Rows->Add(row);
+}
+
+inline NewDataSet::MeshPropertiesRow^  NewDataSet::MeshPropertiesDataTable::AddMeshPropertiesRow(System::String^  outputDirectory, 
+            System::Byte numberTubes, System::Decimal friction, System::Decimal gravity, NewDataSet::DocumentRow^  parentDocumentRowByDocument_MeshProperties) {
+    NewDataSet::MeshPropertiesRow^  rowMeshPropertiesRow = (cli::safe_cast<NewDataSet::MeshPropertiesRow^  >(this->NewRow()));
+    cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(6) {outputDirectory, numberTubes, 
+        friction, gravity, nullptr, nullptr};
+    if (parentDocumentRowByDocument_MeshProperties != nullptr) {
+        columnValuesArray[5] = parentDocumentRowByDocument_MeshProperties[1];
+    }
+    rowMeshPropertiesRow->ItemArray = columnValuesArray;
+    this->Rows->Add(rowMeshPropertiesRow);
+    return rowMeshPropertiesRow;
+}
+
+inline ::System::Collections::IEnumerator^  NewDataSet::MeshPropertiesDataTable::GetEnumerator() {
+    return this->Rows->GetEnumerator();
+}
+
+inline ::System::Data::DataTable^  NewDataSet::MeshPropertiesDataTable::Clone() {
+    NewDataSet::MeshPropertiesDataTable^  cln = (cli::safe_cast<NewDataSet::MeshPropertiesDataTable^  >(__super::Clone()));
+    cln->InitVars();
+    return cln;
+}
+
+inline ::System::Data::DataTable^  NewDataSet::MeshPropertiesDataTable::CreateInstance() {
+    return (gcnew NewDataSet::MeshPropertiesDataTable());
+}
+
+inline ::System::Void NewDataSet::MeshPropertiesDataTable::InitVars() {
+    this->columnoutputDirectory = __super::Columns[L"outputDirectory"];
+    this->columnnumberTubes = __super::Columns[L"numberTubes"];
+    this->columnfriction = __super::Columns[L"friction"];
+    this->columngravity = __super::Columns[L"gravity"];
+    this->columnMeshProperties_Id = __super::Columns[L"MeshProperties_Id"];
+    this->columnDocument_Id = __super::Columns[L"Document_Id"];
+}
+
+inline ::System::Void NewDataSet::MeshPropertiesDataTable::InitClass() {
+    this->columnoutputDirectory = (gcnew ::System::Data::DataColumn(L"outputDirectory", ::System::String::typeid, nullptr, ::System::Data::MappingType::Element));
+    __super::Columns->Add(this->columnoutputDirectory);
+    this->columnnumberTubes = (gcnew ::System::Data::DataColumn(L"numberTubes", ::System::Byte::typeid, nullptr, ::System::Data::MappingType::Element));
+    __super::Columns->Add(this->columnnumberTubes);
+    this->columnfriction = (gcnew ::System::Data::DataColumn(L"friction", ::System::Decimal::typeid, nullptr, ::System::Data::MappingType::Element));
+    __super::Columns->Add(this->columnfriction);
+    this->columngravity = (gcnew ::System::Data::DataColumn(L"gravity", ::System::Decimal::typeid, nullptr, ::System::Data::MappingType::Element));
+    __super::Columns->Add(this->columngravity);
+    this->columnMeshProperties_Id = (gcnew ::System::Data::DataColumn(L"MeshProperties_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
+    __super::Columns->Add(this->columnMeshProperties_Id);
+    this->columnDocument_Id = (gcnew ::System::Data::DataColumn(L"Document_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
+    __super::Columns->Add(this->columnDocument_Id);
+    this->Constraints->Add((gcnew ::System::Data::UniqueConstraint(L"Constraint1", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->columnMeshProperties_Id}, 
+            true)));
+    this->columnoutputDirectory->AllowDBNull = false;
+    this->columnnumberTubes->AllowDBNull = false;
+    this->columnfriction->AllowDBNull = false;
+    this->columngravity->AllowDBNull = false;
+    this->columnMeshProperties_Id->AutoIncrement = true;
+    this->columnMeshProperties_Id->AllowDBNull = false;
+    this->columnMeshProperties_Id->Unique = true;
+}
+
+inline NewDataSet::MeshPropertiesRow^  NewDataSet::MeshPropertiesDataTable::NewMeshPropertiesRow() {
+    return (cli::safe_cast<NewDataSet::MeshPropertiesRow^  >(this->NewRow()));
+}
+
+inline ::System::Data::DataRow^  NewDataSet::MeshPropertiesDataTable::NewRowFromBuilder(::System::Data::DataRowBuilder^  builder) {
+    return (gcnew NewDataSet::MeshPropertiesRow(builder));
+}
+
+inline ::System::Type^  NewDataSet::MeshPropertiesDataTable::GetRowType() {
+    return NewDataSet::MeshPropertiesRow::typeid;
+}
+
+inline ::System::Void NewDataSet::MeshPropertiesDataTable::OnRowChanged(::System::Data::DataRowChangeEventArgs^  e) {
+    __super::OnRowChanged(e);
+    {
+        this->MeshPropertiesRowChanged(this, (gcnew NewDataSet::MeshPropertiesRowChangeEvent((cli::safe_cast<NewDataSet::MeshPropertiesRow^  >(e->Row)), 
+                e->Action)));
+    }
+}
+
+inline ::System::Void NewDataSet::MeshPropertiesDataTable::OnRowChanging(::System::Data::DataRowChangeEventArgs^  e) {
+    __super::OnRowChanging(e);
+    {
+        this->MeshPropertiesRowChanging(this, (gcnew NewDataSet::MeshPropertiesRowChangeEvent((cli::safe_cast<NewDataSet::MeshPropertiesRow^  >(e->Row)), 
+                e->Action)));
+    }
+}
+
+inline ::System::Void NewDataSet::MeshPropertiesDataTable::OnRowDeleted(::System::Data::DataRowChangeEventArgs^  e) {
+    __super::OnRowDeleted(e);
+    {
+        this->MeshPropertiesRowDeleted(this, (gcnew NewDataSet::MeshPropertiesRowChangeEvent((cli::safe_cast<NewDataSet::MeshPropertiesRow^  >(e->Row)), 
+                e->Action)));
+    }
+}
+
+inline ::System::Void NewDataSet::MeshPropertiesDataTable::OnRowDeleting(::System::Data::DataRowChangeEventArgs^  e) {
+    __super::OnRowDeleting(e);
+    {
+        this->MeshPropertiesRowDeleting(this, (gcnew NewDataSet::MeshPropertiesRowChangeEvent((cli::safe_cast<NewDataSet::MeshPropertiesRow^  >(e->Row)), 
+                e->Action)));
+    }
+}
+
+inline ::System::Void NewDataSet::MeshPropertiesDataTable::RemoveMeshPropertiesRow(NewDataSet::MeshPropertiesRow^  row) {
+    this->Rows->Remove(row);
+}
+
+inline ::System::Xml::Schema::XmlSchemaComplexType^  NewDataSet::MeshPropertiesDataTable::GetTypedTableSchema(::System::Xml::Schema::XmlSchemaSet^  xs) {
+    ::System::Xml::Schema::XmlSchemaComplexType^  type = (gcnew ::System::Xml::Schema::XmlSchemaComplexType());
+    ::System::Xml::Schema::XmlSchemaSequence^  sequence = (gcnew ::System::Xml::Schema::XmlSchemaSequence());
+    NewDataSet^  ds = (gcnew NewDataSet());
+    ::System::Xml::Schema::XmlSchemaAny^  any1 = (gcnew ::System::Xml::Schema::XmlSchemaAny());
+    any1->Namespace = L"http://www.w3.org/2001/XMLSchema";
+    any1->MinOccurs = ::System::Decimal(0);
+    any1->MaxOccurs = ::System::Decimal::MaxValue;
+    any1->ProcessContents = ::System::Xml::Schema::XmlSchemaContentProcessing::Lax;
+    sequence->Items->Add(any1);
+    ::System::Xml::Schema::XmlSchemaAny^  any2 = (gcnew ::System::Xml::Schema::XmlSchemaAny());
+    any2->Namespace = L"urn:schemas-microsoft-com:xml-diffgram-v1";
+    any2->MinOccurs = ::System::Decimal(1);
+    any2->ProcessContents = ::System::Xml::Schema::XmlSchemaContentProcessing::Lax;
+    sequence->Items->Add(any2);
+    ::System::Xml::Schema::XmlSchemaAttribute^  attribute1 = (gcnew ::System::Xml::Schema::XmlSchemaAttribute());
+    attribute1->Name = L"namespace";
+    attribute1->FixedValue = ds->Namespace;
+    type->Attributes->Add(attribute1);
+    ::System::Xml::Schema::XmlSchemaAttribute^  attribute2 = (gcnew ::System::Xml::Schema::XmlSchemaAttribute());
+    attribute2->Name = L"tableTypeName";
+    attribute2->FixedValue = L"MeshPropertiesDataTable";
+    type->Attributes->Add(attribute2);
+    type->Particle = sequence;
+    ::System::Xml::Schema::XmlSchema^  dsSchema = ds->GetSchemaSerializable();
+    if (xs->Contains(dsSchema->TargetNamespace)) {
+        ::System::IO::MemoryStream^  s1 = (gcnew ::System::IO::MemoryStream());
+        ::System::IO::MemoryStream^  s2 = (gcnew ::System::IO::MemoryStream());
+        try {
+            ::System::Xml::Schema::XmlSchema^  schema = nullptr;
+            dsSchema->Write(s1);
+            for (            ::System::Collections::IEnumerator^  schemas = xs->Schemas(dsSchema->TargetNamespace)->GetEnumerator(); schemas->MoveNext();             ) {
+                schema = (cli::safe_cast<::System::Xml::Schema::XmlSchema^  >(schemas->Current));
+                s2->SetLength(0);
+                schema->Write(s2);
+                if (s1->Length == s2->Length) {
+                    s1->Position = 0;
+                    s2->Position = 0;
+                    for (                    ; ((s1->Position != s1->Length) 
+                                && (s1->ReadByte() == s2->ReadByte()));                     ) {
+                        ;
+                    }
+                    if (s1->Position == s1->Length) {
+                        return type;
+                    }
+                }
+            }
+        }
+        finally {
+            if (s1 != nullptr) {
+                s1->Close();
+            }
+            if (s2 != nullptr) {
+                s2->Close();
+            }
+        }
+    }
+    xs->Add(dsSchema);
+    return type;
+}
+
+
 inline NewDataSet::spacingDataTable::spacingDataTable() {
     this->TableName = L"spacing";
     this->BeginInit();
@@ -2157,8 +2604,8 @@ inline ::System::Data::DataColumn^  NewDataSet::spacingDataTable::minColumn::get
     return this->columnmin;
 }
 
-inline ::System::Data::DataColumn^  NewDataSet::spacingDataTable::Document_IdColumn::get() {
-    return this->columnDocument_Id;
+inline ::System::Data::DataColumn^  NewDataSet::spacingDataTable::MeshProperties_IdColumn::get() {
+    return this->columnMeshProperties_Id;
 }
 
 inline ::System::Int32 NewDataSet::spacingDataTable::Count::get() {
@@ -2174,11 +2621,11 @@ inline ::System::Void NewDataSet::spacingDataTable::AddspacingRow(NewDataSet::sp
 }
 
 inline NewDataSet::spacingRow^  NewDataSet::spacingDataTable::AddspacingRow(System::String^  Units, System::Decimal min, 
-            NewDataSet::DocumentRow^  parentDocumentRowByDocument_spacing) {
+            NewDataSet::MeshPropertiesRow^  parentMeshPropertiesRowByMeshProperties_spacing) {
     NewDataSet::spacingRow^  rowspacingRow = (cli::safe_cast<NewDataSet::spacingRow^  >(this->NewRow()));
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(3) {Units, min, nullptr};
-    if (parentDocumentRowByDocument_spacing != nullptr) {
-        columnValuesArray[2] = parentDocumentRowByDocument_spacing[5];
+    if (parentMeshPropertiesRowByMeshProperties_spacing != nullptr) {
+        columnValuesArray[2] = parentMeshPropertiesRowByMeshProperties_spacing[4];
     }
     rowspacingRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowspacingRow);
@@ -2202,7 +2649,7 @@ inline ::System::Data::DataTable^  NewDataSet::spacingDataTable::CreateInstance(
 inline ::System::Void NewDataSet::spacingDataTable::InitVars() {
     this->columnUnits = __super::Columns[L"Units"];
     this->columnmin = __super::Columns[L"min"];
-    this->columnDocument_Id = __super::Columns[L"Document_Id"];
+    this->columnMeshProperties_Id = __super::Columns[L"MeshProperties_Id"];
 }
 
 inline ::System::Void NewDataSet::spacingDataTable::InitClass() {
@@ -2210,8 +2657,8 @@ inline ::System::Void NewDataSet::spacingDataTable::InitClass() {
     __super::Columns->Add(this->columnUnits);
     this->columnmin = (gcnew ::System::Data::DataColumn(L"min", ::System::Decimal::typeid, nullptr, ::System::Data::MappingType::Element));
     __super::Columns->Add(this->columnmin);
-    this->columnDocument_Id = (gcnew ::System::Data::DataColumn(L"Document_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
-    __super::Columns->Add(this->columnDocument_Id);
+    this->columnMeshProperties_Id = (gcnew ::System::Data::DataColumn(L"MeshProperties_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
+    __super::Columns->Add(this->columnMeshProperties_Id);
     this->columnUnits->AllowDBNull = false;
     this->columnmin->AllowDBNull = false;
 }
@@ -2365,8 +2812,8 @@ inline ::System::Data::DataColumn^  NewDataSet::LengthsDataTable::LmaxColumn::ge
     return this->columnLmax;
 }
 
-inline ::System::Data::DataColumn^  NewDataSet::LengthsDataTable::Document_IdColumn::get() {
-    return this->columnDocument_Id;
+inline ::System::Data::DataColumn^  NewDataSet::LengthsDataTable::MeshProperties_IdColumn::get() {
+    return this->columnMeshProperties_Id;
 }
 
 inline ::System::Int32 NewDataSet::LengthsDataTable::Count::get() {
@@ -2382,11 +2829,11 @@ inline ::System::Void NewDataSet::LengthsDataTable::AddLengthsRow(NewDataSet::Le
 }
 
 inline NewDataSet::LengthsRow^  NewDataSet::LengthsDataTable::AddLengthsRow(System::String^  Units, System::Decimal Lmin, 
-            System::Decimal Lmax, NewDataSet::DocumentRow^  parentDocumentRowByDocument_Lengths) {
+            System::Decimal Lmax, NewDataSet::MeshPropertiesRow^  parentMeshPropertiesRowByMeshProperties_Lengths) {
     NewDataSet::LengthsRow^  rowLengthsRow = (cli::safe_cast<NewDataSet::LengthsRow^  >(this->NewRow()));
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(4) {Units, Lmin, Lmax, nullptr};
-    if (parentDocumentRowByDocument_Lengths != nullptr) {
-        columnValuesArray[3] = parentDocumentRowByDocument_Lengths[5];
+    if (parentMeshPropertiesRowByMeshProperties_Lengths != nullptr) {
+        columnValuesArray[3] = parentMeshPropertiesRowByMeshProperties_Lengths[4];
     }
     rowLengthsRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowLengthsRow);
@@ -2411,7 +2858,7 @@ inline ::System::Void NewDataSet::LengthsDataTable::InitVars() {
     this->columnUnits = __super::Columns[L"Units"];
     this->columnLmin = __super::Columns[L"Lmin"];
     this->columnLmax = __super::Columns[L"Lmax"];
-    this->columnDocument_Id = __super::Columns[L"Document_Id"];
+    this->columnMeshProperties_Id = __super::Columns[L"MeshProperties_Id"];
 }
 
 inline ::System::Void NewDataSet::LengthsDataTable::InitClass() {
@@ -2421,8 +2868,8 @@ inline ::System::Void NewDataSet::LengthsDataTable::InitClass() {
     __super::Columns->Add(this->columnLmin);
     this->columnLmax = (gcnew ::System::Data::DataColumn(L"Lmax", ::System::Decimal::typeid, nullptr, ::System::Data::MappingType::Element));
     __super::Columns->Add(this->columnLmax);
-    this->columnDocument_Id = (gcnew ::System::Data::DataColumn(L"Document_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
-    __super::Columns->Add(this->columnDocument_Id);
+    this->columnMeshProperties_Id = (gcnew ::System::Data::DataColumn(L"MeshProperties_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
+    __super::Columns->Add(this->columnMeshProperties_Id);
     this->columnUnits->AllowDBNull = false;
     this->columnLmin->AllowDBNull = false;
     this->columnLmax->AllowDBNull = false;
@@ -2582,8 +3029,8 @@ inline ::System::Data::DataColumn^  NewDataSet::DeviceDimensionsDataTable::zdimC
     return this->columnzdim;
 }
 
-inline ::System::Data::DataColumn^  NewDataSet::DeviceDimensionsDataTable::Document_IdColumn::get() {
-    return this->columnDocument_Id;
+inline ::System::Data::DataColumn^  NewDataSet::DeviceDimensionsDataTable::MeshProperties_IdColumn::get() {
+    return this->columnMeshProperties_Id;
 }
 
 inline ::System::Int32 NewDataSet::DeviceDimensionsDataTable::Count::get() {
@@ -2599,12 +3046,12 @@ inline ::System::Void NewDataSet::DeviceDimensionsDataTable::AddDeviceDimensions
 }
 
 inline NewDataSet::DeviceDimensionsRow^  NewDataSet::DeviceDimensionsDataTable::AddDeviceDimensionsRow(System::String^  Units, 
-            System::Decimal xdim, System::Decimal ydim, System::Decimal zdim, NewDataSet::DocumentRow^  parentDocumentRowByDocument_DeviceDimensions) {
+            System::Decimal xdim, System::Decimal ydim, System::Decimal zdim, NewDataSet::MeshPropertiesRow^  parentMeshPropertiesRowByMeshProperties_DeviceDimensions) {
     NewDataSet::DeviceDimensionsRow^  rowDeviceDimensionsRow = (cli::safe_cast<NewDataSet::DeviceDimensionsRow^  >(this->NewRow()));
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(5) {Units, xdim, ydim, zdim, 
         nullptr};
-    if (parentDocumentRowByDocument_DeviceDimensions != nullptr) {
-        columnValuesArray[4] = parentDocumentRowByDocument_DeviceDimensions[5];
+    if (parentMeshPropertiesRowByMeshProperties_DeviceDimensions != nullptr) {
+        columnValuesArray[4] = parentMeshPropertiesRowByMeshProperties_DeviceDimensions[4];
     }
     rowDeviceDimensionsRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowDeviceDimensionsRow);
@@ -2630,7 +3077,7 @@ inline ::System::Void NewDataSet::DeviceDimensionsDataTable::InitVars() {
     this->columnxdim = __super::Columns[L"xdim"];
     this->columnydim = __super::Columns[L"ydim"];
     this->columnzdim = __super::Columns[L"zdim"];
-    this->columnDocument_Id = __super::Columns[L"Document_Id"];
+    this->columnMeshProperties_Id = __super::Columns[L"MeshProperties_Id"];
 }
 
 inline ::System::Void NewDataSet::DeviceDimensionsDataTable::InitClass() {
@@ -2642,8 +3089,8 @@ inline ::System::Void NewDataSet::DeviceDimensionsDataTable::InitClass() {
     __super::Columns->Add(this->columnydim);
     this->columnzdim = (gcnew ::System::Data::DataColumn(L"zdim", ::System::Decimal::typeid, nullptr, ::System::Data::MappingType::Element));
     __super::Columns->Add(this->columnzdim);
-    this->columnDocument_Id = (gcnew ::System::Data::DataColumn(L"Document_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
-    __super::Columns->Add(this->columnDocument_Id);
+    this->columnMeshProperties_Id = (gcnew ::System::Data::DataColumn(L"MeshProperties_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
+    __super::Columns->Add(this->columnMeshProperties_Id);
     this->columnUnits->AllowDBNull = false;
     this->columnxdim->AllowDBNull = false;
     this->columnydim->AllowDBNull = false;
@@ -2791,8 +3238,8 @@ inline ::System::Data::DataColumn^  NewDataSet::chiralityDataTable::chirality_Id
     return this->columnchirality_Id;
 }
 
-inline ::System::Data::DataColumn^  NewDataSet::chiralityDataTable::Document_IdColumn::get() {
-    return this->columnDocument_Id;
+inline ::System::Data::DataColumn^  NewDataSet::chiralityDataTable::MeshProperties_IdColumn::get() {
+    return this->columnMeshProperties_Id;
 }
 
 inline ::System::Int32 NewDataSet::chiralityDataTable::Count::get() {
@@ -2807,11 +3254,11 @@ inline ::System::Void NewDataSet::chiralityDataTable::AddchiralityRow(NewDataSet
     this->Rows->Add(row);
 }
 
-inline NewDataSet::chiralityRow^  NewDataSet::chiralityDataTable::AddchiralityRow(NewDataSet::DocumentRow^  parentDocumentRowByDocument_chirality) {
+inline NewDataSet::chiralityRow^  NewDataSet::chiralityDataTable::AddchiralityRow(NewDataSet::MeshPropertiesRow^  parentMeshPropertiesRowByMeshProperties_chirality) {
     NewDataSet::chiralityRow^  rowchiralityRow = (cli::safe_cast<NewDataSet::chiralityRow^  >(this->NewRow()));
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(2) {nullptr, nullptr};
-    if (parentDocumentRowByDocument_chirality != nullptr) {
-        columnValuesArray[1] = parentDocumentRowByDocument_chirality[5];
+    if (parentMeshPropertiesRowByMeshProperties_chirality != nullptr) {
+        columnValuesArray[1] = parentMeshPropertiesRowByMeshProperties_chirality[4];
     }
     rowchiralityRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowchiralityRow);
@@ -2834,14 +3281,14 @@ inline ::System::Data::DataTable^  NewDataSet::chiralityDataTable::CreateInstanc
 
 inline ::System::Void NewDataSet::chiralityDataTable::InitVars() {
     this->columnchirality_Id = __super::Columns[L"chirality_Id"];
-    this->columnDocument_Id = __super::Columns[L"Document_Id"];
+    this->columnMeshProperties_Id = __super::Columns[L"MeshProperties_Id"];
 }
 
 inline ::System::Void NewDataSet::chiralityDataTable::InitClass() {
     this->columnchirality_Id = (gcnew ::System::Data::DataColumn(L"chirality_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
     __super::Columns->Add(this->columnchirality_Id);
-    this->columnDocument_Id = (gcnew ::System::Data::DataColumn(L"Document_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
-    __super::Columns->Add(this->columnDocument_Id);
+    this->columnMeshProperties_Id = (gcnew ::System::Data::DataColumn(L"MeshProperties_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
+    __super::Columns->Add(this->columnMeshProperties_Id);
     this->Constraints->Add((gcnew ::System::Data::UniqueConstraint(L"Constraint1", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->columnchirality_Id}, 
             true)));
     this->columnchirality_Id->AutoIncrement = true;
@@ -3170,34 +3617,6 @@ inline System::Void NewDataSet::DocumentRow::Type::set(System::String^  value) {
     this[this->tableDocument->TypeColumn] = value;
 }
 
-inline System::String^  NewDataSet::DocumentRow::outputDirectory::get() {
-    return (cli::safe_cast<::System::String^  >(this[this->tableDocument->outputDirectoryColumn]));
-}
-inline System::Void NewDataSet::DocumentRow::outputDirectory::set(System::String^  value) {
-    this[this->tableDocument->outputDirectoryColumn] = value;
-}
-
-inline System::Byte NewDataSet::DocumentRow::numberTubes::get() {
-    return (cli::safe_cast<::System::Byte >(this[this->tableDocument->numberTubesColumn]));
-}
-inline System::Void NewDataSet::DocumentRow::numberTubes::set(System::Byte value) {
-    this[this->tableDocument->numberTubesColumn] = value;
-}
-
-inline System::Decimal NewDataSet::DocumentRow::friction::get() {
-    return (cli::safe_cast<::System::Decimal >(this[this->tableDocument->frictionColumn]));
-}
-inline System::Void NewDataSet::DocumentRow::friction::set(System::Decimal value) {
-    this[this->tableDocument->frictionColumn] = value;
-}
-
-inline System::Decimal NewDataSet::DocumentRow::gravity::get() {
-    return (cli::safe_cast<::System::Decimal >(this[this->tableDocument->gravityColumn]));
-}
-inline System::Void NewDataSet::DocumentRow::gravity::set(System::Decimal value) {
-    this[this->tableDocument->gravityColumn] = value;
-}
-
 inline System::Int32 NewDataSet::DocumentRow::Document_Id::get() {
     return (cli::safe_cast<::System::Int32 >(this[this->tableDocument->Document_IdColumn]));
 }
@@ -3205,39 +3624,117 @@ inline System::Void NewDataSet::DocumentRow::Document_Id::set(System::Int32 valu
     this[this->tableDocument->Document_IdColumn] = value;
 }
 
-inline cli::array< NewDataSet::spacingRow^  >^  NewDataSet::DocumentRow::GetspacingRows() {
-    if (this->Table->ChildRelations[L"Document_spacing"] == nullptr) {
+inline cli::array< NewDataSet::MeshPropertiesRow^  >^  NewDataSet::DocumentRow::GetMeshPropertiesRows() {
+    if (this->Table->ChildRelations[L"Document_MeshProperties"] == nullptr) {
+        return gcnew cli::array< NewDataSet::MeshPropertiesRow^  >(0);
+    }
+    else {
+        return (cli::safe_cast<cli::array< NewDataSet::MeshPropertiesRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"Document_MeshProperties"])));
+    }
+}
+
+
+inline NewDataSet::MeshPropertiesRow::MeshPropertiesRow(::System::Data::DataRowBuilder^  rb) : 
+        ::System::Data::DataRow(rb) {
+    this->tableMeshProperties = (cli::safe_cast<NewDataSet::MeshPropertiesDataTable^  >(this->Table));
+}
+
+inline System::String^  NewDataSet::MeshPropertiesRow::outputDirectory::get() {
+    return (cli::safe_cast<::System::String^  >(this[this->tableMeshProperties->outputDirectoryColumn]));
+}
+inline System::Void NewDataSet::MeshPropertiesRow::outputDirectory::set(System::String^  value) {
+    this[this->tableMeshProperties->outputDirectoryColumn] = value;
+}
+
+inline System::Byte NewDataSet::MeshPropertiesRow::numberTubes::get() {
+    return (cli::safe_cast<::System::Byte >(this[this->tableMeshProperties->numberTubesColumn]));
+}
+inline System::Void NewDataSet::MeshPropertiesRow::numberTubes::set(System::Byte value) {
+    this[this->tableMeshProperties->numberTubesColumn] = value;
+}
+
+inline System::Decimal NewDataSet::MeshPropertiesRow::friction::get() {
+    return (cli::safe_cast<::System::Decimal >(this[this->tableMeshProperties->frictionColumn]));
+}
+inline System::Void NewDataSet::MeshPropertiesRow::friction::set(System::Decimal value) {
+    this[this->tableMeshProperties->frictionColumn] = value;
+}
+
+inline System::Decimal NewDataSet::MeshPropertiesRow::gravity::get() {
+    return (cli::safe_cast<::System::Decimal >(this[this->tableMeshProperties->gravityColumn]));
+}
+inline System::Void NewDataSet::MeshPropertiesRow::gravity::set(System::Decimal value) {
+    this[this->tableMeshProperties->gravityColumn] = value;
+}
+
+inline System::Int32 NewDataSet::MeshPropertiesRow::MeshProperties_Id::get() {
+    return (cli::safe_cast<::System::Int32 >(this[this->tableMeshProperties->MeshProperties_IdColumn]));
+}
+inline System::Void NewDataSet::MeshPropertiesRow::MeshProperties_Id::set(System::Int32 value) {
+    this[this->tableMeshProperties->MeshProperties_IdColumn] = value;
+}
+
+inline System::Int32 NewDataSet::MeshPropertiesRow::Document_Id::get() {
+    try {
+        return (cli::safe_cast<::System::Int32 >(this[this->tableMeshProperties->Document_IdColumn]));
+    }
+    catch (::System::InvalidCastException^ e) {
+        throw (gcnew ::System::Data::StrongTypingException(L"The value for column \'Document_Id\' in table \'MeshProperties\' is DBNull.", 
+            e));
+    }
+}
+inline System::Void NewDataSet::MeshPropertiesRow::Document_Id::set(System::Int32 value) {
+    this[this->tableMeshProperties->Document_IdColumn] = value;
+}
+
+inline NewDataSet::DocumentRow^  NewDataSet::MeshPropertiesRow::DocumentRow::get() {
+    return (cli::safe_cast<NewDataSet::DocumentRow^  >(this->GetParentRow(this->Table->ParentRelations[L"Document_MeshProperties"])));
+}
+inline System::Void NewDataSet::MeshPropertiesRow::DocumentRow::set(NewDataSet::DocumentRow^  value) {
+    this->SetParentRow(value, this->Table->ParentRelations[L"Document_MeshProperties"]);
+}
+
+inline ::System::Boolean NewDataSet::MeshPropertiesRow::IsDocument_IdNull() {
+    return this->IsNull(this->tableMeshProperties->Document_IdColumn);
+}
+
+inline ::System::Void NewDataSet::MeshPropertiesRow::SetDocument_IdNull() {
+    this[this->tableMeshProperties->Document_IdColumn] = ::System::Convert::DBNull;
+}
+
+inline cli::array< NewDataSet::spacingRow^  >^  NewDataSet::MeshPropertiesRow::GetspacingRows() {
+    if (this->Table->ChildRelations[L"MeshProperties_spacing"] == nullptr) {
         return gcnew cli::array< NewDataSet::spacingRow^  >(0);
     }
     else {
-        return (cli::safe_cast<cli::array< NewDataSet::spacingRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"Document_spacing"])));
+        return (cli::safe_cast<cli::array< NewDataSet::spacingRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"MeshProperties_spacing"])));
     }
 }
 
-inline cli::array< NewDataSet::LengthsRow^  >^  NewDataSet::DocumentRow::GetLengthsRows() {
-    if (this->Table->ChildRelations[L"Document_Lengths"] == nullptr) {
+inline cli::array< NewDataSet::LengthsRow^  >^  NewDataSet::MeshPropertiesRow::GetLengthsRows() {
+    if (this->Table->ChildRelations[L"MeshProperties_Lengths"] == nullptr) {
         return gcnew cli::array< NewDataSet::LengthsRow^  >(0);
     }
     else {
-        return (cli::safe_cast<cli::array< NewDataSet::LengthsRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"Document_Lengths"])));
+        return (cli::safe_cast<cli::array< NewDataSet::LengthsRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"MeshProperties_Lengths"])));
     }
 }
 
-inline cli::array< NewDataSet::DeviceDimensionsRow^  >^  NewDataSet::DocumentRow::GetDeviceDimensionsRows() {
-    if (this->Table->ChildRelations[L"Document_DeviceDimensions"] == nullptr) {
+inline cli::array< NewDataSet::DeviceDimensionsRow^  >^  NewDataSet::MeshPropertiesRow::GetDeviceDimensionsRows() {
+    if (this->Table->ChildRelations[L"MeshProperties_DeviceDimensions"] == nullptr) {
         return gcnew cli::array< NewDataSet::DeviceDimensionsRow^  >(0);
     }
     else {
-        return (cli::safe_cast<cli::array< NewDataSet::DeviceDimensionsRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"Document_DeviceDimensions"])));
+        return (cli::safe_cast<cli::array< NewDataSet::DeviceDimensionsRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"MeshProperties_DeviceDimensions"])));
     }
 }
 
-inline cli::array< NewDataSet::chiralityRow^  >^  NewDataSet::DocumentRow::GetchiralityRows() {
-    if (this->Table->ChildRelations[L"Document_chirality"] == nullptr) {
+inline cli::array< NewDataSet::chiralityRow^  >^  NewDataSet::MeshPropertiesRow::GetchiralityRows() {
+    if (this->Table->ChildRelations[L"MeshProperties_chirality"] == nullptr) {
         return gcnew cli::array< NewDataSet::chiralityRow^  >(0);
     }
     else {
-        return (cli::safe_cast<cli::array< NewDataSet::chiralityRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"Document_chirality"])));
+        return (cli::safe_cast<cli::array< NewDataSet::chiralityRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"MeshProperties_chirality"])));
     }
 }
 
@@ -3261,32 +3758,32 @@ inline System::Void NewDataSet::spacingRow::min::set(System::Decimal value) {
     this[this->tablespacing->minColumn] = value;
 }
 
-inline System::Int32 NewDataSet::spacingRow::Document_Id::get() {
+inline System::Int32 NewDataSet::spacingRow::MeshProperties_Id::get() {
     try {
-        return (cli::safe_cast<::System::Int32 >(this[this->tablespacing->Document_IdColumn]));
+        return (cli::safe_cast<::System::Int32 >(this[this->tablespacing->MeshProperties_IdColumn]));
     }
     catch (::System::InvalidCastException^ e) {
-        throw (gcnew ::System::Data::StrongTypingException(L"The value for column \'Document_Id\' in table \'spacing\' is DBNull.", 
+        throw (gcnew ::System::Data::StrongTypingException(L"The value for column \'MeshProperties_Id\' in table \'spacing\' is DBNull.", 
             e));
     }
 }
-inline System::Void NewDataSet::spacingRow::Document_Id::set(System::Int32 value) {
-    this[this->tablespacing->Document_IdColumn] = value;
+inline System::Void NewDataSet::spacingRow::MeshProperties_Id::set(System::Int32 value) {
+    this[this->tablespacing->MeshProperties_IdColumn] = value;
 }
 
-inline NewDataSet::DocumentRow^  NewDataSet::spacingRow::DocumentRow::get() {
-    return (cli::safe_cast<NewDataSet::DocumentRow^  >(this->GetParentRow(this->Table->ParentRelations[L"Document_spacing"])));
+inline NewDataSet::MeshPropertiesRow^  NewDataSet::spacingRow::MeshPropertiesRow::get() {
+    return (cli::safe_cast<NewDataSet::MeshPropertiesRow^  >(this->GetParentRow(this->Table->ParentRelations[L"MeshProperties_spacing"])));
 }
-inline System::Void NewDataSet::spacingRow::DocumentRow::set(NewDataSet::DocumentRow^  value) {
-    this->SetParentRow(value, this->Table->ParentRelations[L"Document_spacing"]);
-}
-
-inline ::System::Boolean NewDataSet::spacingRow::IsDocument_IdNull() {
-    return this->IsNull(this->tablespacing->Document_IdColumn);
+inline System::Void NewDataSet::spacingRow::MeshPropertiesRow::set(NewDataSet::MeshPropertiesRow^  value) {
+    this->SetParentRow(value, this->Table->ParentRelations[L"MeshProperties_spacing"]);
 }
 
-inline ::System::Void NewDataSet::spacingRow::SetDocument_IdNull() {
-    this[this->tablespacing->Document_IdColumn] = ::System::Convert::DBNull;
+inline ::System::Boolean NewDataSet::spacingRow::IsMeshProperties_IdNull() {
+    return this->IsNull(this->tablespacing->MeshProperties_IdColumn);
+}
+
+inline ::System::Void NewDataSet::spacingRow::SetMeshProperties_IdNull() {
+    this[this->tablespacing->MeshProperties_IdColumn] = ::System::Convert::DBNull;
 }
 
 
@@ -3316,32 +3813,32 @@ inline System::Void NewDataSet::LengthsRow::Lmax::set(System::Decimal value) {
     this[this->tableLengths->LmaxColumn] = value;
 }
 
-inline System::Int32 NewDataSet::LengthsRow::Document_Id::get() {
+inline System::Int32 NewDataSet::LengthsRow::MeshProperties_Id::get() {
     try {
-        return (cli::safe_cast<::System::Int32 >(this[this->tableLengths->Document_IdColumn]));
+        return (cli::safe_cast<::System::Int32 >(this[this->tableLengths->MeshProperties_IdColumn]));
     }
     catch (::System::InvalidCastException^ e) {
-        throw (gcnew ::System::Data::StrongTypingException(L"The value for column \'Document_Id\' in table \'Lengths\' is DBNull.", 
+        throw (gcnew ::System::Data::StrongTypingException(L"The value for column \'MeshProperties_Id\' in table \'Lengths\' is DBNull.", 
             e));
     }
 }
-inline System::Void NewDataSet::LengthsRow::Document_Id::set(System::Int32 value) {
-    this[this->tableLengths->Document_IdColumn] = value;
+inline System::Void NewDataSet::LengthsRow::MeshProperties_Id::set(System::Int32 value) {
+    this[this->tableLengths->MeshProperties_IdColumn] = value;
 }
 
-inline NewDataSet::DocumentRow^  NewDataSet::LengthsRow::DocumentRow::get() {
-    return (cli::safe_cast<NewDataSet::DocumentRow^  >(this->GetParentRow(this->Table->ParentRelations[L"Document_Lengths"])));
+inline NewDataSet::MeshPropertiesRow^  NewDataSet::LengthsRow::MeshPropertiesRow::get() {
+    return (cli::safe_cast<NewDataSet::MeshPropertiesRow^  >(this->GetParentRow(this->Table->ParentRelations[L"MeshProperties_Lengths"])));
 }
-inline System::Void NewDataSet::LengthsRow::DocumentRow::set(NewDataSet::DocumentRow^  value) {
-    this->SetParentRow(value, this->Table->ParentRelations[L"Document_Lengths"]);
-}
-
-inline ::System::Boolean NewDataSet::LengthsRow::IsDocument_IdNull() {
-    return this->IsNull(this->tableLengths->Document_IdColumn);
+inline System::Void NewDataSet::LengthsRow::MeshPropertiesRow::set(NewDataSet::MeshPropertiesRow^  value) {
+    this->SetParentRow(value, this->Table->ParentRelations[L"MeshProperties_Lengths"]);
 }
 
-inline ::System::Void NewDataSet::LengthsRow::SetDocument_IdNull() {
-    this[this->tableLengths->Document_IdColumn] = ::System::Convert::DBNull;
+inline ::System::Boolean NewDataSet::LengthsRow::IsMeshProperties_IdNull() {
+    return this->IsNull(this->tableLengths->MeshProperties_IdColumn);
+}
+
+inline ::System::Void NewDataSet::LengthsRow::SetMeshProperties_IdNull() {
+    this[this->tableLengths->MeshProperties_IdColumn] = ::System::Convert::DBNull;
 }
 
 
@@ -3378,32 +3875,32 @@ inline System::Void NewDataSet::DeviceDimensionsRow::zdim::set(System::Decimal v
     this[this->tableDeviceDimensions->zdimColumn] = value;
 }
 
-inline System::Int32 NewDataSet::DeviceDimensionsRow::Document_Id::get() {
+inline System::Int32 NewDataSet::DeviceDimensionsRow::MeshProperties_Id::get() {
     try {
-        return (cli::safe_cast<::System::Int32 >(this[this->tableDeviceDimensions->Document_IdColumn]));
+        return (cli::safe_cast<::System::Int32 >(this[this->tableDeviceDimensions->MeshProperties_IdColumn]));
     }
     catch (::System::InvalidCastException^ e) {
-        throw (gcnew ::System::Data::StrongTypingException(L"The value for column \'Document_Id\' in table \'DeviceDimensions\' is DBNull.", 
+        throw (gcnew ::System::Data::StrongTypingException(L"The value for column \'MeshProperties_Id\' in table \'DeviceDimensions\' is DBNull.", 
             e));
     }
 }
-inline System::Void NewDataSet::DeviceDimensionsRow::Document_Id::set(System::Int32 value) {
-    this[this->tableDeviceDimensions->Document_IdColumn] = value;
+inline System::Void NewDataSet::DeviceDimensionsRow::MeshProperties_Id::set(System::Int32 value) {
+    this[this->tableDeviceDimensions->MeshProperties_IdColumn] = value;
 }
 
-inline NewDataSet::DocumentRow^  NewDataSet::DeviceDimensionsRow::DocumentRow::get() {
-    return (cli::safe_cast<NewDataSet::DocumentRow^  >(this->GetParentRow(this->Table->ParentRelations[L"Document_DeviceDimensions"])));
+inline NewDataSet::MeshPropertiesRow^  NewDataSet::DeviceDimensionsRow::MeshPropertiesRow::get() {
+    return (cli::safe_cast<NewDataSet::MeshPropertiesRow^  >(this->GetParentRow(this->Table->ParentRelations[L"MeshProperties_DeviceDimensions"])));
 }
-inline System::Void NewDataSet::DeviceDimensionsRow::DocumentRow::set(NewDataSet::DocumentRow^  value) {
-    this->SetParentRow(value, this->Table->ParentRelations[L"Document_DeviceDimensions"]);
-}
-
-inline ::System::Boolean NewDataSet::DeviceDimensionsRow::IsDocument_IdNull() {
-    return this->IsNull(this->tableDeviceDimensions->Document_IdColumn);
+inline System::Void NewDataSet::DeviceDimensionsRow::MeshPropertiesRow::set(NewDataSet::MeshPropertiesRow^  value) {
+    this->SetParentRow(value, this->Table->ParentRelations[L"MeshProperties_DeviceDimensions"]);
 }
 
-inline ::System::Void NewDataSet::DeviceDimensionsRow::SetDocument_IdNull() {
-    this[this->tableDeviceDimensions->Document_IdColumn] = ::System::Convert::DBNull;
+inline ::System::Boolean NewDataSet::DeviceDimensionsRow::IsMeshProperties_IdNull() {
+    return this->IsNull(this->tableDeviceDimensions->MeshProperties_IdColumn);
+}
+
+inline ::System::Void NewDataSet::DeviceDimensionsRow::SetMeshProperties_IdNull() {
+    this[this->tableDeviceDimensions->MeshProperties_IdColumn] = ::System::Convert::DBNull;
 }
 
 
@@ -3419,32 +3916,32 @@ inline System::Void NewDataSet::chiralityRow::chirality_Id::set(System::Int32 va
     this[this->tablechirality->chirality_IdColumn] = value;
 }
 
-inline System::Int32 NewDataSet::chiralityRow::Document_Id::get() {
+inline System::Int32 NewDataSet::chiralityRow::MeshProperties_Id::get() {
     try {
-        return (cli::safe_cast<::System::Int32 >(this[this->tablechirality->Document_IdColumn]));
+        return (cli::safe_cast<::System::Int32 >(this[this->tablechirality->MeshProperties_IdColumn]));
     }
     catch (::System::InvalidCastException^ e) {
-        throw (gcnew ::System::Data::StrongTypingException(L"The value for column \'Document_Id\' in table \'chirality\' is DBNull.", 
+        throw (gcnew ::System::Data::StrongTypingException(L"The value for column \'MeshProperties_Id\' in table \'chirality\' is DBNull.", 
             e));
     }
 }
-inline System::Void NewDataSet::chiralityRow::Document_Id::set(System::Int32 value) {
-    this[this->tablechirality->Document_IdColumn] = value;
+inline System::Void NewDataSet::chiralityRow::MeshProperties_Id::set(System::Int32 value) {
+    this[this->tablechirality->MeshProperties_IdColumn] = value;
 }
 
-inline NewDataSet::DocumentRow^  NewDataSet::chiralityRow::DocumentRow::get() {
-    return (cli::safe_cast<NewDataSet::DocumentRow^  >(this->GetParentRow(this->Table->ParentRelations[L"Document_chirality"])));
+inline NewDataSet::MeshPropertiesRow^  NewDataSet::chiralityRow::MeshPropertiesRow::get() {
+    return (cli::safe_cast<NewDataSet::MeshPropertiesRow^  >(this->GetParentRow(this->Table->ParentRelations[L"MeshProperties_chirality"])));
 }
-inline System::Void NewDataSet::chiralityRow::DocumentRow::set(NewDataSet::DocumentRow^  value) {
-    this->SetParentRow(value, this->Table->ParentRelations[L"Document_chirality"]);
-}
-
-inline ::System::Boolean NewDataSet::chiralityRow::IsDocument_IdNull() {
-    return this->IsNull(this->tablechirality->Document_IdColumn);
+inline System::Void NewDataSet::chiralityRow::MeshPropertiesRow::set(NewDataSet::MeshPropertiesRow^  value) {
+    this->SetParentRow(value, this->Table->ParentRelations[L"MeshProperties_chirality"]);
 }
 
-inline ::System::Void NewDataSet::chiralityRow::SetDocument_IdNull() {
-    this[this->tablechirality->Document_IdColumn] = ::System::Convert::DBNull;
+inline ::System::Boolean NewDataSet::chiralityRow::IsMeshProperties_IdNull() {
+    return this->IsNull(this->tablechirality->MeshProperties_IdColumn);
+}
+
+inline ::System::Void NewDataSet::chiralityRow::SetMeshProperties_IdNull() {
+    this[this->tablechirality->MeshProperties_IdColumn] = ::System::Convert::DBNull;
 }
 
 inline cli::array< NewDataSet::cntRow^  >^  NewDataSet::chiralityRow::GetcntRows() {
@@ -3515,6 +4012,20 @@ inline NewDataSet::DocumentRow^  NewDataSet::DocumentRowChangeEvent::Row::get() 
 }
 
 inline ::System::Data::DataRowAction NewDataSet::DocumentRowChangeEvent::Action::get() {
+    return this->eventAction;
+}
+
+
+inline NewDataSet::MeshPropertiesRowChangeEvent::MeshPropertiesRowChangeEvent(NewDataSet::MeshPropertiesRow^  row, ::System::Data::DataRowAction action) {
+    this->eventRow = row;
+    this->eventAction = action;
+}
+
+inline NewDataSet::MeshPropertiesRow^  NewDataSet::MeshPropertiesRowChangeEvent::Row::get() {
+    return this->eventRow;
+}
+
+inline ::System::Data::DataRowAction NewDataSet::MeshPropertiesRowChangeEvent::Action::get() {
     return this->eventAction;
 }
 

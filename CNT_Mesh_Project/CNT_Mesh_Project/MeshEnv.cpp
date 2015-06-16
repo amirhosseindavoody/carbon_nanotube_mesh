@@ -31,6 +31,7 @@
 #include "rapidxml_utils.hpp"
 #include <iostream>
 #include <sstream>
+#include "windows.h"
 
 using namespace rapidxml;
 using namespace std;
@@ -347,6 +348,7 @@ void	MeshEnv::initPhysics(float camDistance)
 	}
 	delete currNode;
 
+	string response;
 	time_t timer;
 	struct tm currTime;
 	if(time(&timer) != -1)
@@ -355,6 +357,7 @@ void	MeshEnv::initPhysics(float camDistance)
 		if (err)
 		{
 			printf("Invalid argument to localtime");
+			cin >> response;
 			exit(1);
 		}
 	}
@@ -373,7 +376,26 @@ void	MeshEnv::initPhysics(float camDistance)
 	timeStamp = operator+(timeStamp, "/");
 
 	outputPath = operator+(outputFolderPath, timeStamp);
-	
+	wstring wide_string(outputPath.begin(), outputPath.end());
+	if (CreateDirectory(wide_string.c_str(), NULL) == 0)
+	{
+		auto error = GetLastError();
+		if (error == ERROR_ALREADY_EXISTS)
+		{
+			printf("Output folder already exists. Continue anyways? [y/n]");
+			cin >> response;
+			if (response.compare(string("y")) != 0)
+			{
+				exit(1);
+			}
+		}
+		else if (error == ERROR_PATH_NOT_FOUND)
+		{
+			printf("Invalid path.");
+			cin >> response;
+			exit(1);
+		}
+	}
 
 	/////////////////////////////// END OF ENVIRONMENT PARAMETERS //////////////////////////////////
 
@@ -790,6 +812,8 @@ struct	MyOverlapCallback : public btBroadphaseAabbCallback
 };
 
 //steps the simulation, then it renders the dynamics world
+uint8_t checkCntr = 0x00;
+uint8_t bitMask = 0x07;
 void MeshEnv::clientMoveAndDisplay()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -801,82 +825,84 @@ void MeshEnv::clientMoveAndDisplay()
 	if (m_dynamicsWorld)
 	{
 		m_dynamicsWorld->stepSimulation(ms / 1000000.f); ///////////////STEP SIMULATION////////////
-
-		/*After each step, I would like to check if simulation is done*/
-		bool simComplete = 1;
-		//iterate over the list of tubes while we think that the simulation might be done
-		for (list<shared_ptr<tube>>::iterator itrTube = m_tubeList.begin(); 
-				itrTube != m_tubeList.end() && simComplete; ++itrTube)
-		{
-			shared_ptr<list<btRigidBody*>> tempCylList = (*itrTube)->getCylList();
-			int sleepCntr = 0;
-			for (list<btRigidBody*>::iterator itrCyl = tempCylList->begin(); itrCyl != tempCylList->end(); ++itrCyl)
-			{
-				if ((*itrCyl)->getActivationState() == ISLAND_SLEEPING || 
-					(*itrCyl)->getActivationState() == WANTS_DEACTIVATION)
-				{
-					sleepCntr++;
-				}
-			}
-			//if 10% of the cylinders are ready to or are sleeping, then the tube is done.
-			if (float(sleepCntr) / float(tempCylList->size()) < .1)
-			{
-				simComplete = 0;
-			}
-		}
-
-		if (simComplete)
-		{
-			//iterate for file output
-			//string folder = "C:/Users/Gabory/Dropbox/Research/OutputFiles/";
+		if ((checkCntr&bitMask) == 0){
+			/*each 8th step, I would like to check if simulation is done*/
+			bool simComplete = 1;
+			//iterate over the list of tubes while we think that the simulation might be done
 			for (list<shared_ptr<tube>>::iterator itrTube = m_tubeList.begin();
 				itrTube != m_tubeList.end() && simComplete; ++itrTube)
 			{
-				//create file with some filename
-				int tubeNum = (*itrTube)->getTubeNum();
-				stringstream filePathMaker;
-				filePathMaker << outputPath << "CNT_Num_" << tubeNum << ".csv";
-				string fileName = filePathMaker.str();
-				ofstream file;
-				file.open(fileName);
-				// add initial info to file
-				file << "Chirality:,";
-				file << (*itrTube)->getCNT()->getn();
-				file << "  ";
-				file << (*itrTube)->getCNT()->getm();
-				file << "\n";
-				file << "Length:,";
-				file << (*itrTube)->getLength();
-				file << "\n";
-				file << "Cylinder Height:,";
-				file << (*itrTube)->getCylHeight();
-				file << "\n";
-				file << "Intertube Spacing:,";
-				file << (*itrTube)->getMinSpacing();
-				file << "\n";
-				file << "Intercylinder Spacing:,";
-				file << (*itrTube)->getTubeSpacing();
-				file << "\n";
-				file << "x,y,z\n";
-				
 				shared_ptr<list<btRigidBody*>> tempCylList = (*itrTube)->getCylList();
+				int sleepCntr = 0;
 				for (list<btRigidBody*>::iterator itrCyl = tempCylList->begin(); itrCyl != tempCylList->end(); ++itrCyl)
 				{
-					btVector3 pos = (*itrCyl)->getCenterOfMassPosition();
-					file << pos[0];
-					file << ",";
-					file << pos[1];
-					file << ",";
-					file << pos[2];
-					file << "\n";
+					if ((*itrCyl)->getActivationState() == ISLAND_SLEEPING ||
+						(*itrCyl)->getActivationState() == WANTS_DEACTIVATION)
+					{
+						sleepCntr++;
+					}
 				}
-				file.close();
+				//if 10% of the cylinders are ready to or are sleeping, then the tube is done.
+				if (float(sleepCntr) / float(tempCylList->size()) < .1)
+				{
+					simComplete = 0;
+				}
 			}
-			exitPhysics();
-			exit(EXIT_SUCCESS);
+
+			if (simComplete)
+			{
+				//iterate for file output
+				//string folder = "C:/Users/Gabory/Dropbox/Research/OutputFiles/";
+				for (list<shared_ptr<tube>>::iterator itrTube = m_tubeList.begin();
+					itrTube != m_tubeList.end() && simComplete; ++itrTube)
+				{
+					//create file with some filename
+					int tubeNum = (*itrTube)->getTubeNum();
+					stringstream filePathMaker;
+					filePathMaker << outputPath << "CNT_Num_" << tubeNum << ".csv";
+					string fileName = filePathMaker.str();
+					ofstream file;
+					file.open(fileName);
+					// add initial info to file
+					file << "Chirality:,";
+					file << (*itrTube)->getCNT()->getn();
+					file << "  ";
+					file << (*itrTube)->getCNT()->getm();
+					file << "\n";
+					file << "Length:,";
+					file << (*itrTube)->getLength();
+					file << "\n";
+					file << "Cylinder Height:,";
+					file << (*itrTube)->getCylHeight();
+					file << "\n";
+					file << "Intertube Spacing:,";
+					file << (*itrTube)->getMinSpacing();
+					file << "\n";
+					file << "Intercylinder Spacing:,";
+					file << (*itrTube)->getTubeSpacing();
+					file << "\n";
+					file << "x,y,z\n";
+
+					shared_ptr<list<btRigidBody*>> tempCylList = (*itrTube)->getCylList();
+					for (list<btRigidBody*>::iterator itrCyl = tempCylList->begin(); itrCyl != tempCylList->end(); ++itrCyl)
+					{
+						btVector3 pos = (*itrCyl)->getCenterOfMassPosition();
+						file << pos[0];
+						file << ",";
+						file << pos[1];
+						file << ",";
+						file << pos[2];
+						file << "\n";
+					}
+					file.close();
+				}
+				exitPhysics();
+				printf("Mesh created successfully!");
+				exit(EXIT_SUCCESS);
+			}
+
 		}
-
-
+		checkCntr++;
 		//optional but useful: debug drawing
 		m_dynamicsWorld->debugDrawWorld();
 	}

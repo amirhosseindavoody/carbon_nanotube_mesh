@@ -66,9 +66,4 @@
   <ItemGroup>
     <Xml Include="..\CNT_Mesh_Config.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Xsd Include="..\CNT_Mesh_Config.xsd">
-      <Filter>Header Files</Filter>
-    </Xsd>
-  </ItemGroup>
 </Project>
