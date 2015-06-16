@@ -9,10 +9,7 @@
 #include "stdafx.h"
 #include "MeshEnv.h"
 #include "GlutStuff.h"
-#include "btBulletDynamicsCommon.h"
-#include <string>
-#include <iostream>
-#include <regex>
+
 
 string inputXMLPath;
 
@@ -26,7 +23,7 @@ int main(int argc, char *argv[])
 	inputXMLPath = argv[1];
 	MeshEnv ccdDemo;
 	ccdDemo.initPhysics(btScalar(300));
-	ccdDemo.setDebugMode(btIDebugDraw::DBG_DrawConstraints + btIDebugDraw::DBG_DrawConstraintLimits);
+	//ccdDemo.setDebugMode(btIDebugDraw::DBG_DrawConstraints + btIDebugDraw::DBG_DrawConstraintLimits); 
 
 
 #ifdef CHECK_MEMORY_LEAKS

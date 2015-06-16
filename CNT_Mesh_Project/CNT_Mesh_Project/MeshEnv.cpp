@@ -38,6 +38,7 @@ using namespace std;
 static GLDebugDrawer gDebugDraw;
 extern string inputXMLPath;
 string outputPath;
+bool toDebugDraw = true;
 
 SIMD_FORCE_INLINE btVector3 
 MeshEnv::multOperator(const btMatrix3x3& m, const btVector3& v)
@@ -783,10 +784,10 @@ void	MeshEnv::initPhysics(float camDistance)
 
 		}
 
-
+	
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////
-
+	MeshEnv::keyboardCallback('D', 0, 0); //starts without rendering anything
 }
 
 ///The MyOverlapCallback is used to show how to collect object that overlap with a given bounding box defined by aabbMin and aabbMax. 
@@ -904,7 +905,9 @@ void MeshEnv::clientMoveAndDisplay()
 		}
 		checkCntr++;
 		//optional but useful: debug drawing
-		m_dynamicsWorld->debugDrawWorld();
+		if (toDebugDraw){
+			m_dynamicsWorld->debugDrawWorld();
+		}
 	}
 
 	//Rendering function. Uses
@@ -913,7 +916,6 @@ void MeshEnv::clientMoveAndDisplay()
 	//APIENTRY functions -> cannot edit
 	glFlush();
 	swapBuffers();
-
 }
 
 //renders the dynamics world as it stands currently
