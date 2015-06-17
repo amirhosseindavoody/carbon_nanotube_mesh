@@ -9,18 +9,28 @@
 #include "stdafx.h"
 #include "MeshEnv.h"
 #include "GlutStuff.h"
+#include <iostream>
 
 
-string inputXMLPath;
+string inputXMLPath = "./CNT_Mesh_Config.xml";
 
 int main(int argc, char *argv[])
 {
-	if (argc != 2)
+	if (argc == 1)
+	{
+		cout << "Enter config xml path (Example in program files directory):\n";
+		cin >> inputXMLPath;
+	}
+	else if (argc > 2)
 	{
 		string errMess = "Incorrect parameters. Only enter file path of config xml";
 		throw std::exception(errMess.c_str());
 	}
-	inputXMLPath = argv[1];
+	else
+	{
+		inputXMLPath = argv[1];
+	}
+	
 	MeshEnv ccdDemo;
 	ccdDemo.initPhysics(btScalar(300));
 	//ccdDemo.setDebugMode(btIDebugDraw::DBG_DrawConstraints + btIDebugDraw::DBG_DrawConstraintLimits); 
