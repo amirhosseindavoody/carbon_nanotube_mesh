@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Document Type="CNTMeshConfig">
     <outputDirectory>C:/Users/Gabory/Dropbox/Research/OutputFiles/</outputDirectory>
-    <numberTubes>5</numberTubes>
+    <numberTubes>25</numberTubes>
     <friction>1.0</friction>
     <gravity>-9.81</gravity>
     <spacing>

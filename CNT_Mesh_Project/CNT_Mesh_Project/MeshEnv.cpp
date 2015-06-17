@@ -882,7 +882,13 @@ void MeshEnv::clientMoveAndDisplay()
 					file << "Intercylinder Spacing:,";
 					file << (*itrTube)->getTubeSpacing();
 					file << "\n";
-					file << "x,y,z\n";
+					file << "x";
+					file << tubeNum;
+					file << ",y";
+					file << tubeNum;
+					file << ",z";
+					file << tubeNum;
+					file << "\n";
 
 					shared_ptr<list<btRigidBody*>> tempCylList = (*itrTube)->getCylList();
 					for (list<btRigidBody*>::iterator itrCyl = tempCylList->begin(); itrCyl != tempCylList->end(); ++itrCyl)
