@@ -349,32 +349,36 @@ void	MeshEnv::initPhysics(float camDistance)
 	}
 	delete currNode;
 
-	string response;
-	time_t timer;
-	struct tm currTime;
-	if(time(&timer) != -1)
-	{
-		errno_t err = localtime_s(&currTime, &timer);
-		if (err)
-		{
-			printf("Invalid argument to localtime");
-			cin >> response;
-			exit(1);
-		}
-	}
+
 	string timeStamp = "Date_";
-	timeStamp = operator+(timeStamp, to_string(currTime.tm_mday));
-	timeStamp = operator+(timeStamp, ".");
-	timeStamp = operator+(timeStamp, to_string(currTime.tm_mon+1));
-	timeStamp = operator+(timeStamp, ".");
-	timeStamp = operator+(timeStamp, to_string(currTime.tm_year%100));
-	timeStamp = operator+(timeStamp, "_Time_");
-	timeStamp = operator+(timeStamp, to_string(currTime.tm_hour));
-	timeStamp = operator+(timeStamp, ".");
-	timeStamp = operator+(timeStamp, to_string(currTime.tm_min));
-	timeStamp = operator+(timeStamp, ".");
-	timeStamp = operator+(timeStamp, to_string(currTime.tm_sec));
-	timeStamp = operator+(timeStamp, "/");
+	string response;
+	{
+		time_t timer;
+		struct tm currTime;
+		if (time(&timer) != -1)
+		{
+			errno_t err = localtime_s(&currTime, &timer);
+			if (err)
+			{
+				printf("Invalid argument to localtime");
+				cin >> response;
+				exit(1);
+			}
+		}
+
+		timeStamp = operator+(timeStamp, to_string(currTime.tm_mday));
+		timeStamp = operator+(timeStamp, ".");
+		timeStamp = operator+(timeStamp, to_string(currTime.tm_mon + 1));
+		timeStamp = operator+(timeStamp, ".");
+		timeStamp = operator+(timeStamp, to_string(currTime.tm_year % 100));
+		timeStamp = operator+(timeStamp, "_Time_");
+		timeStamp = operator+(timeStamp, to_string(currTime.tm_hour));
+		timeStamp = operator+(timeStamp, ".");
+		timeStamp = operator+(timeStamp, to_string(currTime.tm_min));
+		timeStamp = operator+(timeStamp, ".");
+		timeStamp = operator+(timeStamp, to_string(currTime.tm_sec));
+		timeStamp = operator+(timeStamp, "/");
+	}
 
 	outputPath = operator+(outputFolderPath, timeStamp);
 	wstring wide_string(outputPath.begin(), outputPath.end());
@@ -551,6 +555,7 @@ void	MeshEnv::initPhysics(float camDistance)
 	srand(static_cast<unsigned int>(seconds));
 	for (int i = 0; i < 6; i++)
 	{
+		#pragma warning(suppress: 6031)
 		rand();
 	}
 
