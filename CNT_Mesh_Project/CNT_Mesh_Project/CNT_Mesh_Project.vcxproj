@@ -83,6 +83,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CNT_Mesh_Config.h">
+      <DependentUpon>..\CNT_Mesh_Config.xsd</DependentUpon>
+    </ClInclude>
     <ClInclude Include="MeshEnv.h" />
     <ClInclude Include="CNTFunc.h" />
     <ClInclude Include="rapidxml.hpp" />
@@ -118,6 +121,9 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\CNT_Mesh_Config.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xsd Include="..\CNT_Mesh_Config.xsd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

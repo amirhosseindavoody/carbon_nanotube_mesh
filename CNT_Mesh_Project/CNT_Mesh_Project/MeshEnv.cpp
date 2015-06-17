@@ -119,7 +119,7 @@ MeshEnv::tubeParams* MeshEnv::extractTubeParams(const shared_ptr<CNT> cnt, const
 	double range = a_min*1.5;
 	if (length < a_min)
 	{
-		throw new exception("Desired length must be greater than 2 nm");
+		throw new runtime_error(string("Desired length must be greater than 2 nm"));
 	}
 
 	double steps = 1000;
@@ -139,7 +139,7 @@ MeshEnv::tubeParams* MeshEnv::extractTubeParams(const shared_ptr<CNT> cnt, const
 		{
 			MeshEnv::exitPhysics();
 			delete tubeSepRes;
-			throw new exception("Tube separation calculation did not converge");
+			throw new runtime_error(string("Tube separation calculation did not converge"));
 		}
 		double t_a = tubeSepRes->result;
 		delete tubeSepRes;
@@ -156,13 +156,24 @@ MeshEnv::tubeParams* MeshEnv::extractTubeParams(const shared_ptr<CNT> cnt, const
 		a += stepSize;
 	}
 
-	heightResult* heightInfo = getCylHeight(cnt, a, numSections, length);
-	//check if height calc went alright
+	heightResult* heightInfo = nullptr; 
+	try
+	{
+		heightInfo = getCylHeight(cnt, a, numSections, length);
+	}
+	catch (runtime_error err)
+	{
+		cout << err.what();
+		cout << "\n";
+		system("pause");
+		exit(EXIT_FAILURE);
+	}
+	//check if height calc went alright -> This is currently a double check
 	if (!heightInfo->converge)
 	{
 		MeshEnv::exitPhysics();
 		delete heightInfo;
-		throw new exception("Section height calculation did not converge");
+		throw new runtime_error(string("Section height calculation did not converge"));
 	}
 	tubeParams* returnParams = new tubeParams();
 	returnParams->height = heightInfo->result;
@@ -174,7 +185,7 @@ MeshEnv::tubeParams* MeshEnv::extractTubeParams(const shared_ptr<CNT> cnt, const
 	{
 		MeshEnv::exitPhysics();
 		delete tubeSepFinal;
-		throw new exception("Tube separation calculation did not converge");
+		throw new runtime_error(string("Tube separation calculation did not converge"));
 	}
 	returnParams->tubeSeparation = tubeSepFinal->result;
 	delete tubeSepFinal;
@@ -203,7 +214,7 @@ MeshEnv::getCylHeight(const shared_ptr<CNT> cnt, const double heightGuess, int c
 		{
 			MeshEnv::exitPhysics();
 			delete t;
-			throw new exception("Tube separation calculation did not converge");
+			throw new runtime_error(string("Tube separation calculation did not converge"));
 		}
 		double t_a = t->result;
 		double t_ap = tplus->result;
@@ -295,59 +306,79 @@ void	MeshEnv::initPhysics(float camDistance)
 	setShadows(true);
 	setCameraDistance(camDistance);
 
-	xml_document<> doc; //create xml object
-	file<> xmlFile(inputXMLPath.c_str()); //open file
-	doc.parse<0>(xmlFile.data()); //parse contents of file
-	xml_node<>* currNode = doc.first_node(); //gets the node "Document" or the root node
-	currNode = currNode->first_node(); //OUTPUT FOLDER
-	string outputFolderPath = currNode->value();
-	currNode = currNode->next_sibling(); //NUMTUBES NODE
-	int numTubes = atoi(currNode->value());
-	currNode = currNode->next_sibling(); //FRICTION NODE
-	btScalar friction = atof(currNode->value());
-	currNode = currNode->next_sibling(); //GRAVITY NODE
-	btScalar gravity = atof(currNode->value());
-	
-	// SPACING NODE //
-	currNode = currNode->next_sibling(); 
-	btScalar minSpacing = convertUnits(string(currNode->first_node()->value()),
-		atof(currNode->first_node()->next_sibling()->value()));
-	// END SPACING NODE //
-	
-	// LENGTHS NODE //
-	currNode = currNode->next_sibling(); 
-	btScalar lmin = convertUnits(string(currNode->first_node()->value()),
-		atof(currNode->first_node()->next_sibling()->value()));
-	btScalar lmax = convertUnits(string(currNode->first_node()->value()),
-		atof(currNode->first_node()->next_sibling()->next_sibling()->value()));
-	// END LENGTHS NODE //
-	
-	// DEVICE DIMENSIONS NODE //
-	currNode = currNode->next_sibling(); 
-	btScalar xdim = convertUnits(string(currNode->first_node()->value()),
-		atof(currNode->first_node()->next_sibling()->value())) / 2;
-	btScalar ydim = convertUnits(string(currNode->first_node()->value()),
-		atof(currNode->first_node()->next_sibling()->next_sibling()->value())) / 2;
-	btScalar zdim = convertUnits(string(currNode->first_node()->value()),
-		atof(currNode->first_node()->next_sibling()->next_sibling()->next_sibling()->value())) / 2;
-	// END DEVICE DIMENSIONS NODE //
-
-	// CHIRALITY NODE //
-	currNode = currNode->next_sibling();
-	int chirCount = 0;
-	for (xml_node<>* child = currNode->first_node(); child; child = child->next_sibling())
-	{
-		chirCount++;
-	}
+	//// XML Parameter Instantiation ////
+	string outputFolderPath = "";
+	int numTubes = 5;
+	btScalar friction = 1.0;
+	btScalar gravity = -9.81;
+	btScalar minSpacing = 1.5;
+	btScalar lmin = 100;
+	btScalar lmax = 200;
+	btScalar xdim = 150.0;
+	btScalar ydim = 100.0;
+	btScalar zdim = 150.0;
 	vector<int> chirality(0);
-	currNode = currNode->first_node(); //Go to first cnt
-	for (int i = 0; i < chirCount; i++)
-	{
-		chirality.insert(chirality.begin() + 2*i, atoi(currNode->first_node()->value()));
-		chirality.insert(chirality.begin() + 2*i + 1, atoi(currNode->first_node()->next_sibling()->value()));
+	int chirCount = 0;
+
+	try{
+		xml_document<> doc; //create xml object
+		file<> xmlFile(inputXMLPath.c_str()); //open file
+		doc.parse<0>(xmlFile.data()); //parse contents of file
+		xml_node<>* currNode = doc.first_node(); //gets the node "Document" or the root node
+		currNode = currNode->first_node(); //OUTPUT FOLDER
+		outputFolderPath = currNode->value();
+		currNode = currNode->next_sibling(); //NUMTUBES NODE
+		numTubes = atoi(currNode->value());
+		currNode = currNode->next_sibling(); //FRICTION NODE
+		friction = atof(currNode->value());
+		currNode = currNode->next_sibling(); //GRAVITY NODE
+		gravity = atof(currNode->value());
+
+		// SPACING NODE //
 		currNode = currNode->next_sibling();
+		minSpacing = convertUnits(string(currNode->first_node()->value()),
+			atof(currNode->first_node()->next_sibling()->value()));
+		// END SPACING NODE //
+
+		// LENGTHS NODE //
+		currNode = currNode->next_sibling();
+		lmin = convertUnits(string(currNode->first_node()->value()),
+			atof(currNode->first_node()->next_sibling()->value()));
+		lmax = convertUnits(string(currNode->first_node()->value()),
+			atof(currNode->first_node()->next_sibling()->next_sibling()->value()));
+		// END LENGTHS NODE //
+
+		// DEVICE DIMENSIONS NODE //
+		currNode = currNode->next_sibling();
+		xdim = convertUnits(string(currNode->first_node()->value()),
+			atof(currNode->first_node()->next_sibling()->value())) / 2;
+		ydim = convertUnits(string(currNode->first_node()->value()),
+			atof(currNode->first_node()->next_sibling()->next_sibling()->value())) / 2;
+		zdim = convertUnits(string(currNode->first_node()->value()),
+			atof(currNode->first_node()->next_sibling()->next_sibling()->next_sibling()->value())) / 2;
+		// END DEVICE DIMENSIONS NODE //
+
+		// CHIRALITY NODE //
+		currNode = currNode->next_sibling();
+		for (xml_node<>* child = currNode->first_node(); child; child = child->next_sibling())
+		{
+			chirCount++;
+		}
+		currNode = currNode->first_node(); //Go to first cnt
+		for (int i = 0; i < chirCount; i++)
+		{
+			chirality.insert(chirality.begin() + 2 * i, atoi(currNode->first_node()->value()));
+			chirality.insert(chirality.begin() + 2 * i + 1, atoi(currNode->first_node()->next_sibling()->value()));
+			currNode = currNode->next_sibling();
+		}
+		delete currNode;
+	} catch (runtime_error err)
+	{
+		cout << err.what();
+		cout << "\n";
+		system("pause");
+		exit(EXIT_FAILURE);
 	}
-	delete currNode;
 
 
 	string timeStamp = "Date_";
@@ -361,8 +392,8 @@ void	MeshEnv::initPhysics(float camDistance)
 			if (err)
 			{
 				printf("Invalid argument to localtime");
-				cin >> response;
-				exit(1);
+				system("pause");
+				exit(EXIT_FAILURE);
 			}
 		}
 
@@ -391,14 +422,14 @@ void	MeshEnv::initPhysics(float camDistance)
 			cin >> response;
 			if (response.compare(string("y")) != 0)
 			{
-				exit(1);
+				exit(EXIT_FAILURE);
 			}
 		}
 		else if (error == ERROR_PATH_NOT_FOUND)
 		{
-			printf("Invalid path.");
-			cin >> response;
-			exit(1);
+			printf("Invalid output folder path.");
+			system("pause");
+			exit(EXIT_FAILURE);
 		}
 	}
 
@@ -552,7 +583,7 @@ void	MeshEnv::initPhysics(float camDistance)
 	time_t seconds; //variable to hold seconds on clock
 	time(&seconds); //assign time from clock
 	//Get the random numbers up and running
-	srand(static_cast<unsigned int>(seconds));
+	std::srand(static_cast<unsigned int>(seconds));
 	for (int i = 0; i < 6; i++)
 	{
 		#pragma warning(suppress: 6031)
@@ -579,7 +610,17 @@ void	MeshEnv::initPhysics(float camDistance)
 		double lrange = lmax - lmin;
 		double radius = curr_cnt->getDiameter() / 2; //radius of the tube
 		double length = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX))*lrange + lmin; //A
-		tubeParams* currTubeParam = extractTubeParams(curr_cnt, length);
+		tubeParams* currTubeParam = nullptr;
+		try{
+			currTubeParam = extractTubeParams(curr_cnt, length);
+		} catch (runtime_error err)
+		{
+			cout << err.what();
+			cout << "\n";
+			system("pause");
+			exit(EXIT_FAILURE);
+
+		}
 		double height = currTubeParam->height;
 		double tubeSeparation = currTubeParam->tubeSeparation;
 		int numSection = currTubeParam->numSections;

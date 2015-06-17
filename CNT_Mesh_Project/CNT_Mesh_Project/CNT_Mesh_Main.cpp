@@ -13,6 +13,7 @@
 
 
 string inputXMLPath = "./CNT_Mesh_Config.xml";
+string temp = " ";
 
 int main(int argc, char *argv[])
 {
@@ -23,8 +24,9 @@ int main(int argc, char *argv[])
 	}
 	else if (argc > 2)
 	{
-		string errMess = "Incorrect parameters. Only enter file path of config xml";
-		throw std::exception(errMess.c_str());
+		cout << "Incorrect parameters. Only enter file path of config xml\n";
+		system("pause");
+		exit(EXIT_FAILURE);
 	}
 	else
 	{
