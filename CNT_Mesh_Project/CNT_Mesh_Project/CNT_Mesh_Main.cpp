@@ -13,14 +13,19 @@
 
 
 string inputXMLPath = "./CNT_Mesh_Config.xml";
+int xmlArrayLength = 300;
 string temp = " ";
 
 int main(int argc, char *argv[])
 {
 	if (argc == 1)
 	{
+		char *inputXMLPathArray = new char[xmlArrayLength];
 		cout << "Enter config xml path (Example in program files directory):\n";
-		cin >> inputXMLPath;
+		int tempo = sizeof(*inputXMLPathArray);
+		cin.getline(inputXMLPathArray, xmlArrayLength);
+		inputXMLPath = inputXMLPathArray;
+		delete inputXMLPathArray;
 	}
 	else if (argc > 2)
 	{

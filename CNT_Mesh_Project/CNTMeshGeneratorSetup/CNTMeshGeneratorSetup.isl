@@ -340,6 +340,7 @@
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>CNT_Mesh_Project.Primary_Output</td><td>{84DD2CE3-CAB8-4218-ACA5-40ACEA6E9E3D}</td><td>INSTALLDIR</td><td>2</td><td/><td>cnt_mesh_project.primary_out</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>GLUT32.DLL</td><td>{0565041F-5568-45DF-819F-F38A7E75007F}</td><td>INSTALLDIR</td><td>2</td><td/><td>glut32.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISO19770_LocalTag</td><td>{57755EEC-1909-4BE2-BE88-D30EDC72CEDF}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISO19770_SystemTag</td><td>{BBDE8A1F-8523-4DD6-823D-CD49DD11D50B}</td><td>CommonAppDataFolder</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{E7B081F1-3A28-4731-BE0B-65FBD6C969BB}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1868,6 +1869,7 @@
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>CNT_Mesh_Project.Primary_Output</td></row>
+		<row><td>AlwaysInstall</td><td>GLUT32.DLL</td></row>
 		<row><td>AlwaysInstall</td><td>ISO19770_LocalTag</td></row>
 		<row><td>AlwaysInstall</td><td>ISO19770_SystemTag</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
@@ -1888,6 +1890,7 @@
 		<row><td>cnt_mesh_config.xml</td><td>ISX_DEFAULTCOMPONENT</td><td>CNT_ME~1.XML|CNT_Mesh_Config.xml</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\CNT_Mesh_Config.xml</td><td>1</td><td/></row>
 		<row><td>cnt_mesh_config.xsd</td><td>ISX_DEFAULTCOMPONENT</td><td>CNT_ME~1.XSD|CNT_Mesh_Config.xsd</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\CNT_Mesh_Config.xsd</td><td>1</td><td/></row>
 		<row><td>cnt_mesh_project.primary_out</td><td>CNT_Mesh_Project.Primary_Output</td><td>CNT_Mesh_Project.Primary Output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;CNT_Mesh_Project&gt;|Built</td><td>3</td><td/></row>
+		<row><td>glut32.dll</td><td>GLUT32.DLL</td><td>GLUT32.DLL</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\CNT_Mesh_Project\GLUT32.DLL</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2033,6 +2036,7 @@
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
 		<row><td>CNT_Mesh_Project.Primary_Output</td><td/><td/><td>_D0E21F52_2642_4126_B1B4_07199B2E9CF2_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>GLUT32.DLL</td><td/><td/><td>_B19B747F_57D7_4D85_BB60_3D60DC7F0402_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISO19770_LocalTag</td><td/><td/><td>_A0262D44_2E9F_4A8B_8FD1_047DD8B93C44_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISO19770_SystemTag</td><td/><td/><td>_8BF56E1C_975E_46D2_8894_BFB0590E42E0_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_205AAE83_5D08_4C91_9C29_26ED6874E33D_FILTER</td><td/><td/><td/><td/></row>
@@ -4004,7 +4008,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{C3C3E135-C63B-4A01-A7B1-3C1C95ED9439}</td></row>
 		<row><td>ISUSSignature</td><td>{B0261663-9EF9-4351-AA3A-3E363525AD01}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewAppFiles,viewRelease</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewAppFiles,viewRelease,viewISToday</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>

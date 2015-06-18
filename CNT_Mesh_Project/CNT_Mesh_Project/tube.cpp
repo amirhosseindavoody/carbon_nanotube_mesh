@@ -26,7 +26,9 @@ tube::tube(int num, shared_ptr<CNT> curr_cnt, double newLength, double newCylHei
 tube::~tube()
 {
 	// Need to go assign all of the btRigidBody objects to null as they are already deleted 
-	//  elsewhere
+	//  elsewhere. This may look like a memory leak because by setting the pointers to null,
+	// the actual pointer cannot be deleted. However, there are two pointers pointing to the
+	// memory locations in question and the second set of pointers handles the memory
 	for (list<btRigidBody*>::iterator itr = cylList->begin(); itr != cylList->end(); ++itr)
 	{
 		*itr = NULL;

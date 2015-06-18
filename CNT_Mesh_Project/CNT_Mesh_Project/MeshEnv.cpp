@@ -37,6 +37,8 @@ using namespace rapidxml;
 using namespace std;
 static GLDebugDrawer gDebugDraw;
 extern string inputXMLPath;
+extern string temp;
+extern int xmlArrayLength;
 string outputPath;
 bool toDebugDraw = true;
 
@@ -119,7 +121,7 @@ MeshEnv::tubeParams* MeshEnv::extractTubeParams(const shared_ptr<CNT> cnt, const
 	double range = a_min*1.5;
 	if (length < a_min)
 	{
-		throw new runtime_error(string("Desired length must be greater than 2 nm"));
+		throw new runtime_error(string("Desired length must be greater than 2 nm.\n"));
 	}
 
 	double steps = 1000;
@@ -139,7 +141,7 @@ MeshEnv::tubeParams* MeshEnv::extractTubeParams(const shared_ptr<CNT> cnt, const
 		{
 			MeshEnv::exitPhysics();
 			delete tubeSepRes;
-			throw new runtime_error(string("Tube separation calculation did not converge"));
+			throw new runtime_error(string("Tube separation calculation did not converge.\n"));
 		}
 		double t_a = tubeSepRes->result;
 		delete tubeSepRes;
@@ -173,7 +175,7 @@ MeshEnv::tubeParams* MeshEnv::extractTubeParams(const shared_ptr<CNT> cnt, const
 	{
 		MeshEnv::exitPhysics();
 		delete heightInfo;
-		throw new runtime_error(string("Section height calculation did not converge"));
+		throw new runtime_error(string("Section height calculation did not converge.\n"));
 	}
 	tubeParams* returnParams = new tubeParams();
 	returnParams->height = heightInfo->result;
@@ -185,7 +187,7 @@ MeshEnv::tubeParams* MeshEnv::extractTubeParams(const shared_ptr<CNT> cnt, const
 	{
 		MeshEnv::exitPhysics();
 		delete tubeSepFinal;
-		throw new runtime_error(string("Tube separation calculation did not converge"));
+		throw new runtime_error(string("Tube separation calculation did not converge.\n"));
 	}
 	returnParams->tubeSeparation = tubeSepFinal->result;
 	delete tubeSepFinal;
@@ -320,66 +322,83 @@ void	MeshEnv::initPhysics(float camDistance)
 	vector<int> chirality(0);
 	int chirCount = 0;
 
-	try{
-		xml_document<> doc; //create xml object
-		file<> xmlFile(inputXMLPath.c_str()); //open file
-		doc.parse<0>(xmlFile.data()); //parse contents of file
-		xml_node<>* currNode = doc.first_node(); //gets the node "Document" or the root node
-		currNode = currNode->first_node(); //OUTPUT FOLDER
-		outputFolderPath = currNode->value();
-		currNode = currNode->next_sibling(); //NUMTUBES NODE
-		numTubes = atoi(currNode->value());
-		currNode = currNode->next_sibling(); //FRICTION NODE
-		friction = atof(currNode->value());
-		currNode = currNode->next_sibling(); //GRAVITY NODE
-		gravity = atof(currNode->value());
+	bool done = false;
+	
+	while (!done){
+		try{
+			xml_document<> doc; //create xml object
+			file<> xmlFile(inputXMLPath.c_str()); //open file
+			doc.parse<0>(xmlFile.data()); //parse contents of file
+			xml_node<>* currNode = doc.first_node(); //gets the node "Document" or the root node
+			currNode = currNode->first_node(); //OUTPUT FOLDER
+			outputFolderPath = currNode->value();
+			currNode = currNode->next_sibling(); //NUMTUBES NODE
+			numTubes = atoi(currNode->value());
+			currNode = currNode->next_sibling(); //FRICTION NODE
+			friction = atof(currNode->value());
+			currNode = currNode->next_sibling(); //GRAVITY NODE
+			gravity = atof(currNode->value());
 
-		// SPACING NODE //
-		currNode = currNode->next_sibling();
-		minSpacing = convertUnits(string(currNode->first_node()->value()),
-			atof(currNode->first_node()->next_sibling()->value()));
-		// END SPACING NODE //
-
-		// LENGTHS NODE //
-		currNode = currNode->next_sibling();
-		lmin = convertUnits(string(currNode->first_node()->value()),
-			atof(currNode->first_node()->next_sibling()->value()));
-		lmax = convertUnits(string(currNode->first_node()->value()),
-			atof(currNode->first_node()->next_sibling()->next_sibling()->value()));
-		// END LENGTHS NODE //
-
-		// DEVICE DIMENSIONS NODE //
-		currNode = currNode->next_sibling();
-		xdim = convertUnits(string(currNode->first_node()->value()),
-			atof(currNode->first_node()->next_sibling()->value())) / 2;
-		ydim = convertUnits(string(currNode->first_node()->value()),
-			atof(currNode->first_node()->next_sibling()->next_sibling()->value())) / 2;
-		zdim = convertUnits(string(currNode->first_node()->value()),
-			atof(currNode->first_node()->next_sibling()->next_sibling()->next_sibling()->value())) / 2;
-		// END DEVICE DIMENSIONS NODE //
-
-		// CHIRALITY NODE //
-		currNode = currNode->next_sibling();
-		for (xml_node<>* child = currNode->first_node(); child; child = child->next_sibling())
-		{
-			chirCount++;
-		}
-		currNode = currNode->first_node(); //Go to first cnt
-		for (int i = 0; i < chirCount; i++)
-		{
-			chirality.insert(chirality.begin() + 2 * i, atoi(currNode->first_node()->value()));
-			chirality.insert(chirality.begin() + 2 * i + 1, atoi(currNode->first_node()->next_sibling()->value()));
+			// SPACING NODE //
 			currNode = currNode->next_sibling();
-		}
-		delete currNode;
-	} catch (runtime_error err)
-	{
-		cout << err.what();
-		cout << "\n";
-		system("pause");
-		exit(EXIT_FAILURE);
-	}
+			minSpacing = convertUnits(string(currNode->first_node()->value()),
+				atof(currNode->first_node()->next_sibling()->value()));
+			// END SPACING NODE //
 
+			// LENGTHS NODE //
+			currNode = currNode->next_sibling();
+			lmin = convertUnits(string(currNode->first_node()->value()),
+				atof(currNode->first_node()->next_sibling()->value()));
+			lmax = convertUnits(string(currNode->first_node()->value()),
+				atof(currNode->first_node()->next_sibling()->next_sibling()->value()));
+			// END LENGTHS NODE //
+
+			// DEVICE DIMENSIONS NODE //
+			currNode = currNode->next_sibling();
+			xdim = convertUnits(string(currNode->first_node()->value()),
+				atof(currNode->first_node()->next_sibling()->value())) / 2;
+			ydim = convertUnits(string(currNode->first_node()->value()),
+				atof(currNode->first_node()->next_sibling()->next_sibling()->value())) / 2;
+			zdim = convertUnits(string(currNode->first_node()->value()),
+				atof(currNode->first_node()->next_sibling()->next_sibling()->next_sibling()->value())) / 2;
+			// END DEVICE DIMENSIONS NODE //
+
+			// CHIRALITY NODE //
+			currNode = currNode->next_sibling();
+			for (xml_node<>* child = currNode->first_node(); child; child = child->next_sibling())
+			{
+				chirCount++;
+			}
+			currNode = currNode->first_node(); //Go to first cnt
+			for (int i = 0; i < chirCount; i++)
+			{
+				chirality.insert(chirality.begin() + 2 * i, atoi(currNode->first_node()->value()));
+				chirality.insert(chirality.begin() + 2 * i + 1, atoi(currNode->first_node()->next_sibling()->value()));
+				currNode = currNode->next_sibling();
+			}
+			delete currNode;
+			done = true;
+		}
+		catch (runtime_error err)
+		{
+			cout << err.what();
+			cout << "\n";
+			cout << "Continue? [y/n]: ";
+			cin >> temp;
+			if (temp.compare("y") != 0)
+			{
+				system("pause");
+				exit(EXIT_FAILURE);
+			}
+			char *inputXMLPathArray = new char[xmlArrayLength];
+			system("cls");
+			cout << "Enter config xml path (Example in program files directory):\n";
+			cin.ignore();
+			cin.getline(inputXMLPathArray, xmlArrayLength);
+			inputXMLPath = inputXMLPathArray;
+			delete inputXMLPathArray;
+		}
+	}
 
 	string timeStamp = "Date_";
 	string response;
@@ -391,7 +410,7 @@ void	MeshEnv::initPhysics(float camDistance)
 			errno_t err = localtime_s(&currTime, &timer);
 			if (err)
 			{
-				printf("Invalid argument to localtime");
+				printf("Invalid argument to localtime.\n");
 				system("pause");
 				exit(EXIT_FAILURE);
 			}
@@ -418,7 +437,7 @@ void	MeshEnv::initPhysics(float camDistance)
 		auto error = GetLastError();
 		if (error == ERROR_ALREADY_EXISTS)
 		{
-			printf("Output folder already exists. Continue anyways? [y/n]");
+			printf("Output folder already exists. Continue anyways? [y/n]\n");
 			cin >> response;
 			if (response.compare(string("y")) != 0)
 			{
@@ -427,7 +446,7 @@ void	MeshEnv::initPhysics(float camDistance)
 		}
 		else if (error == ERROR_PATH_NOT_FOUND)
 		{
-			printf("Invalid output folder path.");
+			printf("Invalid output folder path.\n");
 			system("pause");
 			exit(EXIT_FAILURE);
 		}
@@ -950,7 +969,7 @@ void MeshEnv::clientMoveAndDisplay()
 					file.close();
 				}
 				exitPhysics();
-				printf("Mesh created successfully!");
+				printf("Mesh created successfully!\n");
 				exit(EXIT_SUCCESS);
 			}
 
