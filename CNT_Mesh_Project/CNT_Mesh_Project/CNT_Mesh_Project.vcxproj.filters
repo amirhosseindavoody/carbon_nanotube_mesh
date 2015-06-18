@@ -42,6 +42,9 @@
     <ClInclude Include="MeshEnv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CNT_Mesh_Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

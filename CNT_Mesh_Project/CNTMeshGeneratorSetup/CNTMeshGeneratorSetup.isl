@@ -2623,6 +2623,8 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
+		<row><td>_35FA61AB_7047_4B21_8B1E_E70CFDE5DA6F_</td><td>Microsoft Visual C++ 2012 Redistributable Package (x86).prq</td><td/><td/><td/></row>
+		<row><td>_86D095C5_CA11_4593_8B13_9E28894F7C44_</td><td>Microsoft Visual C++ 2012 Redistributable Package (x64).prq</td><td/><td/><td/></row>
 	</table>
 
 	<table name="ISSetupType">
@@ -4003,7 +4005,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{C3C3E135-C63B-4A01-A7B1-3C1C95ED9439}</td></row>
 		<row><td>ISUSSignature</td><td>{B0261663-9EF9-4351-AA3A-3E363525AD01}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewAppFiles,viewRelease,viewISToday,viewSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewObjects</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewAppFiles,viewRelease,viewISToday,viewSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewObjects,viewShortcuts,viewDependencies,viewFeatureFiles</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
