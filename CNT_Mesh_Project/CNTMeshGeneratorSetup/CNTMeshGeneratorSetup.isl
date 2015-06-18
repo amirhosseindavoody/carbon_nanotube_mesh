@@ -339,7 +339,7 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
-		<row><td>CNT_Mesh_Project.Primary_Output</td><td>{84DD2CE3-CAB8-4218-ACA5-40ACEA6E9E3D}</td><td>INSTALLDIR</td><td>2</td><td/><td>cnt_mesh_project.primary_out</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>CNT_Mesh_Project.Primary_Output</td><td>{48CF4CC0-85AB-4C2C-A24F-5393D90F8BEF}</td><td>INSTALLDIR</td><td>2</td><td/><td>cnt_mesh_project.primary_out</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>GLUT32.DLL</td><td>{0565041F-5568-45DF-819F-F38A7E75007F}</td><td>INSTALLDIR</td><td>2</td><td/><td>glut32.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{E7B081F1-3A28-4731-BE0B-65FBD6C969BB}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
@@ -2030,7 +2030,7 @@
 		<col def="S0">FTPLocation</col>
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
-		<row><td>CNT_Mesh_Project.Primary_Output</td><td/><td/><td>_D0E21F52_2642_4126_B1B4_07199B2E9CF2_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>CNT_Mesh_Project.Primary_Output</td><td/><td/><td>_A1872E6F_108A_441E_98C5_038CF431F486_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>GLUT32.DLL</td><td/><td/><td>_B19B747F_57D7_4D85_BB60_3D60DC7F0402_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_205AAE83_5D08_4C91_9C29_26ED6874E33D_FILTER</td><td/><td/><td/><td/></row>
 	</table>
@@ -2623,8 +2623,7 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
-		<row><td>_35FA61AB_7047_4B21_8B1E_E70CFDE5DA6F_</td><td>Microsoft Visual C++ 2012 Redistributable Package (x86).prq</td><td/><td/><td/></row>
-		<row><td>_86D095C5_CA11_4593_8B13_9E28894F7C44_</td><td>Microsoft Visual C++ 2012 Redistributable Package (x64).prq</td><td/><td/><td/></row>
+		<row><td>_5DFE9F2F_5E92_4F87_9CD6_7BA42575BBFA_</td><td>Microsoft Visual C++ 2012 Redistributable Package (x86).prq</td><td/><td/><td/></row>
 	</table>
 
 	<table name="ISSetupType">
@@ -2658,7 +2657,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-1826396918</td></row>
+		<row><td>COMPANY_NAME</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-1826387602</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1033</td><td>Always Install</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1033</td><td>The color settings of your system are not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>1033</td><td>The operating system is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
@@ -3471,6 +3470,7 @@
 		<row><td>IDS_SETUPEXE_EXPIRE_MSG</td><td>1033</td><td>This setup works until %s. The setup will now exit.</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS_SETUPEXE_LAUNCH_COND_E</td><td>1033</td><td>This setup was built with an evaluation version of InstallShield and can only be launched from setup.exe.</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME1</td><td>1033</td><td>CNT Mesh Generator</td><td>0</td><td/><td>-1960614864</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME2</td><td>1033</td><td>CNT Mesh Generator</td><td>0</td><td/><td>-1826379058</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO</td><td>1033</td><td>From the list of servers below, select the database server you would like to target.</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_DB</td><td>1033</td><td>From the list of catalog names below, select the database catalog you would like to target.</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_TEMPLATE</td><td>1033</td><td>[IS_SQLBROWSE_INTRO]</td><td>0</td><td/><td>-1960631984</td></row>
@@ -3759,9 +3759,10 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1033</td><td>The processor is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
-		<row><td>ID_STRING1</td><td>1033</td><td>www.wisc.edu</td><td>0</td><td/><td>-1826415286</td></row>
-		<row><td>ID_STRING2</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-1826396918</td></row>
+		<row><td>ID_STRING1</td><td>1033</td><td>www.wisc.edu</td><td>0</td><td/><td>-1826393522</td></row>
+		<row><td>ID_STRING2</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-1826387602</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-1960605232</td></row>
+		<row><td>ID_STRING4</td><td>1033</td><td>CNT Mesh Generator</td><td>0</td><td/><td>-1826379058</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>-1960631984</td></row>
 	</table>
 
@@ -3871,8 +3872,12 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I2">ISIconIndex</col>
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\setupicon.ico</td><td>0</td></row>
+		<row><td>_28DC6A3AE20546269FA4A93BAF9CAC43.exe</td><td/><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\Release\CNT_Mesh_Project.exe</td><td>0</td></row>
 		<row><td>_Built1_4A1634A8010D4DFEA24F26BE89F16BC4.exe</td><td/><td>&lt;VSSolutionFolder&gt;\DNA.ico</td><td>0</td></row>
+		<row><td>_Built1_F4A8B40BE36D4AB5BF77D1F6DD9A7FE5.exe</td><td/><td>&lt;VSSolutionFolder&gt;\DNA.ico</td><td>0</td></row>
 		<row><td>_Built_16DFF0CAF2FD46CB9EFA9804933C7980.exe</td><td/><td>&lt;VSSolutionFolder&gt;\DNA.ico</td><td>0</td></row>
+		<row><td>_Built_93A222372FCC47A09A325D78C1EC6C91.exe</td><td/><td>&lt;VSSolutionFolder&gt;\DNA.ico</td><td>0</td></row>
+		<row><td>_E94317FA52D94EC0806F8BCB2FB7DF79.exe</td><td/><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\Release\CNT_Mesh_Project.exe</td><td>0</td></row>
 	</table>
 
 	<table name="IniFile">
@@ -4005,7 +4010,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{C3C3E135-C63B-4A01-A7B1-3C1C95ED9439}</td></row>
 		<row><td>ISUSSignature</td><td>{B0261663-9EF9-4351-AA3A-3E363525AD01}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewAppFiles,viewRelease,viewISToday,viewSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewObjects,viewShortcuts,viewDependencies,viewFeatureFiles</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewAppFiles,viewRelease,viewISToday,viewSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewObjects,viewShortcuts,viewDependencies,viewFeatureFiles,viewRealSetupDesign</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -4456,8 +4461,6 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="L255">FileName</col>
 		<col def="s72">DirProperty</col>
 		<col def="i2">InstallMode</col>
-		<row><td>FileKey1</td><td>CNT_Mesh_Project.Primary_Output</td><td/><td>knezev_1_knezevicresearch</td><td>2</td></row>
-		<row><td>FileKey2</td><td>CNT_Mesh_Project.Primary_Output</td><td/><td>cnt_me_1_cnt_mesh_generator</td><td>2</td></row>
 		<row><td>_Built</td><td>CNT_Mesh_Project.Primary_Output</td><td/><td>cnt_me_1_cnt_mesh_generator</td><td>2</td></row>
 	</table>
 
@@ -4544,8 +4547,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>_Built</td><td>cnt_me_1_cnt_mesh_generator</td><td>##IDS_SHORTCUT_DISPLAY_NAME1##</td><td>CNT_Mesh_Project.Primary_Output</td><td>AlwaysInstall</td><td/><td/><td/><td>_Built_16DFF0CAF2FD46CB9EFA9804933C7980.exe</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>_Built1</td><td>DesktopFolder</td><td>##IDS_SHORTCUT_DISPLAY_NAME1##</td><td>CNT_Mesh_Project.Primary_Output</td><td>AlwaysInstall</td><td/><td/><td/><td>_Built1_4A1634A8010D4DFEA24F26BE89F16BC4.exe</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>_Built</td><td>cnt_me_1_cnt_mesh_generator</td><td>##IDS_SHORTCUT_DISPLAY_NAME2##</td><td>CNT_Mesh_Project.Primary_Output</td><td>AlwaysInstall</td><td/><td/><td/><td>_Built_93A222372FCC47A09A325D78C1EC6C91.exe</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>_Built1</td><td>DesktopFolder</td><td>##IDS_SHORTCUT_DISPLAY_NAME2##</td><td>CNT_Mesh_Project.Primary_Output</td><td>AlwaysInstall</td><td/><td/><td/><td>_Built1_F4A8B40BE36D4AB5BF77D1F6DD9A7FE5.exe</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">
