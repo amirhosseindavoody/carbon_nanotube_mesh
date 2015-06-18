@@ -342,7 +342,7 @@ void	MeshEnv::initPhysics(float camDistance)
 			// SPACING NODE //
 			currNode = currNode->next_sibling();
 			minSpacing = convertUnits(string(currNode->first_node()->value()),
-				atof(currNode->first_node()->next_sibling()->value()));
+				atof(currNode->first_node()->next_sibling()->value())) / 2.0;
 			// END SPACING NODE //
 
 			// LENGTHS NODE //
