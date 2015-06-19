@@ -37,6 +37,7 @@ This is a heavily edited version of BasicDemo.h by Erwin Coumans
 using namespace rapidxml;
 using namespace std;
 static GLDebugDrawer gDebugDraw;
+//Externs are from CNT_Mesh_Main.cpp
 extern string inputXMLPath;
 extern string temp;
 extern int xmlArrayLength;
@@ -330,6 +331,13 @@ MeshEnv::tubeSepResult* MeshEnv::getTubeSeparation(const shared_ptr<CNT> cnt, co
 	return result;
 }
 
+/**
+Converts numbers with some units to angstroms
+
+@param unit The current unit
+@param val The current value
+@return the value in angstroms
+*/
 double MeshEnv::convertUnits(string unit, double val)
 {
 	if (unit.compare("mm") == 0 || unit.compare("millimeter") == 0)
@@ -358,12 +366,20 @@ double MeshEnv::convertUnits(string unit, double val)
 	}
 }
 
-
+/**
+Overloaded initPhysics method that simply passes a predetermined camera distance to
+initPhysics(float camDistance)
+*/
 void	MeshEnv::initPhysics()
 {
-	MeshEnv::initPhysics(btScalar(25.));
+	MeshEnv::initPhysics(btScalar(100.));
 }
 
+/**
+Initializes the physics world with all of the carbon nanotubes as specified by the input XML.
+
+@param camDistance The initial camera distance
+*/
 void	MeshEnv::initPhysics(float camDistance)
 {
 
@@ -941,9 +957,13 @@ struct	MyOverlapCallback : public btBroadphaseAabbCallback
 	}
 };
 
-//steps the simulation, then it renders the dynamics world
+
 uint8_t checkCntr = 0x00;
 uint8_t bitMask = 0x07;
+/**
+steps the simulation, then it renders the dynamics world. Also responsible for checking if the 
+simulation is done and saving the data.
+*/
 void MeshEnv::clientMoveAndDisplay()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1053,7 +1073,9 @@ void MeshEnv::clientMoveAndDisplay()
 	swapBuffers();
 }
 
-//renders the dynamics world as it stands currently
+/**
+renders the dynamics world as it stands currently
+*/
 void MeshEnv::displayCallback(void) {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1068,13 +1090,17 @@ void MeshEnv::displayCallback(void) {
 	swapBuffers();
 }
 
-
+/**
+Exits the current simulation and starts over
+*/
 void	MeshEnv::clientResetScene()
 {
 	initPhysics(exitPhysics());
 }
 
-
+/**
+Exits the current simulation, cleaning up all data
+*/
 float	MeshEnv::exitPhysics()
 {
 

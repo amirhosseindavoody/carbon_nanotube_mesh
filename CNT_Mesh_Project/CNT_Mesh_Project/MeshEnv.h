@@ -4,6 +4,8 @@ Purpose: Header for MeshEnv.h
 
 @author Alex Gabourie
 @version 1.01 4/15/15
+
+This is a heavily edited version of BasicDemo.h by Erwin Coumans
 */
 
 #ifndef MESH_ENV_H
@@ -43,6 +45,10 @@ struct btCollisionAlgorithmCreateFunc;
 class btDefaultCollisionConfiguration;
 
 ///MeshEnv takes the basic demo and works off of it.
+
+/**
+ALL FUNCTION COMMENTS ARE IN THE CPP FILE
+*/
 
 using namespace std;
 
