@@ -14,6 +14,10 @@ Purpose: Header for tube.cpp
 #include "btBulletDynamicsCommon.h"
 #include <memory>
 
+/**
+ALL FUNCTION COMMENTS ARE IN THE CPP FILE
+*/
+
 using namespace std;
 
 class tube

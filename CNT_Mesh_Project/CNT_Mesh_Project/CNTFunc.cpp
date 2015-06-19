@@ -10,6 +10,7 @@ Purpose: Provides function implementation for CNTFunc.h
 #include <math.h>
 #include "btBulletCollisionCommon.h"
 
+
 /**
 Calculates the translation vector and its length
 */

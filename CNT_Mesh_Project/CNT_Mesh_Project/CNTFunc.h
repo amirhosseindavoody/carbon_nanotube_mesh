@@ -9,7 +9,9 @@ Purpose: Header file for CNTFunc.cpp
 #ifndef __CNTFUNC_H__
 #define __CNTFUNC_H__
 
-#include <math.h>
+/**
+ALL FUNCTION COMMENTS ARE IN THE CPP FILE
+*/
 
 #define A_CC 2.459512146747806 //lattice constant CNTs
 
