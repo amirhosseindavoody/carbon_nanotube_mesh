@@ -1,3 +1,11 @@
+/**
+MeshEnv.h
+Purpose: Header for MeshEnv.h
+
+@author Alex Gabourie
+@version 1.01 4/15/15
+*/
+
 #ifndef MESH_ENV_H
 #define MESH_ENV_H
 

@@ -1,10 +1,10 @@
-/*****************************************************************************
-* tube.cpp
-* Written By:
-*			Alex Gabourie
-*
-* Header file for tube.cpp
-******************************************************************************/
+/**
+tube.h
+Purpose: Header for tube.cpp
+
+@author Alex Gabourie
+@version 1.01 4/15/15
+*/
 
 #ifndef __TUBE_H__
 #define __TUBE_H__

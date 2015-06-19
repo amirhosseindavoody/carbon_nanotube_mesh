@@ -1,10 +1,10 @@
-/*****************************************************************************
-* CNTFunc.cpp
-* Written By:
-*			Alex Gabourie
-*
-* Provides the function implementation for CNT Parameters
-******************************************************************************/
+/**
+CNTFunc.cpp
+Purpose: Provides function implementation for CNTFunc.h
+
+@author Alex Gabourie
+@version 1.01 4/15/15
+*/
 #include "stdafx.h"
 #include "CNTFunc.h"
 #include <math.h>

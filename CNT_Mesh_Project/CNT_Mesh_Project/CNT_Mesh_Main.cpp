@@ -1,10 +1,10 @@
-/*****************************************************************************
-* main.cpp
-* Written By:
-*			Alex Gabourie
-*
-* Creates demo application for CNT mesh modelling
-******************************************************************************/
+/**
+CNT_Mesh_Main.cpp
+Purpose: Initializes and starts CNT physics simulation.
+
+@author Alex Gabourie
+@version 1.01 4/15/15
+*/
 
 #include "stdafx.h"
 #include "MeshEnv.h"

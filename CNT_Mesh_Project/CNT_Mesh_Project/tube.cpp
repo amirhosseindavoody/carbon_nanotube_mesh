@@ -1,10 +1,10 @@
-/*****************************************************************************
-* tube.cpp
-* Written By:
-*			Alex Gabourie
-*
-* Stores all tube info
-******************************************************************************/
+/**
+tube.cpp
+Purpose: Stores all nanotube information. Implements tube functions.
+
+@author Alex Gabourie
+@version 1.01 4/15/15
+*/
 
 #include "stdafx.h"
 #include "tube.h"

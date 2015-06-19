@@ -1,3 +1,11 @@
+/**
+CNTFunc.h
+Purpose: Header file for CNTFunc.cpp
+
+@author Alex Gabourie
+@version 1.01 4/15/15
+*/
+
 #ifndef __CNTFUNC_H__
 #define __CNTFUNC_H__
 

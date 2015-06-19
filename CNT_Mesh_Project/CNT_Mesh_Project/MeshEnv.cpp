@@ -1,11 +1,12 @@
-/*****************************************************************************
-* MeshEnv.cpp
-* Written By:
-*			Alex Gabourie
-*
-* Creates the world, objects, and camera manipulations for the CNT mesh demo
-******************************************************************************/
+/**
+MeshEnv.cpp
+Purpose: Creates the world, objects, and camera manipulations for the CNT mesh demo
 
+@author Alex Gabourie
+@version 1.01 4/15/15
+
+This is a heavily edited version of BasicDemo.h by Erwin Coumans
+*/
 
 // Definitions:
 // Spacing Cylinder - The large cylinder used to ensure a minimum distance between nanotubes.
@@ -42,17 +43,36 @@ extern int xmlArrayLength;
 string outputPath;
 bool toDebugDraw = true;
 
+/**
+Multiplies two btMatrix3x3 matricies together. m*v
+
+@param m First matrix
+@param v Second Matrix
+@return The resulting matrix
+*/
 SIMD_FORCE_INLINE btVector3 
 MeshEnv::multOperator(const btMatrix3x3& m, const btVector3& v)
 {
 	return btVector3(m[0].dot(v), m[1].dot(v), m[2].dot(v));
 }
 
+/**
+Custom collision filter callback to ensure spacing cylinders don't collide with each other
+*/
 struct AGCustomFilterCallback : public btOverlapFilterCallback
 {
 	//const after function name means that the function will not change any of the member variables of the
 	// class/struct. In this case, there are no member variables to change, so this is true.
 	//return true when pairs need collision
+
+	/**
+	Adding additional checks to see if collision detections will be added to rest of collision handling for
+	spacing cylinders.
+
+	@param proxy0 First object
+	@param proxy1 Second object
+	@return True if need collision, false otherwise
+	*/
 	virtual bool needBroadphaseCollision(btBroadphaseProxy* proxy0, btBroadphaseProxy* proxy1) const 
 	{
 		//lines to still implement the collision mask filtering completed before
@@ -88,7 +108,13 @@ struct AGCustomFilterCallback : public btOverlapFilterCallback
 	}
 };
 
-//Rotates the given rigid body object as the rotation matrix specifies
+/**
+Rotates the given rigid body object about the origin as the rotation matrix specifies
+
+@param rotMatrix Matrix that specifies rotation transformation
+@param obj Rigid body to be rotated
+@return void
+*/
 void MeshEnv::rotateAboutOrigin(btMatrix3x3 &rotMatrix, btRigidBody* obj)
 {
 	btMatrix3x3 basis = obj->getWorldTransform().getBasis();
@@ -100,6 +126,14 @@ void MeshEnv::rotateAboutOrigin(btMatrix3x3 &rotMatrix, btRigidBody* obj)
 
 }
 
+/**
+Rotates the given rigid body object about the origin as the rotation matrix specifies
+
+@param rotMatrix Matrix that specifies rotation transformation
+@param obj Rigid body to be rotated
+@param shift The amount the object should be translated
+@return void
+*/
 void MeshEnv::rotateAndShift(btMatrix3x3 &rotMatrix, btRigidBody* obj, btVector3 &shift)
 {
 	rotateAboutOrigin(rotMatrix, obj);
@@ -107,13 +141,26 @@ void MeshEnv::rotateAndShift(btMatrix3x3 &rotMatrix, btRigidBody* obj, btVector3
 	objTransform->setOrigin(objTransform->getOrigin() + shift);
 }
 
+/**
+Shifts a rigid body
+
+@param obj The object to be shifted
+@param shift The amount to be shifted
+@return void
+*/
 void MeshEnv::shift(btRigidBody* obj, btVector3& shift)
 {
 	btTransform* objTransform = &obj->getWorldTransform();
 	objTransform->setOrigin(objTransform->getOrigin() + shift);
 }
 
+/**
+Calculates all of the necessary parameters for the simulation to build correct CNTs
 
+@param cnt The cnt object that holds all of the CNT's physical properties
+@param length The desired length of the tube
+@return tubeParams A struct that holds relevant tube building parameters. (cylHeight, cylSpacing, etc)
+*/
 MeshEnv::tubeParams* MeshEnv::extractTubeParams(const shared_ptr<CNT> cnt, const double length)
 {
 	double a_min = 20.0; //Angstroms
@@ -197,6 +244,15 @@ MeshEnv::tubeParams* MeshEnv::extractTubeParams(const shared_ptr<CNT> cnt, const
 	return returnParams;
 }
 
+/**
+Calculates the required cylinder height based on multiple parameters
+
+@param cnt The cnt object that holds all of the CNT's physical properties
+@param heightGuess The guess for newton's fixed point method
+@param numSections The number of sections to be used to make the length of the tube correct
+@param length Desired length of the tube
+@return heightResult The object that contains the height of each cylinder and some other method information
+*/
 MeshEnv::heightResult* 
 MeshEnv::getCylHeight(const shared_ptr<CNT> cnt, const double heightGuess, int const numSections, const double length)
 {
@@ -241,6 +297,14 @@ MeshEnv::getCylHeight(const shared_ptr<CNT> cnt, const double heightGuess, int c
 	return result;
 }
 
+/**
+Gets the necessary separation between two cylinders to get the correct length
+
+@param cnt The cnt object that holds all of the CNT's physical properties
+@param height Height of the cylinder
+@param guess The guess for newton's fixed point method
+@return tubeSepResult The tube separation number and some other call specific stats
+*/
 MeshEnv::tubeSepResult* MeshEnv::getTubeSeparation(const shared_ptr<CNT> cnt, const double height, const double guess)
 {
 	double tol = pow(10, -10);
