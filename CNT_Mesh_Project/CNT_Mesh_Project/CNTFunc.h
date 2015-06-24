@@ -13,6 +13,7 @@ Purpose: Header file for CNTFunc.cpp
 ALL FUNCTION COMMENTS ARE IN THE CPP FILE
 */
 
+//a = 1.42*sqrt(3) //Amirhossein said ok
 #define A_CC 2.459512146747806 //lattice constant CNTs
 
 class CNT
