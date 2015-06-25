@@ -314,7 +314,7 @@ MeshEnv::tubeSepResult* MeshEnv::getTubeSeparation(const shared_ptr<CNT> cnt, co
 	MeshEnv::tubeSepResult* result = new MeshEnv::tubeSepResult();
 	double x = guess;
 
-	double radius = cnt->getDiameter() / 2;
+	double radius = cnt->getDiameter() / 2.0;
 
 	for (int i = 0; i < iterlim && !result->converge; i++)
 	{
