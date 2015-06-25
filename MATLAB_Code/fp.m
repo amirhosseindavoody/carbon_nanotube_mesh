@@ -8,7 +8,7 @@ converge = false;
 x = guess;
 
 for i=1:iterlim;
-    xnew = x - (atan(x/r)/c - x/2 - h)/((1/c)*r/(x^2 + r^2) - .5);
+    xnew = x - (atan(x/(2*r))/c - x/2 - h)/((1/c)*(2*r)/(x^2 + 4*r^2) - .5);
     if(abs(xnew - x) < tol)
         converge = true;
         x = xnew;
@@ -17,4 +17,15 @@ for i=1:iterlim;
     iter = iter + 1;
     x = xnew;
 end
+
+% for i=1:iterlim;
+%     xnew = x - (atan(x/(r))/c - x/2 - h)/((1/c)*(r)/(x^2 + r^2) - .5);
+%     if(abs(xnew - x) < tol)
+%         converge = true;
+%         x = xnew;
+%         break;
+%     end
+%     iter = iter + 1;
+%     x = xnew;
+% end
 

@@ -9,6 +9,7 @@ CNT_Mesh_Project/CNTMeshGeneratorSetup/CNTMeshGeneratorSetup/
 *.suo
 *.user
 *.sln.docstates
+*.tlog
 
 # Build results
 CNT_Mesh_Project/CNT_Mesh_Project/Debug/

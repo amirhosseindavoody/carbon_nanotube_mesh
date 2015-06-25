@@ -318,8 +318,8 @@ MeshEnv::tubeSepResult* MeshEnv::getTubeSeparation(const shared_ptr<CNT> cnt, co
 
 	for (int i = 0; i < iterlim && !result->converge; i++)
 	{
-		double xnew = x - (atan(x / radius) / cnt->getCurvature() - x / 2 - height) /
-			((1 / cnt->getCurvature())*radius / (pow(x, 2) + pow(radius, 2)) - .5);
+		double xnew = x - (atan(x / (2.0*radius)) / cnt->getCurvature() - x / 2 - height) /
+			((1 / cnt->getCurvature())*(radius*2.0) / (pow(x, 2) + 4*pow(radius, 2)) - .5);
 		if (abs(xnew - x) < tol)
 		{
 			result->converge = true;
@@ -759,6 +759,8 @@ void	MeshEnv::initPhysics(float camDistance)
 		double xFunLimit = xdim + sqrt(2)*flapLen - tubeLength / 2 - funPad;
 		double zFunLimit = zdim + sqrt(2)*flapLen - tubeLength / 2 - funPad;
 		
+		double angleJon = 2 * atan(tubeSeparation / (2 * (curr_cnt->getDiameter() / 2.0)));
+
 		//Non-random positions
 		/*btScalar xpos = 0;
 		btScalar zpos = 0;
