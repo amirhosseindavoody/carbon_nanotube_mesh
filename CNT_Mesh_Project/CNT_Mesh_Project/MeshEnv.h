@@ -5,7 +5,7 @@ Purpose: Header for MeshEnv.h
 @author Alex Gabourie
 @version 1.01 4/15/15
 
-This is a heavily edited version of BasicDemo.h by Erwin Coumans
+This is a heavily edited version of BasicDemo.h provided by Bullet Physics
 */
 
 #ifndef MESH_ENV_H

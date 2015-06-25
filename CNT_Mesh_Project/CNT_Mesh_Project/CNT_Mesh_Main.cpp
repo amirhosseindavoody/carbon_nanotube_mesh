@@ -4,6 +4,8 @@ Purpose: Initializes and starts CNT physics simulation.
 
 @author Alex Gabourie
 @version 1.01 4/15/15
+
+This is a heavily edited version of main.cpp in the BasicDemo example provided by Bullet Physics
 */
 
 #include "stdafx.h"

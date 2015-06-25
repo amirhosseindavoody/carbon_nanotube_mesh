@@ -5,7 +5,7 @@ Purpose: Creates the world, objects, and camera manipulations for the CNT mesh d
 @author Alex Gabourie
 @version 1.01 4/15/15
 
-This is a heavily edited version of BasicDemo.h by Erwin Coumans
+This is a heavily edited version of BasicDemo.cpp provided by Bullet Physics
 */
 
 // Definitions:
