@@ -13,6 +13,11 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
+/*
+NOTICE:
+This code has been modified from its original version. Please visit http://bulletphysics.org
+for the real version of this code.
+*/
 
 #include "DemoApplication.h"
 #include "LinearMath/btIDebugDraw.h"
@@ -56,6 +61,7 @@ extern int gTotalBytesAlignedAllocs;
 
 #endif //
 
+extern bool toDebugDraw; // Imported from MeshEnv
 
 DemoApplication::DemoApplication()
 //see btIDebugDraw.h for modes
@@ -463,7 +469,17 @@ void DemoApplication::keyboardCallback(unsigned char key, int x, int y)
 		}
 		break;
 
+	case 'D':
+		{
+			toDebugDraw = !toDebugDraw;
+			if (toDebugDraw)
+				m_debugMode = 0x1800;
+			else
+				m_debugMode = 1;
 
+			break;
+
+		}
 
 
 	case 'o' :
@@ -1140,7 +1156,7 @@ void DemoApplication::showProfileInfo(int& xOffset,int& yStart, int yIncr)
 			sprintf(blockTime,"--- Profiling: %s (total running time: %.3f ms) ---",	m_profileIterator->Get_Current_Parent_Name(), parent_time );
 			displayProfileString(xOffset,yStart,blockTime);
 			yStart += yIncr;
-			sprintf(blockTime,"press (1,2...) to display child timings, or 0 for parent" );
+			sprintf(blockTime, "0,1,2...->display parent/child timings; shift+d ->toggle debugDrawer");
 			displayProfileString(xOffset,yStart,blockTime);
 			yStart += yIncr;
 
@@ -1171,7 +1187,7 @@ void DemoApplication::showProfileInfo(int& xOffset,int& yStart, int yIncr)
 		yStart += yIncr;
 
 
-
+		
 		sprintf(blockTime,"-------------------------------------------------");
 		displayProfileString(xOffset,yStart,blockTime);
 		yStart += yIncr;

@@ -278,7 +278,6 @@ void	btDiscreteDynamicsWorld::saveKinematicState(btScalar timeStep)
 	}
 
 }
-
 void	btDiscreteDynamicsWorld::debugDrawWorld()
 {
 	BT_PROFILE("debugDrawWorld");
