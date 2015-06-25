@@ -38,7 +38,7 @@ for the real version of this code.
 #include "LinearMath/btSerializer.h"
 #include "GLDebugFont.h"
 //added for CNT Project
-#include "../../../tutorial/BasicDemo/BasicDemo/BasicTubeDemo.h"
+#include "../../../CNT_Mesh_Project/CNT_Mesh_Project/MeshEnv.h"
 
 
 extern bool gDisableDeactivation;

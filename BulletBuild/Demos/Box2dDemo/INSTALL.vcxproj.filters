@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\CarbonNanotubeMesh\BulletBuild\CMakeFiles\7bee34dd5ac756899febf80c1f398c5e\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{925B91CA-6DDD-406C-83AC-FFD1727C9F71}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

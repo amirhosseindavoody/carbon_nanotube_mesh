@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\CarbonNanotubeMesh\bullet-2.82-r2704\Demos\InternalEdgeDemo\InternalEdgeDemo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\CarbonNanotubeMesh\bullet-2.82-r2704\Demos\InternalEdgeDemo\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\CarbonNanotubeMesh\bullet-2.82-r2704\Demos\InternalEdgeDemo\InternalEdgeDemo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\CarbonNanotubeMesh\bullet-2.82-r2704\Demos\InternalEdgeDemo\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{46F3B4BC-0B93-43E4-BC3E-03AC4A1781B5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{EDF7A626-2AF6-4538-A893-CDE68E9CFEDF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
