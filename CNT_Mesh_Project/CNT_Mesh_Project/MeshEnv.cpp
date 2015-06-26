@@ -443,8 +443,7 @@ void	MeshEnv::initPhysics(float camDistance)
 			//incorrect range
 			if (gravity >= 0)
 			{
-				printf("Configuration Error: Must enter negative value for gravity for objects to " 
-					"fall down.\n");
+				printf("Configuration Error: For object to fall down, gravity must be negative\n");
 				system("pause");
 				exit(EXIT_FAILURE);
 			}
@@ -454,13 +453,12 @@ void	MeshEnv::initPhysics(float camDistance)
 			minSpacing = convertUnits(string(currNode->first_node()->value()),
 				atof(currNode->first_node()->next_sibling()->value())) / 2.0;
 			//incorrect units
-			if (minSpacing == INT_MIN)
+			if (minSpacing == INT_MIN / 2.0)
 			{
-				{
-					printf("Configuration Error: Incorrect units for spacing");
-					system("pause");
-					exit(EXIT_FAILURE);
-				}
+				printf("Configuration Error: Incorrect units for spacing.\nRefer to manual"
+					" for valid unit entries.\n");
+				system("pause");
+				exit(EXIT_FAILURE);
 			}
 			//incorrect range
 			else if (minSpacing <= 0)
@@ -480,14 +478,15 @@ void	MeshEnv::initPhysics(float camDistance)
 			//incorrect units
 			if (lmin == INT_MIN || lmax == INT_MIN)
 			{
-				printf("Configuration Error: Incorrect units for lengths");
+				printf("Configuration Error: Incorrect units for lengths.\nRefer to manual"
+					" for valid unit entries.\n");
 				system("pause");
 				exit(EXIT_FAILURE);
 			}
 			//incorrect pairing
 			else if (lmin > lmax)
 			{
-				printf("Configuration Error: Lmin must be less than or equal to Lmax");
+				printf("Configuration Error: Lmin must be less than or equal to Lmax\n");
 				system("pause");
 				exit(EXIT_FAILURE);
 			} 
@@ -503,15 +502,16 @@ void	MeshEnv::initPhysics(float camDistance)
 			// DEVICE DIMENSIONS NODE //
 			currNode = currNode->next_sibling();
 			xdim = convertUnits(string(currNode->first_node()->value()),
-				atof(currNode->first_node()->next_sibling()->value())) / 2;
+				atof(currNode->first_node()->next_sibling()->value())) / 2.0;
 			ydim = convertUnits(string(currNode->first_node()->value()),
-				atof(currNode->first_node()->next_sibling()->next_sibling()->value())) / 2;
+				atof(currNode->first_node()->next_sibling()->next_sibling()->value())) / 2.0;
 			zdim = convertUnits(string(currNode->first_node()->value()),
-				atof(currNode->first_node()->next_sibling()->next_sibling()->next_sibling()->value())) / 2;
+				atof(currNode->first_node()->next_sibling()->next_sibling()->next_sibling()->value())) / 2.0;
 			//incorrect units
-			if (xdim == INT_MIN || ydim == INT_MIN || zdim == INT_MIN)
+			if (xdim == INT_MIN / 2.0 || ydim == INT_MIN / 2.0 || zdim == INT_MIN / 2.0)
 			{
-				printf("Configuration Error: Incorrect units for device dimensions");
+				printf("Configuration Error: Incorrect units for device dimensions.\nRefer to manual"
+					" for valid unit entries.\n");
 				system("pause");
 				exit(EXIT_FAILURE);
 			}
@@ -549,7 +549,7 @@ void	MeshEnv::initPhysics(float camDistance)
 				//invalid m or n range
 				else if (temp_n < 0 || temp_m < 0)
 				{
-					printf("Configuration Error: Please provide positive hamada parameters.\n");
+					printf("Configuration Error: Please provide hamada parameters that are greater than or equal to 0.\n");
 					system("pause");
 					exit(EXIT_FAILURE);
 				}
