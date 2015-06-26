@@ -759,7 +759,6 @@ void	MeshEnv::initPhysics(float camDistance)
 		double xFunLimit = xdim + sqrt(2)*flapLen - tubeLength / 2 - funPad;
 		double zFunLimit = zdim + sqrt(2)*flapLen - tubeLength / 2 - funPad;
 		
-		double angleJon = 2 * atan(tubeSeparation / (2 * (curr_cnt->getDiameter() / 2.0)));
 
 		//Non-random positions
 		/*btScalar xpos = 0;
