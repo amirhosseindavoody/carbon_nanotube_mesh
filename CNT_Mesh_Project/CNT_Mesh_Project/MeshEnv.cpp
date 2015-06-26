@@ -362,7 +362,7 @@ double MeshEnv::convertUnits(string unit, double val)
 	}
 	else
 	{
-		return 0; // no proper units provided
+		return INT_MIN;
 	}
 }
 
@@ -410,19 +410,65 @@ void	MeshEnv::initPhysics(float camDistance)
 			file<> xmlFile(inputXMLPath.c_str()); //open file
 			doc.parse<0>(xmlFile.data()); //parse contents of file
 			xml_node<>* currNode = doc.first_node(); //gets the node "Document" or the root node
-			currNode = currNode->first_node(); //OUTPUT FOLDER
-			outputFolderPath = currNode->value();
-			currNode = currNode->next_sibling(); //NUMTUBES NODE
+			
+			//OUTPUT FOLDER
+			currNode = currNode->first_node(); //Output folder validated below
+			outputFolderPath = currNode->value(); 
+
+			//NUMTUBES NODE
+			currNode = currNode->next_sibling(); 
 			numTubes = atoi(currNode->value());
-			currNode = currNode->next_sibling(); //FRICTION NODE
+			//Input validation
+			if (numTubes <= 0)
+			{
+				printf("Configuration Error: Must enter positive integer number of tubes.\n");
+				system("pause");
+				exit(EXIT_FAILURE);
+			}
+			
+			//FRICTION NODE
+			currNode = currNode->next_sibling(); 
 			friction = atof(currNode->value());
-			currNode = currNode->next_sibling(); //GRAVITY NODE
+			//incorrect range
+			if (friction <= 0)
+			{
+				printf("Configuration Error: Must enter positive friction value.\n");
+				system("pause");
+				exit(EXIT_FAILURE);
+			}
+
+			//GRAVITY NODE
+			currNode = currNode->next_sibling(); 
 			gravity = atof(currNode->value());
+			//incorrect range
+			if (gravity >= 0)
+			{
+				printf("Configuration Error: Must enter negative value for gravity for objects to " 
+					"fall down.\n");
+				system("pause");
+				exit(EXIT_FAILURE);
+			}
 
 			// SPACING NODE //
 			currNode = currNode->next_sibling();
 			minSpacing = convertUnits(string(currNode->first_node()->value()),
 				atof(currNode->first_node()->next_sibling()->value())) / 2.0;
+			//incorrect units
+			if (minSpacing == INT_MIN)
+			{
+				{
+					printf("Configuration Error: Incorrect units for spacing");
+					system("pause");
+					exit(EXIT_FAILURE);
+				}
+			}
+			//incorrect range
+			else if (minSpacing <= 0)
+			{
+				printf("Configuration Error: Must enter positive spacing value.\n");
+				system("pause");
+				exit(EXIT_FAILURE);
+			}
 			// END SPACING NODE //
 
 			// LENGTHS NODE //
@@ -431,6 +477,27 @@ void	MeshEnv::initPhysics(float camDistance)
 				atof(currNode->first_node()->next_sibling()->value()));
 			lmax = convertUnits(string(currNode->first_node()->value()),
 				atof(currNode->first_node()->next_sibling()->next_sibling()->value()));
+			//incorrect units
+			if (lmin == INT_MIN || lmax == INT_MIN)
+			{
+				printf("Configuration Error: Incorrect units for lengths");
+				system("pause");
+				exit(EXIT_FAILURE);
+			}
+			//incorrect pairing
+			else if (lmin > lmax)
+			{
+				printf("Configuration Error: Lmin must be less than or equal to Lmax");
+				system("pause");
+				exit(EXIT_FAILURE);
+			} 
+			//incorrect range
+			else if(lmin <= 0 || lmax <= 0)
+			{
+				printf("Configuration Error: Must enter positive length values.\n");
+				system("pause");
+				exit(EXIT_FAILURE);
+			}
 			// END LENGTHS NODE //
 
 			// DEVICE DIMENSIONS NODE //
@@ -441,6 +508,20 @@ void	MeshEnv::initPhysics(float camDistance)
 				atof(currNode->first_node()->next_sibling()->next_sibling()->value())) / 2;
 			zdim = convertUnits(string(currNode->first_node()->value()),
 				atof(currNode->first_node()->next_sibling()->next_sibling()->next_sibling()->value())) / 2;
+			//incorrect units
+			if (xdim == INT_MIN || ydim == INT_MIN || zdim == INT_MIN)
+			{
+				printf("Configuration Error: Incorrect units for device dimensions");
+				system("pause");
+				exit(EXIT_FAILURE);
+			}
+			//incorrect range
+			else if (xdim <= 0 || ydim <= 0 || zdim <= 0)
+			{
+				printf("Configuration Error: Must enter positive device dimensions.\n");
+				system("pause");
+				exit(EXIT_FAILURE);
+			}
 			// END DEVICE DIMENSIONS NODE //
 
 			// CHIRALITY NODE //
@@ -454,6 +535,25 @@ void	MeshEnv::initPhysics(float camDistance)
 			{
 				chirality.insert(chirality.begin() + 2 * i, atoi(currNode->first_node()->value()));
 				chirality.insert(chirality.begin() + 2 * i + 1, atoi(currNode->first_node()->next_sibling()->value()));
+				
+				int temp_n = atoi(currNode->first_node()->value());
+				int temp_m = atoi(currNode->first_node()->next_sibling()->value());
+
+				//invalid m
+				if (temp_n < temp_m)
+				{
+					printf("Configuration Error: For CNTs, n must be larger than m.\n");
+					system("pause");
+					exit(EXIT_FAILURE);
+				} 
+				//invalid m or n range
+				else if (temp_n < 0 || temp_m < 0)
+				{
+					printf("Configuration Error: Please provide positive hamada parameters.\n");
+					system("pause");
+					exit(EXIT_FAILURE);
+				}
+
 				currNode = currNode->next_sibling();
 			}
 			delete currNode;
