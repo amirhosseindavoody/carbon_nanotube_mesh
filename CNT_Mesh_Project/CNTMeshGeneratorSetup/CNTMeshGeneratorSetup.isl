@@ -1882,8 +1882,10 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
+		<row><td>change.log</td><td>ISX_DEFAULTCOMPONENT</td><td>change.log</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\change.log</td><td>1</td><td/></row>
 		<row><td>cnt_mesh_config.xml</td><td>ISX_DEFAULTCOMPONENT</td><td>CNT_ME~1.XML|CNT_Mesh_Config.xml</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\CNT_Mesh_Config.xml</td><td>1</td><td/></row>
 		<row><td>cnt_mesh_config.xsd</td><td>ISX_DEFAULTCOMPONENT</td><td>CNT_ME~1.XSD|CNT_Mesh_Config.xsd</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\CNT_Mesh_Config.xsd</td><td>1</td><td/></row>
+		<row><td>cnt_mesh_manual_v1.01.pdf</td><td>ISX_DEFAULTCOMPONENT</td><td>CNT_ME~1.PDF|CNT_Mesh_Manual_v1.01.pdf</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\CNT_Mesh_Manual_v1.01.pdf</td><td>1</td><td/></row>
 		<row><td>cnt_mesh_project.primary_out</td><td>CNT_Mesh_Project.Primary_Output</td><td>CNT_Mesh_Project.Primary Output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;CNT_Mesh_Project&gt;|Built</td><td>3</td><td/></row>
 		<row><td>glut32.dll</td><td>GLUT32.DLL</td><td>GLUT32.DLL</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\CNT_Mesh_Project\GLUT32.DLL</td><td>1</td><td/></row>
 	</table>

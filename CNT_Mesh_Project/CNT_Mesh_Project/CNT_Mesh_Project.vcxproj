@@ -14,6 +14,7 @@
     <ProjectGuid>{EA3E66E5-7516-4AAB-A7FA-BA3956C0FA29}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CNT_Mesh_Project</RootNamespace>
+    <ProjectName>CNT_Mesh_Generator</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
