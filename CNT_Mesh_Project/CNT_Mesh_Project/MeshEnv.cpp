@@ -1027,7 +1027,7 @@ void MeshEnv::clientMoveAndDisplay()
 					file << (*itrTube)->getCylHeight();
 					file << "\n";
 					file << "Intertube Spacing:,";
-					file << (*itrTube)->getMinSpacing();
+					file << (*itrTube)->getMinSpacing()*2.0;
 					file << "\n";
 					file << "Intercylinder Spacing:,";
 					file << (*itrTube)->getTubeSpacing();
