@@ -164,7 +164,7 @@ Calculates all of the necessary parameters for the simulation to build correct C
 */
 MeshEnv::tubeParams* MeshEnv::extractTubeParams(const shared_ptr<CNT> cnt, const double length)
 {
-	double a_min = 20.0; //Angstroms
+	double a_min = 10.0; //Angstroms
 	double a = a_min;
 	double range = a_min*1.5;
 	if (length < a_min)
