@@ -1888,6 +1888,7 @@
 		<row><td>cnt_mesh_manual_v1.01.pdf</td><td>ISX_DEFAULTCOMPONENT</td><td>CNT_ME~1.PDF|CNT_Mesh_Manual_v1.01.pdf</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\CNT_Mesh_Manual_v1.01.pdf</td><td>1</td><td/></row>
 		<row><td>cnt_mesh_project.primary_out</td><td>CNT_Mesh_Project.Primary_Output</td><td>CNT_Mesh_Project.Primary Output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;CNT_Mesh_Project&gt;|Built</td><td>3</td><td/></row>
 		<row><td>glut32.dll</td><td>GLUT32.DLL</td><td>GLUT32.DLL</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\CNT_Mesh_Project\GLUT32.DLL</td><td>1</td><td/></row>
+		<row><td>importcntmeshdata.m</td><td>ISX_DEFAULTCOMPONENT</td><td>IMPORT~1.M|importCNTMeshData.m</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\MATLAB_Code\importCNTMeshData.m</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2659,7 +2660,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-1826387602</td></row>
+		<row><td>COMPANY_NAME</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-752655761</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1033</td><td>Always Install</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1033</td><td>The color settings of your system are not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>1033</td><td>The operating system is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
@@ -3761,8 +3762,8 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1033</td><td>The processor is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
-		<row><td>ID_STRING1</td><td>1033</td><td>www.wisc.edu</td><td>0</td><td/><td>-1826393522</td></row>
-		<row><td>ID_STRING2</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-1826387602</td></row>
+		<row><td>ID_STRING1</td><td>1033</td><td>http://www.KnezevicResearch.com</td><td>0</td><td/><td>-752655761</td></row>
+		<row><td>ID_STRING2</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-752655761</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-1960605232</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>CNT Mesh Generator</td><td>0</td><td/><td>-1826379058</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>-1960631984</td></row>
