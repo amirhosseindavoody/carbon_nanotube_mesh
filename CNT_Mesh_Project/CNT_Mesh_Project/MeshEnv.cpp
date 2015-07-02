@@ -1143,10 +1143,26 @@ void MeshEnv::clientMoveAndDisplay()
 					file << "\n";
 
 
-					btVector3 constraintShift = btVector3(0, -((*itrTube)->getCylHeight() + (*itrTube)->getTubeSpacing() / 2.0), 0);
+					btVector3 constraintShift = btVector3(0, -((*itrTube)->getCylHeight() + (*itrTube)->getTubeSpacing()) / 2.0, 0);
+					
 					//iterates over all of the cylinders of the current CNT. Outputs the positions to the file.
 					shared_ptr<list<btRigidBody*>> tempCylList = (*itrTube)->getCylList();
-					for (list<btRigidBody*>::iterator itrCyl = tempCylList->begin(); itrCyl != tempCylList->end(); ++itrCyl)
+					list<btRigidBody*>::iterator itrCyl = tempCylList->begin();
+					
+					//grab first cylinder information first and add to file
+					btVector3 pos = (*itrCyl)->getCenterOfMassPosition();
+					file << pos[0];
+					file << ",";
+					file << pos[1];
+					file << ",";
+					file << pos[2];
+					file << "\n";
+					++itrCyl;
+
+					/*From the next cylinder, we can get both the center of mass positions and
+					the position of the point to point constraint that connected this cylinder
+					with the previous. Add all to file in order.*/
+					for (itrCyl; itrCyl != tempCylList->end(); ++itrCyl)
 					{
 						btTransform currCyl = (*itrCyl)->getWorldTransform();
 						btVector3 conPos = currCyl.operator*(constraintShift);
@@ -1156,7 +1172,7 @@ void MeshEnv::clientMoveAndDisplay()
 						file << ",";
 						file << conPos[2];
 						file << "\n";
-						btVector3 pos = (*itrCyl)->getCenterOfMassPosition();
+						pos = (*itrCyl)->getCenterOfMassPosition();
 						file << pos[0];
 						file << ",";
 						file << pos[1];
