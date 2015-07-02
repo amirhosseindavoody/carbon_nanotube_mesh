@@ -860,23 +860,23 @@ void	MeshEnv::initPhysics(float camDistance)
 		
 
 		//Non-random positions
-		btScalar xpos = 0;
+		/*btScalar xpos = 0;
 		btScalar zpos = 0;
-		btScalar theta = 0;
+		btScalar theta = 0;*/
 		//
 		//Random number generation
 		//
-		/*btScalar xpos = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX))*xFunLimit*2. - xFunLimit;
+		btScalar xpos = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX))*xFunLimit*2. - xFunLimit;
 		btScalar zpos = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX))*zFunLimit*2. - zFunLimit;
-		btScalar theta = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX))*SIMD_PI - SIMD_PI/2.;*/
+		btScalar theta = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX))*SIMD_PI - SIMD_PI/2.;
 		
 		
 		btVector3 shiftToOrigin(0,tubeLength / 2.,0);
 		btMatrix3x3 rotMatrix = btMatrix3x3(btQuaternion(btVector3(0, 1, 0), theta));
 		rotMatrix.operator*=(btMatrix3x3(btQuaternion(btVector3(0, 0, 1), btScalar(-SIMD_PI / 2.))));
 		shiftToOrigin = -multOperator(rotMatrix, shiftToOrigin);
-		btVector3 shift = btVector3(xpos, radius + minSpacing + 2 * (radius + minSpacing) * (i - 1), zpos) + shiftToOrigin; //ground test tubes
-		//btVector3 shift = btVector3(xpos, funHeight + radius + minSpacing + 2*(radius + minSpacing) * (i - 1), zpos) + shiftToOrigin;
+		//btVector3 shift = btVector3(xpos, radius + minSpacing + 2 * (radius + minSpacing) * (i - 1), zpos) + shiftToOrigin; //ground test tubes
+		btVector3 shift = btVector3(xpos, funHeight + radius + minSpacing + 2*(radius + minSpacing) * (i - 1), zpos) + shiftToOrigin;
 
 
 		/// Create Dynamic Objects
@@ -997,8 +997,6 @@ void	MeshEnv::initPhysics(float camDistance)
 			p2p->setDbgDrawSize(btScalar(2.f));
 			m_dynamicsWorld->addConstraint(p2p);
 
-			btVector3 pivA = p2p->getPivotInA();
-
 			//
 			//ith space cylinder
 			//
@@ -1034,7 +1032,7 @@ void	MeshEnv::initPhysics(float camDistance)
 	
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////
-	//MeshEnv::keyboardCallback('D', 0, 0); //starts without rendering anything, release code
+	MeshEnv::keyboardCallback('D', 0, 0); //starts without rendering anything, release code
 	//MeshEnv::keyboardCallback('d', 0, 0); //debug code, no ending
 }
 
@@ -1142,7 +1140,7 @@ void MeshEnv::clientMoveAndDisplay()
 					file << tubeNum;
 					file << "\n";
 
-
+					//The amount the constraint is shifted from the center of mass position from each cylinder
 					btVector3 constraintShift = btVector3(0, -((*itrTube)->getCylHeight() + (*itrTube)->getTubeSpacing()) / 2.0, 0);
 					
 					//iterates over all of the cylinders of the current CNT. Outputs the positions to the file.
