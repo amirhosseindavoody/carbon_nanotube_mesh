@@ -997,7 +997,7 @@ void	MeshEnv::initPhysics(float camDistance)
 			p2p->setDbgDrawSize(btScalar(2.f));
 			m_dynamicsWorld->addConstraint(p2p);
 
-			//btVector3 pivA = p2p->getPiv
+			btVector3 pivA = p2p->getPivotInA();
 
 			//
 			//ith space cylinder
@@ -1035,7 +1035,7 @@ void	MeshEnv::initPhysics(float camDistance)
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////
 	//MeshEnv::keyboardCallback('D', 0, 0); //starts without rendering anything, release code
-	MeshEnv::keyboardCallback('d', 0, 0); //debug code, no ending
+	//MeshEnv::keyboardCallback('d', 0, 0); //debug code, no ending
 }
 
 ///The MyOverlapCallback is used to show how to collect object that overlap with a given bounding box defined by aabbMin and aabbMax. 
@@ -1142,9 +1142,20 @@ void MeshEnv::clientMoveAndDisplay()
 					file << tubeNum;
 					file << "\n";
 
+
+					btVector3 constraintShift = btVector3(0, -((*itrTube)->getCylHeight() + (*itrTube)->getTubeSpacing() / 2.0), 0);
+					//iterates over all of the cylinders of the current CNT. Outputs the positions to the file.
 					shared_ptr<list<btRigidBody*>> tempCylList = (*itrTube)->getCylList();
 					for (list<btRigidBody*>::iterator itrCyl = tempCylList->begin(); itrCyl != tempCylList->end(); ++itrCyl)
 					{
+						btTransform currCyl = (*itrCyl)->getWorldTransform();
+						btVector3 conPos = currCyl.operator*(constraintShift);
+						file << conPos[0];
+						file << ",";
+						file << conPos[1];
+						file << ",";
+						file << conPos[2];
+						file << "\n";
 						btVector3 pos = (*itrCyl)->getCenterOfMassPosition();
 						file << pos[0];
 						file << ",";
