@@ -800,7 +800,6 @@ void	MeshEnv::initPhysics(float camDistance)
 		int chiralityIdx = (rand() % chirCount) * 2; //random int 0 to chirCount-1
 		//want to delete these pointers in the output object
 		shared_ptr<CNT>curr_cnt(new CNT(chirality.at(chiralityIdx), chirality.at(chiralityIdx+1)));
-		//shared_ptr<CNT>curr_cnt(new CNT(5, 5));
 
 
 		//
@@ -861,23 +860,23 @@ void	MeshEnv::initPhysics(float camDistance)
 		
 
 		//Non-random positions
-		/*btScalar xpos = 0;
+		btScalar xpos = 0;
 		btScalar zpos = 0;
-		btScalar theta = 0;*/
+		btScalar theta = 0;
 		//
 		//Random number generation
 		//
-		btScalar xpos = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX))*xFunLimit*2. - xFunLimit;
+		/*btScalar xpos = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX))*xFunLimit*2. - xFunLimit;
 		btScalar zpos = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX))*zFunLimit*2. - zFunLimit;
-		btScalar theta = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX))*SIMD_PI - SIMD_PI/2.;
+		btScalar theta = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX))*SIMD_PI - SIMD_PI/2.;*/
 		
 		
 		btVector3 shiftToOrigin(0,tubeLength / 2.,0);
 		btMatrix3x3 rotMatrix = btMatrix3x3(btQuaternion(btVector3(0, 1, 0), theta));
 		rotMatrix.operator*=(btMatrix3x3(btQuaternion(btVector3(0, 0, 1), btScalar(-SIMD_PI / 2.))));
 		shiftToOrigin = -multOperator(rotMatrix, shiftToOrigin);
-		//btVector3 shift = btVector3(xpos, radius + minSeparation + 2 * (radius + minSeparation) * (i - 1), zpos) + shiftToOrigin; //ground test tubes
-		btVector3 shift = btVector3(xpos, funHeight + radius + minSpacing + 2*(radius + minSpacing) * (i - 1), zpos) + shiftToOrigin;
+		btVector3 shift = btVector3(xpos, radius + minSpacing + 2 * (radius + minSpacing) * (i - 1), zpos) + shiftToOrigin; //ground test tubes
+		//btVector3 shift = btVector3(xpos, funHeight + radius + minSpacing + 2*(radius + minSpacing) * (i - 1), zpos) + shiftToOrigin;
 
 
 		/// Create Dynamic Objects
@@ -992,11 +991,13 @@ void	MeshEnv::initPhysics(float camDistance)
 			btVector3 pivotInA(0, constraintShift, 0);
 			btVector3 pivotInB(0, -constraintShift, 0);
 			//set p2p constraint to be on tube axis and halfway between the two
-			btTypedConstraint* p2p = new btPoint2PointConstraint(*prevSpineCyl, *currSpineCyl, pivotInA, pivotInB);
+			btPoint2PointConstraint* p2p = new btPoint2PointConstraint(*prevSpineCyl, *currSpineCyl, pivotInA, pivotInB);
 			//set constraint to max value so there is no breaking
 			p2p->setBreakingImpulseThreshold(btScalar(BT_LARGE_FLOAT));
 			p2p->setDbgDrawSize(btScalar(2.f));
 			m_dynamicsWorld->addConstraint(p2p);
+
+			//btVector3 pivA = p2p->getPiv
 
 			//
 			//ith space cylinder
@@ -1033,7 +1034,8 @@ void	MeshEnv::initPhysics(float camDistance)
 	
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////
-	MeshEnv::keyboardCallback('D', 0, 0); //starts without rendering anything
+	//MeshEnv::keyboardCallback('D', 0, 0); //starts without rendering anything, release code
+	MeshEnv::keyboardCallback('d', 0, 0); //debug code, no ending
 }
 
 ///The MyOverlapCallback is used to show how to collect object that overlap with a given bounding box defined by aabbMin and aabbMax. 
