@@ -24,7 +24,6 @@ int main(int argc, char *argv[])
 	{
 		char *inputXMLPathArray = new char[xmlArrayLength];
 		cout << "Enter config xml path (Example in program files directory):\n";
-		int tempo = sizeof(*inputXMLPathArray);
 		cin.getline(inputXMLPathArray, xmlArrayLength);
 		inputXMLPath = inputXMLPathArray;
 		delete inputXMLPathArray;
