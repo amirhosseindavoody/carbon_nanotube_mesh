@@ -3762,7 +3762,7 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1033</td><td>The processor is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
-		<row><td>ID_STRING1</td><td>1033</td><td>http://www.KnezevicResearch.com</td><td>0</td><td/><td>-752655761</td></row>
+		<row><td>ID_STRING1</td><td>1033</td><td>www.wisc.edu</td><td>0</td><td/><td>1403246291</td></row>
 		<row><td>ID_STRING2</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-752655761</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-1960605232</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>CNT Mesh Generator</td><td>0</td><td/><td>-1826379058</td></row>
@@ -4389,7 +4389,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>ProductCode</td><td>{B7996CEB-4172-4325-AC2B-77451B861F15}</td><td/></row>
 		<row><td>ProductName</td><td>CNT_Mesh_Generator</td><td/></row>
-		<row><td>ProductVersion</td><td>1.01</td><td/></row>
+		<row><td>ProductVersion</td><td>1.03</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
