@@ -339,9 +339,11 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
-		<row><td>CNT_Mesh_Project.Primary_Output</td><td>{48CF4CC0-85AB-4C2C-A24F-5393D90F8BEF}</td><td>INSTALLDIR</td><td>2</td><td/><td>cnt_mesh_project.primary_out</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>GLUT32.DLL</td><td>{0565041F-5568-45DF-819F-F38A7E75007F}</td><td>INSTALLDIR</td><td>2</td><td/><td>glut32.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT</td><td>{E7B081F1-3A28-4731-BE0B-65FBD6C969BB}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>CNT_Mesh_Project.Primary_Output</td><td>{48CF4CC0-85AB-4C2C-A24F-5393D90F8BEF}</td><td>INSTALLDIR</td><td>258</td><td/><td>cnt_mesh_project.primary_out</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>GLUT32.DLL</td><td>{0565041F-5568-45DF-819F-F38A7E75007F}</td><td>INSTALLDIR</td><td>258</td><td/><td>glut32.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT</td><td>{E7B081F1-3A28-4731-BE0B-65FBD6C969BB}</td><td>INSTALLDIR</td><td>258</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{A9E4F6C5-74CE-4613-8ECE-01F53F0BF6AC}</td><td>ProgramFiles64Folder</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>glut64.dll</td><td>{580B6BEC-4609-4645-90A3-9BD647C25D71}</td><td>INSTALLDIR</td><td>258</td><td/><td>glut64.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1050,6 +1052,7 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
+		<row><td>ProgramFiles64Folder</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -1133,7 +1136,7 @@
 		<row><td>AppDataFolder</td><td>TARGETDIR</td><td>.:APPLIC~1|Application Data</td><td/><td>0</td><td/></row>
 		<row><td>CNT_MESH_GENERATOR</td><td>UNIVERSITY_OF_WISCONSIN_MADISON</td><td>CNT_ME~1|CNT_Mesh_Generator</td><td/><td>0</td><td/></row>
 		<row><td>CNT_MESH_GENERATOR1</td><td>KNEZEVICRESEARCH</td><td>CNT_ME~1|CNT_Mesh_Generator</td><td/><td>0</td><td/></row>
-		<row><td>CNT_MESH_GENERATOR2</td><td>ProgramFilesFolder</td><td>CNT_ME~1|CNT_Mesh_Generator</td><td/><td>0</td><td/></row>
+		<row><td>CNT_MESH_GENERATOR2</td><td>ProgramFiles64Folder</td><td>CNT_ME~1|CNT_Mesh_Generator</td><td/><td>0</td><td/></row>
 		<row><td>CommonAppDataFolder</td><td>TARGETDIR</td><td>.:Common~1|CommonAppData</td><td/><td>0</td><td/></row>
 		<row><td>CommonFiles64Folder</td><td>TARGETDIR</td><td>.:Common64</td><td/><td>0</td><td/></row>
 		<row><td>CommonFilesFolder</td><td>TARGETDIR</td><td>.:Common</td><td/><td>0</td><td/></row>
@@ -1868,6 +1871,8 @@
 		<row><td>AlwaysInstall</td><td>CNT_Mesh_Project.Primary_Output</td></row>
 		<row><td>AlwaysInstall</td><td>GLUT32.DLL</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
+		<row><td>AlwaysInstall</td><td>glut64.dll</td></row>
 	</table>
 
 	<table name="File">
@@ -1888,6 +1893,7 @@
 		<row><td>cnt_mesh_manual_v1.01.pdf</td><td>ISX_DEFAULTCOMPONENT</td><td>CNT_ME~1.PDF|CNT_Mesh_Manual_v1.01.pdf</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\CNT_Mesh_Manual_v1.01.pdf</td><td>1</td><td/></row>
 		<row><td>cnt_mesh_project.primary_out</td><td>CNT_Mesh_Project.Primary_Output</td><td>CNT_Mesh_Project.Primary Output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;CNT_Mesh_Project&gt;|Built</td><td>3</td><td/></row>
 		<row><td>glut32.dll</td><td>GLUT32.DLL</td><td>GLUT32.DLL</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\CNT_Mesh_Project\GLUT32.DLL</td><td>1</td><td/></row>
+		<row><td>glut64.dll</td><td>glut64.dll</td><td>glut64.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\CNT_Mesh_Project\glut64.dll</td><td>1</td><td/></row>
 		<row><td>importcntmeshdata.m</td><td>ISX_DEFAULTCOMPONENT</td><td>IMPORT~1.M|importCNTMeshData.m</td><td>0</td><td/><td/><td/><td>1</td><td>C:\CarbonNanotubeMesh\MATLAB_Code\importCNTMeshData.m</td><td>1</td><td/></row>
 	</table>
 
@@ -2036,6 +2042,8 @@
 		<row><td>CNT_Mesh_Project.Primary_Output</td><td/><td/><td>_A1872E6F_108A_441E_98C5_038CF431F486_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>GLUT32.DLL</td><td/><td/><td>_B19B747F_57D7_4D85_BB60_3D60DC7F0402_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_205AAE83_5D08_4C91_9C29_26ED6874E33D_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_C3B4CE68_A37C_47FD_ACCF_A9E87DD80F9B_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>glut64.dll</td><td/><td/><td>_DA4C5538_4BB7_4077_98B5_8AE38A220058_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -3762,7 +3770,7 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1033</td><td>The processor is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
-		<row><td>ID_STRING1</td><td>1033</td><td>http://www.KnezevicResearch.com</td><td>0</td><td/><td>-1818012849</td></row>
+		<row><td>ID_STRING1</td><td>1033</td><td>www.wisc.edu</td><td>0</td><td/><td>-1817987888</td></row>
 		<row><td>ID_STRING2</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-1818012849</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-1960605232</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>CNT Mesh Generator</td><td>0</td><td/><td>-1826379058</td></row>
@@ -4013,7 +4021,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{C3C3E135-C63B-4A01-A7B1-3C1C95ED9439}</td></row>
 		<row><td>ISUSSignature</td><td>{B0261663-9EF9-4351-AA3A-3E363525AD01}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewAppFiles,viewRelease,viewISToday,viewSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewObjects,viewShortcuts,viewDependencies,viewFeatureFiles,viewRealSetupDesign</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewAppFiles,viewRelease,viewISToday,viewSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewObjects,viewShortcuts,viewDependencies,viewFeatureFiles,viewRealSetupDesign,viewSystemSearch,viewInstallScriptStd,viewCustomActions,viewSupportFiles,viewDesignPatches</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -4389,7 +4397,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>ProductCode</td><td>{B7996CEB-4172-4325-AC2B-77451B861F15}</td><td/></row>
 		<row><td>ProductName</td><td>CNT_Mesh_Generator</td><td/></row>
-		<row><td>ProductVersion</td><td>1.03</td><td/></row>
+		<row><td>ProductVersion</td><td>1.04</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
