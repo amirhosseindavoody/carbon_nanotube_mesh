@@ -74,7 +74,7 @@ struct AGCustomFilterCallback : public btOverlapFilterCallback
 	@param proxy1 Second object
 	@return True if need collision, false otherwise
 	*/
-	virtual bool needBroadphaseCollision(btBroadphaseProxy* proxy0, btBroadphaseProxy* proxy1) const 
+	virtual bool needBroadphaseCollision(btBroadphaseProxy* proxy0, btBroadphaseProxy* proxy1) const override
 	{
 		//lines to still implement the collision mask filtering completed before
 		// obj0 collides with obj1 and vice versa
@@ -406,10 +406,10 @@ void	MeshEnv::initPhysics(float camDistance)
 	
 	while (!done){
 		try{
-			xml_document<> doc; //create xml object
-			file<> xmlFile(inputXMLPath.c_str()); //open file
-			doc.parse<0>(xmlFile.data()); //parse contents of file
-			xml_node<>* currNode = doc.first_node(); //gets the node "Document" or the root node
+			shared_ptr<xml_document<>> doc = make_shared<xml_document<>>(); //create xml object
+			shared_ptr<file<>> xmlFile = make_shared<file<>>(file<>(inputXMLPath.c_str())); //open file
+			doc->parse<0>(xmlFile->data()); //parse contents of file
+			xml_node<>* currNode = doc->first_node(); //gets the node "Document" or the root node
 			
 			//OUTPUT FOLDER
 			currNode = currNode->first_node(); //Output folder validated below
@@ -576,7 +576,7 @@ void	MeshEnv::initPhysics(float camDistance)
 			cin.ignore();
 			cin.getline(inputXMLPathArray, xmlArrayLength);
 			inputXMLPath = inputXMLPathArray;
-			delete inputXMLPathArray;
+			delete[] inputXMLPathArray;
 		}
 	}
 
@@ -596,23 +596,15 @@ void	MeshEnv::initPhysics(float camDistance)
 			}
 		}
 
-		timeStamp = operator+(timeStamp, to_string(currTime.tm_mday));
-		timeStamp = operator+(timeStamp, ".");
-		timeStamp = operator+(timeStamp, to_string(currTime.tm_mon + 1));
-		timeStamp = operator+(timeStamp, ".");
-		timeStamp = operator+(timeStamp, to_string(currTime.tm_year % 100));
-		timeStamp = operator+(timeStamp, "_Time_");
-		timeStamp = operator+(timeStamp, to_string(currTime.tm_hour));
-		timeStamp = operator+(timeStamp, ".");
-		timeStamp = operator+(timeStamp, to_string(currTime.tm_min));
-		timeStamp = operator+(timeStamp, ".");
-		timeStamp = operator+(timeStamp, to_string(currTime.tm_sec));
-		timeStamp = operator+(timeStamp, "/");
+		#pragma warning(suppress: 6001)
+		timeStamp = timeStamp + to_string(currTime.tm_mday) + "." + to_string(currTime.tm_mon + 1) + "."
+			+ to_string(currTime.tm_year % 100) + "_Time_" + to_string(currTime.tm_hour) + "." +
+			to_string(currTime.tm_min) + "." + to_string(currTime.tm_sec) + "/";
 	}
 
 	outputPath = operator+(outputFolderPath, timeStamp);
 	wstring wide_string(outputPath.begin(), outputPath.end());
-	if (CreateDirectory(wide_string.c_str(), NULL) == 0)
+	if (CreateDirectory(wide_string.c_str(), nullptr) == 0)
 	{
 		auto error = GetLastError();
 		if (error == ERROR_ALREADY_EXISTS)
@@ -906,8 +898,11 @@ void	MeshEnv::initPhysics(float camDistance)
 		if (isDynamic)
 			spineShape->calculateLocalInertia(spineMass, localInertiaSpine);
 		//Must not reuse this as the Motion state must change for each cylinder
-		btRigidBody::btRigidBodyConstructionInfo rbInfoSpine(spineMass, myMotionState, spineShape, localInertiaSpine);
-		btRigidBody* prevSpineCyl = new btRigidBody(rbInfoSpine);
+		shared_ptr<btRigidBody::btRigidBodyConstructionInfo> rbInfoSpine =
+			make_shared<btRigidBody::btRigidBodyConstructionInfo>(btRigidBody::btRigidBodyConstructionInfo
+			(spineMass, myMotionState, spineShape, localInertiaSpine));
+
+		btRigidBody* prevSpineCyl = new btRigidBody(*rbInfoSpine);
 		//rotate the object accordingly
 		rotateAndShift(rotMatrix, prevSpineCyl,shift);
 		//Add cylinder to world
@@ -931,8 +926,10 @@ void	MeshEnv::initPhysics(float camDistance)
 		if (isDynamic)
 			spaceShape->calculateLocalInertia(spaceMass, localInertiaSpace);
 		//Must not reuse this as the Motion state must change for each cylinder
-		btRigidBody::btRigidBodyConstructionInfo rbInfoSpace(spaceMass, myMotionState, spaceShape, localInertiaSpace);
-		btRigidBody* currSpaceCyl = new btRigidBody(rbInfoSpace);
+		shared_ptr<btRigidBody::btRigidBodyConstructionInfo> rbInfoSpace = 
+			make_shared<btRigidBody::btRigidBodyConstructionInfo>(btRigidBody::btRigidBodyConstructionInfo
+			(spaceMass, myMotionState, spaceShape, localInertiaSpace));
+		btRigidBody* currSpaceCyl = new btRigidBody(*rbInfoSpace);
 		currSpaceCyl->setFriction(friction);
 		//body is active forever. Might want to look at WANT_TO_SLEEP later to symbolize end of simulation
 		//currSpaceCyl->setActivationState(DISABLE_DEACTIVATION);
@@ -973,8 +970,9 @@ void	MeshEnv::initPhysics(float camDistance)
 			//ith spine cylinder
 			//
 			myMotionState = new btDefaultMotionState(startTransform);
-			btRigidBody::btRigidBodyConstructionInfo rbInfoSpine(spineMass, myMotionState, spineShape, localInertiaSpine);
-			btRigidBody* currSpineCyl = new btRigidBody(rbInfoSpine);
+			rbInfoSpine = make_shared<btRigidBody::btRigidBodyConstructionInfo>
+				(btRigidBody::btRigidBodyConstructionInfo(spineMass, myMotionState, spineShape, localInertiaSpine));
+			btRigidBody* currSpineCyl = new btRigidBody(*rbInfoSpine);
 			//Rotations on rigid body
 			rotateAndShift(rotMatrix, currSpineCyl,shift);
 			//Add spine cylinder to world
@@ -996,14 +994,16 @@ void	MeshEnv::initPhysics(float camDistance)
 			p2p->setBreakingImpulseThreshold(btScalar(BT_LARGE_FLOAT));
 			p2p->setDbgDrawSize(btScalar(2.f));
 			m_dynamicsWorld->addConstraint(p2p);
+			//delete p2p;
 
 			//
 			//ith space cylinder
 			//
 
 			myMotionState = new btDefaultMotionState(startTransform);//shares same startTrans with spine cylinder
-			btRigidBody::btRigidBodyConstructionInfo rbInfoSpace(spaceMass, myMotionState, spaceShape, localInertiaSpace);
-			btRigidBody* currSpaceCyl = new btRigidBody(rbInfoSpace);
+			rbInfoSpace = make_shared<btRigidBody::btRigidBodyConstructionInfo>
+				(btRigidBody::btRigidBodyConstructionInfo(spaceMass, myMotionState, spaceShape, localInertiaSpace));
+			currSpaceCyl = new btRigidBody(*rbInfoSpace);
 			currSpaceCyl->setFriction(friction);
 			m_dynamicsWorld->addRigidBody(currSpaceCyl, COL_SPACE, spacingCollidesWith);
 			currSpaceCyl->setDrawable(false);
@@ -1028,8 +1028,7 @@ void	MeshEnv::initPhysics(float camDistance)
 			prevSpineCyl = currSpineCyl;
 
 		}
-
-	
+		//delete hinge;
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////
 	MeshEnv::keyboardCallback('D', 0, 0); //starts without rendering anything, release code
@@ -1045,10 +1044,10 @@ struct	MyOverlapCallback : public btBroadphaseAabbCallback
 
 	int m_numOverlap;
 	MyOverlapCallback(const btVector3& aabbMin, const btVector3& aabbMax) : m_queryAabbMin(aabbMin), m_queryAabbMax(aabbMax), m_numOverlap(0)	{}
-	virtual bool	process(const btBroadphaseProxy* proxy)
+	virtual bool	process(const btBroadphaseProxy* proxy) override
 	{
 		btVector3 proxyAabbMin, proxyAabbMax;
-		btCollisionObject* colObj0 = (btCollisionObject*)proxy->m_clientObject;
+		btCollisionObject* colObj0 = static_cast<btCollisionObject*>(proxy->m_clientObject);
 		colObj0->getCollisionShape()->getAabb(colObj0->getWorldTransform(), proxyAabbMin, proxyAabbMax);
 		if (TestAabbAgainstAabb2(proxyAabbMin, proxyAabbMax, m_queryAabbMin, m_queryAabbMax))
 		{

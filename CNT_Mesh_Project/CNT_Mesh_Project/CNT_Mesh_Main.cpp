@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 		cout << "Enter config xml path (Example in program files directory):\n";
 		cin.getline(inputXMLPathArray, xmlArrayLength);
 		inputXMLPath = inputXMLPathArray;
-		delete inputXMLPathArray;
+		delete[] inputXMLPathArray;
 	}
 	else if (argc > 2)
 	{
