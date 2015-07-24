@@ -604,7 +604,7 @@ void	MeshEnv::initPhysics(float camDistance)
 			"_x" + to_string(xdim) + "y" + to_string(ydim) + "z" + to_string(zdim) + "/";
 	}
 
-	outputPath = operator+(outputFolderPath, runID);
+	outputPath = outputFolderPath + runID;
 	wstring wide_string(outputPath.begin(), outputPath.end());
 	if (CreateDirectory(wide_string.c_str(), nullptr) == 0)
 	{
@@ -1062,6 +1062,7 @@ struct	MyOverlapCallback : public btBroadphaseAabbCallback
 
 uint8_t checkCntr = 0x00;
 uint8_t bitMask = 0x07;
+bool screenshotHasBeenTaken = false;
 /**
 steps the simulation, then it renders the dynamics world. Also responsible for checking if the 
 simulation is done and saving the data.
@@ -1080,6 +1081,10 @@ void MeshEnv::clientMoveAndDisplay()
 		if ((checkCntr&bitMask) == 0){
 			/*each 8th step, I would like to check if simulation is done*/
 			bool simComplete = 1;
+			//Gets total number of tubes
+			auto totalTubeNum = m_tubeList.size();
+			//keeps the total number of resting tubes
+			auto sleepTotCntr = 0;
 			//iterate over the list of tubes while we think that the simulation might be done
 			for (list<shared_ptr<tube>>::iterator itrTube = m_tubeList.begin();
 				itrTube != m_tubeList.end() && simComplete; ++itrTube)
@@ -1092,6 +1097,7 @@ void MeshEnv::clientMoveAndDisplay()
 						(*itrCyl)->getActivationState() == WANTS_DEACTIVATION)
 					{
 						sleepCntr++;
+						sleepTotCntr++;
 					}
 				}
 				//if 10% of the cylinders are ready to or are sleeping, then the tube is done.
@@ -1100,11 +1106,16 @@ void MeshEnv::clientMoveAndDisplay()
 					simComplete = 0;
 				}
 			}
+			//if we have not taken a screenshot and 10% of tubes in entire simulation are not moving
+			// we want to take a screenshot
+			if (!screenshotHasBeenTaken && (sleepTotCntr / totalTubeNum > .1))
+			{
+				
+			}
 
 			if (simComplete)
 			{
 				//iterate for file output
-				//string folder = "C:/Users/Gabory/Dropbox/Research/OutputFiles/";
 				for (list<shared_ptr<tube>>::iterator itrTube = m_tubeList.begin();
 					itrTube != m_tubeList.end() && simComplete; ++itrTube)
 				{
@@ -1233,4 +1244,12 @@ float	MeshEnv::exitPhysics()
 	delete m_collisionConfiguration;
 
 	return getCameraDistance();
+}
+
+/**
+Takes a screenshot of the mesh
+*/
+void MeshEnv::takeScreenshot()
+{
+	MeshEnv::keyboardCallback('D', 0, 0); //starts without rendering anything, release code
 }

@@ -181,6 +181,8 @@ public:
 	//converts the units of the xml doc to the units of the simulation
 	double convertUnits(std::string unit, double val);
 
+	void takeScreenshot();
+
 };
 
 #endif //BASIC_DEMO_H

@@ -54,9 +54,17 @@ protected:
 	///this is the most important class
 	btDynamicsWorld*		m_dynamicsWorld;
 
+	/////////////////// CNT PROJECT ENTRIES ////////////////////
+
 	//when delete is called, the destructor runs on the list
 	// This destructor destroys all of the objects in the list
-	std::list<std::shared_ptr<tube>>	m_tubeList;
+	std::list<std::shared_ptr<tube>>	m_tubeList; 
+	//Half-extent dimensions for the mesh area
+	btScalar xdim;
+	btScalar ydim;
+	btScalar zdim;
+
+	///////////////////////////////////////////////////////////
 		
 	///constraint for mouse picking
 	btTypedConstraint*		m_pickConstraint;
