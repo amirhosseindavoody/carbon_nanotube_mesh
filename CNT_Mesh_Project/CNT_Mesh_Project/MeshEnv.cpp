@@ -1115,30 +1115,10 @@ void MeshEnv::clientMoveAndDisplay()
 					ofstream file;
 					file.open(fileName);
 					// add initial info to file
-					file << "Chirality:,";
-					file << (*itrTube)->getCNT()->getn();
-					file << "  ";
-					file << (*itrTube)->getCNT()->getm();
-					file << "\n";
-					file << "Length:,";
-					file << (*itrTube)->getLength();
-					file << "\n";
-					file << "Cylinder Height:,";
-					file << (*itrTube)->getCylHeight();
-					file << "\n";
-					file << "Intertube Spacing:,";
-					file << (*itrTube)->getMinSpacing()*2.0;
-					file << "\n";
-					file << "Intercylinder Spacing:,";
-					file << (*itrTube)->getTubeSpacing();
-					file << "\n";
-					file << "x";
-					file << tubeNum;
-					file << ",y";
-					file << tubeNum;
-					file << ",z";
-					file << tubeNum;
-					file << "\n";
+					file << "Chirality:," << (*itrTube)->getCNT()->getn() << "  " << (*itrTube)->getCNT()->getm() <<
+						"\nLength:," << (*itrTube)->getLength() << "\nCylinder Height:," << (*itrTube)->getCylHeight()
+						<< "\nIntertube Spacing:," << (*itrTube)->getMinSpacing()*2.0 << "\nIntercylinder Spacing:,"
+						<< (*itrTube)->getTubeSpacing() << "\nx" << tubeNum << ",y" << tubeNum << ",z" << tubeNum << endl;
 
 					//The amount the constraint is shifted from the center of mass position from each cylinder
 					btVector3 constraintShift = btVector3(0, -((*itrTube)->getCylHeight() + (*itrTube)->getTubeSpacing()) / 2.0, 0);
@@ -1149,12 +1129,7 @@ void MeshEnv::clientMoveAndDisplay()
 					
 					//grab first cylinder information first and add to file
 					btVector3 pos = (*itrCyl)->getCenterOfMassPosition();
-					file << pos[0];
-					file << ",";
-					file << pos[1];
-					file << ",";
-					file << pos[2];
-					file << "\n";
+					file << pos[0] << "," << pos[1] << "," << pos[2] << endl;
 					++itrCyl;
 
 					/*From the next cylinder, we can get both the center of mass positions and
@@ -1164,19 +1139,9 @@ void MeshEnv::clientMoveAndDisplay()
 					{
 						btTransform currCyl = (*itrCyl)->getWorldTransform();
 						btVector3 conPos = currCyl.operator*(constraintShift);
-						file << conPos[0];
-						file << ",";
-						file << conPos[1];
-						file << ",";
-						file << conPos[2];
-						file << "\n";
+						file << conPos[0] << "," << conPos[1] << "," << conPos[2] << endl;
 						pos = (*itrCyl)->getCenterOfMassPosition();
-						file << pos[0];
-						file << ",";
-						file << pos[1];
-						file << ",";
-						file << pos[2];
-						file << "\n";
+						file << pos[0] << "," << pos[1] << "," << pos[2] << endl;
 					}
 					file.close();
 				}
