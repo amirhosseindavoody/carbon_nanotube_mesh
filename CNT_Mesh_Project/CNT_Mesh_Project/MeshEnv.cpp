@@ -43,6 +43,7 @@ extern string temp;
 extern int xmlArrayLength;
 string outputPath;
 bool toDebugDraw = true;
+string timeStamp;
 
 /**
 Multiplies two btMatrix3x3 matricies together. m*v
@@ -580,7 +581,7 @@ void	MeshEnv::initPhysics(float camDistance)
 		}
 	}
 
-	string timeStamp = "Date_";
+	timeStamp = "Date_";
 	string response;
 	{
 		time_t timer;

@@ -17,6 +17,7 @@ This is a heavily edited version of main.cpp in the BasicDemo example provided b
 string inputXMLPath = "./CNT_Mesh_Config.xml";
 int xmlArrayLength = 300;
 string temp = " ";
+extern string timeStamp;
 
 int main(int argc, char *argv[])
 {
@@ -41,13 +42,12 @@ int main(int argc, char *argv[])
 	
 	MeshEnv ccdDemo;
 	ccdDemo.initPhysics(btScalar(300));
-	//ccdDemo.setDebugMode(btIDebugDraw::DBG_DrawConstraints + btIDebugDraw::DBG_DrawConstraintLimits); 
 
 
 #ifdef CHECK_MEMORY_LEAKS
 	ccdDemo.exitPhysics();
 #else
-	return glutmain(argc, argv, 1910, 1010, "CNT Mesh World", &ccdDemo);
+	return glutmain(argc, argv, 1910, 1010, timeStamp.c_str(), &ccdDemo);
 #endif
 
 	//default glut doesn't return from mainloop
