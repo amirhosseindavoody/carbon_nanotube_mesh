@@ -43,7 +43,7 @@ extern string temp;
 extern int xmlArrayLength;
 string outputPath;
 bool toDebugDraw = true;
-string timeStamp;
+string runID;
 
 /**
 Multiplies two btMatrix3x3 matricies together. m*v
@@ -581,7 +581,7 @@ void	MeshEnv::initPhysics(float camDistance)
 		}
 	}
 
-	timeStamp = "Date_";
+	runID = "d";
 	string response;
 	{
 		time_t timer;
@@ -598,12 +598,13 @@ void	MeshEnv::initPhysics(float camDistance)
 		}
 
 		#pragma warning(suppress: 6001)
-		timeStamp = timeStamp + to_string(currTime.tm_mday) + "." + to_string(currTime.tm_mon + 1) + "."
-			+ to_string(currTime.tm_year % 100) + "_Time_" + to_string(currTime.tm_hour) + "." +
-			to_string(currTime.tm_min) + "." + to_string(currTime.tm_sec) + "/";
+		runID = runID + to_string(currTime.tm_mday) + "." + to_string(currTime.tm_mon + 1) + "."
+			+ to_string(currTime.tm_year % 100) + "_t" + to_string(currTime.tm_hour) + "." +
+			to_string(currTime.tm_min) + "." + to_string(currTime.tm_sec) + "_c" + to_string(numTubes) + 
+			"_x" + to_string(xdim) + "y" + to_string(ydim) + "z" + to_string(zdim) + "/";
 	}
 
-	outputPath = operator+(outputFolderPath, timeStamp);
+	outputPath = operator+(outputFolderPath, runID);
 	wstring wide_string(outputPath.begin(), outputPath.end());
 	if (CreateDirectory(wide_string.c_str(), nullptr) == 0)
 	{
