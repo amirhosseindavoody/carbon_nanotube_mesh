@@ -44,6 +44,7 @@ extern int xmlArrayLength;
 string outputPath;
 bool toDebugDraw = true;
 string runID;
+UINT32 totalCylNum;
 
 /**
 Multiplies two btMatrix3x3 matricies together. m*v
@@ -397,9 +398,9 @@ void	MeshEnv::initPhysics(float camDistance)
 	btScalar minSpacing = 1.5;
 	btScalar lmin = 100;
 	btScalar lmax = 200;
-	btScalar xdim = 150.0;
-	btScalar ydim = 100.0;
-	btScalar zdim = 150.0;
+	m_xdim = 150.0;
+	m_ydim = 100.0;
+	m_zdim = 150.0;
 	vector<int> chirality(0);
 	int chirCount = 0;
 
@@ -502,14 +503,14 @@ void	MeshEnv::initPhysics(float camDistance)
 
 			// DEVICE DIMENSIONS NODE //
 			currNode = currNode->next_sibling();
-			xdim = convertUnits(string(currNode->first_node()->value()),
+			m_xdim = convertUnits(string(currNode->first_node()->value()),
 				atof(currNode->first_node()->next_sibling()->value())) / 2.0;
-			ydim = convertUnits(string(currNode->first_node()->value()),
+			m_ydim = convertUnits(string(currNode->first_node()->value()),
 				atof(currNode->first_node()->next_sibling()->next_sibling()->value())) / 2.0;
-			zdim = convertUnits(string(currNode->first_node()->value()),
+			m_zdim = convertUnits(string(currNode->first_node()->value()),
 				atof(currNode->first_node()->next_sibling()->next_sibling()->next_sibling()->value())) / 2.0;
 			//incorrect units
-			if (xdim == INT_MIN / 2.0 || ydim == INT_MIN / 2.0 || zdim == INT_MIN / 2.0)
+			if (m_xdim == INT_MIN / 2.0 || m_ydim == INT_MIN / 2.0 || m_zdim == INT_MIN / 2.0)
 			{
 				printf("Configuration Error: Incorrect units for device dimensions.\nRefer to manual"
 					" for valid unit entries.\n");
@@ -517,7 +518,7 @@ void	MeshEnv::initPhysics(float camDistance)
 				exit(EXIT_FAILURE);
 			}
 			//incorrect range
-			else if (xdim <= 0 || ydim <= 0 || zdim <= 0)
+			else if (m_xdim <= 0 || m_ydim <= 0 || m_zdim <= 0)
 			{
 				printf("Configuration Error: Must enter positive device dimensions.\n");
 				system("pause");
@@ -580,7 +581,7 @@ void	MeshEnv::initPhysics(float camDistance)
 			delete[] inputXMLPathArray;
 		}
 	}
-	
+
 
 	runID = "d";
 	string response;
@@ -602,7 +603,8 @@ void	MeshEnv::initPhysics(float camDistance)
 		runID = runID + to_string(currTime.tm_mday) + "." + to_string(currTime.tm_mon + 1) + "."
 			+ to_string(currTime.tm_year % 100) + "_t" + to_string(currTime.tm_hour) + "." +
 			to_string(currTime.tm_min) + "." + to_string(currTime.tm_sec) + "_c" + to_string(numTubes) + 
-			"_x" + to_string(xdim) + "y" + to_string(ydim) + "z" + to_string(zdim) + "/";
+			"_x" + to_string(static_cast<int>(m_xdim))+"y" + to_string(static_cast<int>(m_ydim)) + "z" + 
+			to_string(static_cast<int>(m_zdim))+"/";
 	}
 
 	outputPath = outputFolderPath + runID;
@@ -655,7 +657,7 @@ void	MeshEnv::initPhysics(float camDistance)
 	//This is the ground plane box, made the same way as in Blender: sizes are from center of object to outside
 	//btScalar gndDim = btScalar(25.);
 	btScalar planeHlfExtThick = btScalar(.5); //half extent thickness of plane
-	btBoxShape* groundShape = new btBoxShape(btVector3(xdim, planeHlfExtThick , zdim));
+	btBoxShape* groundShape = new btBoxShape(btVector3(m_xdim, planeHlfExtThick , m_zdim));
 
 	groundShape->setMargin(.0);
 	//adding the ground shape to the aligned object array for easy cleanup later
@@ -681,38 +683,38 @@ void	MeshEnv::initPhysics(float camDistance)
 	planeTransform.setOrigin(btVector3(0, 0, 0));
 
 	//x wall plane
-	btBoxShape* xWallShape = new btBoxShape(btVector3(planeHlfExtThick, ydim, zdim));
+	btBoxShape* xWallShape = new btBoxShape(btVector3(planeHlfExtThick, m_ydim, m_zdim));
 	xWallShape->setMargin(0.);
 	m_collisionShapes.push_back(xWallShape);
 
 	//+x plane
 	body = localCreateRigidBody(planeMass, planeTransform, xWallShape, COL_PLANE, planeCollidesWith);
 	//btMatrix3x3 planeRot = btMatrix3x3(btQuaternion(btVector3(0, 0, 1), SIMD_HALF_PI));
-	btVector3 planeShift(xdim + planeHlfExtThick, ydim, 0);
+	btVector3 planeShift(m_xdim + planeHlfExtThick, m_ydim, 0);
 	shift(body, planeShift);
 	body->setDrawable(FALSE);
 
 	//-x plane
 	body = localCreateRigidBody(planeMass, planeTransform, xWallShape, COL_PLANE, planeCollidesWith);
-	planeShift = btVector3(-(xdim + planeHlfExtThick), ydim, 0);
+	planeShift = btVector3(-(m_xdim + planeHlfExtThick), m_ydim, 0);
 	shift(body, planeShift);
 	body->setDrawable(false);
 
 	//z wall plane
-	btBoxShape* zWallShape = new btBoxShape(btVector3(xdim, ydim, planeHlfExtThick));
+	btBoxShape* zWallShape = new btBoxShape(btVector3(m_xdim, m_ydim, planeHlfExtThick));
 	zWallShape->setMargin(0.);
 	m_collisionShapes.push_back(zWallShape);
 
 	//+z plane
 	body = localCreateRigidBody(planeMass, planeTransform, zWallShape, COL_PLANE, planeCollidesWith);
 	//planeRot = btMatrix3x3(btQuaternion(btVector3(1, 0, 0), SIMD_HALF_PI));
-	planeShift = btVector3(0, ydim, zdim + planeHlfExtThick);
+	planeShift = btVector3(0, m_ydim, m_zdim + planeHlfExtThick);
 	shift(body, planeShift);
 	body->setDrawable(FALSE);
 
 	//-z plane
 	body = localCreateRigidBody(planeMass, planeTransform, zWallShape, COL_PLANE, planeCollidesWith);
-	planeShift = btVector3(0, ydim, -(zdim + planeHlfExtThick));
+	planeShift = btVector3(0, m_ydim, -(m_zdim + planeHlfExtThick));
 	shift(body, planeShift);
 	body->setDrawable(false);
 	
@@ -723,27 +725,27 @@ void	MeshEnv::initPhysics(float camDistance)
 	planeTransform.setOrigin(btVector3(0, 0, 0));
 	
 	//x flaps
-	btBoxShape* xFlapShape = new btBoxShape(btVector3(flapLen, planeHlfExtThick, zdim + 2*flapLen));
+	btBoxShape* xFlapShape = new btBoxShape(btVector3(flapLen, planeHlfExtThick, m_zdim + 2*flapLen));
 	xFlapShape->setMargin(0.);
 	m_collisionShapes.push_back(xFlapShape);
 
 	//+x flap
 	body = localCreateRigidBody(planeMass, planeTransform, xFlapShape, COL_PLANE, planeCollidesWith);
 	btMatrix3x3 planeRot = btMatrix3x3(btQuaternion(btVector3(0, 0, 1), SIMD_QUARTER_PI));
-	planeShift = btVector3(xdim + (sqrt(2) / 2)*(flapLen + planeHlfExtThick), 2*ydim + (sqrt(2) / 2)*(flapLen - planeHlfExtThick), 0);
+	planeShift = btVector3(m_xdim + (sqrt(2) / 2)*(flapLen + planeHlfExtThick), 2*m_ydim + (sqrt(2) / 2)*(flapLen - planeHlfExtThick), 0);
 	rotateAndShift(planeRot, body, planeShift);
 	body->setDrawable(false);
 
 	//-x flap
 	body = localCreateRigidBody(planeMass, planeTransform, xFlapShape, COL_PLANE, planeCollidesWith);
 	planeRot = btMatrix3x3(btQuaternion(btVector3(0, 0, 1), -SIMD_QUARTER_PI));
-	planeShift = btVector3(-(xdim + (sqrt(2) / 2)*(flapLen + planeHlfExtThick)), 2 * ydim + (sqrt(2) / 2)*(flapLen - planeHlfExtThick), 0);
+	planeShift = btVector3(-(m_xdim + (sqrt(2) / 2)*(flapLen + planeHlfExtThick)), 2 * m_ydim + (sqrt(2) / 2)*(flapLen - planeHlfExtThick), 0);
 	rotateAndShift(planeRot, body, planeShift);
 	body->setDrawable(false);
 
 
 	//z flaps
-	btBoxShape* zFlapShape = new btBoxShape(btVector3(xdim + 2*flapLen, planeHlfExtThick, flapLen));
+	btBoxShape* zFlapShape = new btBoxShape(btVector3(m_xdim + 2*flapLen, planeHlfExtThick, flapLen));
 	zFlapShape->setMargin(0.);
 	m_collisionShapes.push_back(zFlapShape);
 
@@ -751,7 +753,7 @@ void	MeshEnv::initPhysics(float camDistance)
 	body = localCreateRigidBody(planeMass, planeTransform, zFlapShape, COL_PLANE, planeCollidesWith);
 	planeRot = btMatrix3x3(btQuaternion(btVector3(1, 0, 0), -SIMD_QUARTER_PI));
 	//planeRot = planeRot.operator*=(btMatrix3x3(btQuaternion(btVector3(0, 1, 0), SIMD_HALF_PI)));
-	planeShift = btVector3(0, 2 * ydim + (sqrt(2) / 2)*(flapLen - planeHlfExtThick), zdim + (sqrt(2) / 2)*(flapLen + planeHlfExtThick));
+	planeShift = btVector3(0, 2 * m_ydim + (sqrt(2) / 2)*(flapLen - planeHlfExtThick), m_zdim + (sqrt(2) / 2)*(flapLen + planeHlfExtThick));
 	rotateAndShift(planeRot, body, planeShift);
 	body->setDrawable(false);
 
@@ -759,7 +761,7 @@ void	MeshEnv::initPhysics(float camDistance)
 	body = localCreateRigidBody(planeMass, planeTransform, zFlapShape, COL_PLANE, planeCollidesWith);
 	planeRot = btMatrix3x3(btQuaternion(btVector3(1, 0, 0), SIMD_QUARTER_PI));
 	//planeRot = planeRot.operator*=(btMatrix3x3(btQuaternion(btVector3(0, 1, 0), SIMD_HALF_PI)));
-	planeShift = btVector3(0, 2 * ydim + (sqrt(2) / 2)*(flapLen - planeHlfExtThick), -(zdim + (sqrt(2) / 2)*(flapLen + planeHlfExtThick)));
+	planeShift = btVector3(0, 2 * m_ydim + (sqrt(2) / 2)*(flapLen - planeHlfExtThick), -(m_zdim + (sqrt(2) / 2)*(flapLen + planeHlfExtThick)));
 	rotateAndShift(planeRot, body, planeShift);
 	body->setDrawable(false);
 	
@@ -819,6 +821,7 @@ void	MeshEnv::initPhysics(float camDistance)
 		int numSection = currTubeParam->numSections;
 		delete currTubeParam;
 
+		totalCylNum += numSection; //keeps total count of cylinders
 	
 		//
 		// create tube
@@ -835,7 +838,7 @@ void	MeshEnv::initPhysics(float camDistance)
 		double avagadro = 6.0221413*pow(10, 23);
 		double cylMass = (height + tubeSeparation) / curr_cnt->getTvecLen() * curr_cnt->getNumAtomsUnitCell()*cMass / avagadro;
 		//calculate the extra height needed to get above the top of the funnel
-		double funHeight = 2 * ydim + sqrt(2)*flapLen;
+		double funHeight = 2 * m_ydim + sqrt(2)*flapLen;
 		//location of the first cylinder, and the prev cylinder in the for loop below
 		double prevYPos = height / 2;
 		/*Each tube will refered to as a spine made up of individual vertebrae. Each tube will have a spine
@@ -850,8 +853,8 @@ void	MeshEnv::initPhysics(float camDistance)
 		
 		//Random Placement limits for tubes at the top of the funnel
 		double funPad = 0; //extra padding for tube placement in funnel
-		double xFunLimit = xdim + sqrt(2)*flapLen - tubeLength / 2 - funPad;
-		double zFunLimit = zdim + sqrt(2)*flapLen - tubeLength / 2 - funPad;
+		double xFunLimit = m_xdim + sqrt(2)*flapLen - tubeLength / 2 - funPad;
+		double zFunLimit = m_zdim + sqrt(2)*flapLen - tubeLength / 2 - funPad;
 		
 
 		//Non-random positions
@@ -1084,7 +1087,7 @@ void MeshEnv::clientMoveAndDisplay()
 			/*each 8th step, I would like to check if simulation is done*/
 			bool simComplete = 1;
 			//Gets total number of tubes
-			auto totalTubeNum = m_tubeList.size();
+			totalCylNum = 0;
 			//keeps the total number of resting tubes
 			auto sleepTotCntr = 0;
 			//iterate over the list of tubes while we think that the simulation might be done
@@ -1110,7 +1113,7 @@ void MeshEnv::clientMoveAndDisplay()
 			}
 			//if we have not taken a screenshot and 10% of tubes in entire simulation are not moving
 			// we want to prepare a screenshot
-			if (!screenShotPrepped && (sleepTotCntr / totalTubeNum > .1) && !screenshotHasBeenTaken)
+			if (!screenShotPrepped && (sleepTotCntr / totalCylNum > .1) && !screenshotHasBeenTaken)
 			{
 				m_debugMode = 0x1800; //render objectss
 				gDisableDeactivation = true; //disable sleeping to ensure correct color

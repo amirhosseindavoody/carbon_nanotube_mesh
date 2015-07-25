@@ -60,9 +60,9 @@ protected:
 	// This destructor destroys all of the objects in the list
 	std::list<std::shared_ptr<tube>>	m_tubeList; 
 	//Half-extent dimensions for the mesh area
-	btScalar xdim;
-	btScalar ydim;
-	btScalar zdim;
+	btScalar m_xdim;
+	btScalar m_ydim;
+	btScalar m_zdim;
 
 	///////////////////////////////////////////////////////////
 		
