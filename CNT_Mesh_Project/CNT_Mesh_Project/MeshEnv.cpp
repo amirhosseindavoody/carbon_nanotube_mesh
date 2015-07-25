@@ -1079,7 +1079,6 @@ struct	MyOverlapCallback : public btBroadphaseAabbCallback
 	}
 };
 
-
 uint8_t checkCntr = 0x00;
 uint8_t bitMask = 0x07;
 bool screenShotPrepped = false;
@@ -1104,6 +1103,8 @@ void MeshEnv::clientMoveAndDisplay()
 			bool simComplete = 1;
 			//keeps the total number of resting cylinders
 			auto sleepTotCntr = 0;
+
+			int temp = (btIDebugDraw::DBG_NoHelpText | btIDebugDraw::DBG_NoDeactivation);
 			//iterate over the list of tubes while we think that the simulation might be done
 			for (list<shared_ptr<tube>>::iterator itrTube = m_tubeList.begin();
 				itrTube != m_tubeList.end() && simComplete; ++itrTube)
@@ -1127,18 +1128,30 @@ void MeshEnv::clientMoveAndDisplay()
 			}
 			//if we have not taken a screenshot and 10% of tubes in entire simulation are not moving
 			// we want to prepare a screenshot
-			if (!screenShotPrepped && (sleepTotCntr / totalCylNum > .1) && !screenshotHasBeenTaken)
+			if (!screenShotPrepped && (static_cast<double>(sleepTotCntr) / static_cast<double>(totalCylNum) > .1) 
+				&& !screenshotHasBeenTaken)
 			{
-				m_debugMode = 0x1800; //render objectss
-				gDisableDeactivation = true; //disable sleeping to ensure correct color
-				m_debugMode |= 0x0020; //turn off context
+				m_debugMode = 0x1800; //render objects
+				m_debugMode |= btIDebugDraw::DBG_NoDeactivation;
+				gDisableDeactivation = true;
+				//turn off context
+				m_debugMode |= btIDebugDraw::DBG_NoHelpText;
+				getDynamicsWorld()->getDebugDrawer()->setDebugMode(m_debugMode);
 				screenShotPrepped = true; //next frame the screenshot will be taken
 			} 
 			else if (!screenshotHasBeenTaken && screenShotPrepped)
 			{
+				//Rendering function. Uses
+				renderme();
+				//APIENTRY functions -> cannot edit
+				glFlush();
+				swapBuffers();
+
 				takeScreenshot();
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				screenshotHasBeenTaken = true;
-				m_debugMode = 1; 
+				m_debugMode = 1;
+				getDynamicsWorld()->getDebugDrawer()->setDebugMode(m_debugMode);
 				gDisableDeactivation = false; //allow deactivation again
 				screenShotPrepped = false; //reset to false to eval every 8th world update
 			}
@@ -1382,7 +1395,7 @@ int MeshEnv::takeScreenshot()
 		reinterpret_cast<BITMAPINFO *>(&bi), DIB_RGB_COLORS);
 
 	//Set up file name for screenshot
-	string screenshotFileName = outputPath + "screenshot.bmp";
+	string screenshotFileName = outputPath + runID + ".bmp";
 	wstring w_screenshotFileNamestring;
 	w_screenshotFileNamestring.assign(screenshotFileName.begin(), screenshotFileName.end());
 	const WCHAR* w_screenshotFileName = w_screenshotFileNamestring.c_str();
