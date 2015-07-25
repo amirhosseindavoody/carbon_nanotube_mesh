@@ -1115,6 +1115,7 @@ void MeshEnv::clientMoveAndDisplay()
 			{
 				m_debugMode = 0x1800; //render objectss
 				gDisableDeactivation = true; //disable sleeping to ensure correct color
+				m_debugMode |= 0x0020; //turn off context
 				screenShotPrepped = true; //next frame the screenshot will be taken
 			} 
 			else if (!screenshotHasBeenTaken && screenShotPrepped)
@@ -1268,8 +1269,8 @@ int MeshEnv::takeScreenshot()
 	//window handle needs wide char array
 	wstring w_runIDstring;
 	w_runIDstring.assign(runID.begin(), runID.end());
-	shared_ptr<const wchar_t> w_runID = shared_ptr<const wchar_t>(w_runIDstring.c_str());
-	HWND hWnd = FindWindow(L"GLUT", w_runID.get()); //get window handle
+	const wchar_t* w_runID = w_runIDstring.c_str(); //allocated on stack no delete
+	HWND hWnd = FindWindow(L"GLUT", w_runID); //get window handle
 	SetForegroundWindow(hWnd);
 	//check to see if failed
 	if (!hWnd)
@@ -1284,7 +1285,7 @@ int MeshEnv::takeScreenshot()
 	}
 
 	RECT rect; //gets window boundaries
-	bool success = GetWindowRect(hWnd, &rect);
+	BOOL success = GetWindowRect(hWnd, &rect);
 	//check to see if failed
 	if (!success)
 	{
@@ -1365,10 +1366,10 @@ int MeshEnv::takeScreenshot()
 	string screenshotFileName = outputPath + "screenshot.bmp";
 	wstring w_screenshotFileNamestring;
 	w_screenshotFileNamestring.assign(screenshotFileName.begin(), screenshotFileName.end());
-	shared_ptr<const WCHAR> w_screenshotFileName = shared_ptr<const WCHAR>(w_screenshotFileNamestring.c_str());
+	const WCHAR* w_screenshotFileName = w_screenshotFileNamestring.c_str();
 
 	// A file is created, this is where we will save the screen capture.
-	HANDLE hFile = CreateFile(w_screenshotFileName.get(),
+	HANDLE hFile = CreateFile(w_screenshotFileName,
 		GENERIC_WRITE,
 		0,
 		nullptr,
