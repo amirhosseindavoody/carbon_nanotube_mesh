@@ -604,10 +604,10 @@ void	MeshEnv::initPhysics(float camDistance)
 			+ to_string(currTime.tm_year % 100) + "_t" + to_string(currTime.tm_hour) + "." +
 			to_string(currTime.tm_min) + "." + to_string(currTime.tm_sec) + "_c" + to_string(numTubes) + 
 			"_x" + to_string(static_cast<int>(m_xdim / 5.0)) + "y" + to_string(static_cast<int>(m_ydim / 5.0)) + "z" +
-			to_string(static_cast<int>(m_zdim / 5.0)) + "/";
+			to_string(static_cast<int>(m_zdim / 5.0));
 	}
 
-	outputPath = outputFolderPath + runID;
+	outputPath = outputFolderPath + runID + "/";
 	wstring wide_string(outputPath.begin(), outputPath.end());
 	if (CreateDirectory(wide_string.c_str(), nullptr) == 0)
 	{
