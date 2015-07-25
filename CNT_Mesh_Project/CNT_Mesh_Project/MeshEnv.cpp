@@ -1269,23 +1269,58 @@ int MeshEnv::takeScreenshot()
 	wstring w_runIDstring;
 	w_runIDstring.assign(runID.begin(), runID.end());
 	shared_ptr<const wchar_t> w_runID = shared_ptr<const wchar_t>(w_runIDstring.c_str());
-	HWND hWnd = FindWindow(nullptr, w_runID.get()); //get window handle
+	HWND hWnd = FindWindow(L"GLUT", w_runID.get()); //get window handle
+	SetForegroundWindow(hWnd);
+	//check to see if failed
+	if (!hWnd)
+	{
+		return -1;
+	}
 	HDC hWndContext = GetDC(hWnd); //gets drawing attributes of window
+	//check to see if failed
+	if (!hWndContext)
+	{
+		return -1;
+	}
 
 	RECT rect; //gets window boundaries
-	GetWindowRect(hWnd, &rect);
+	bool success = GetWindowRect(hWnd, &rect);
+	//check to see if failed
+	if (!success)
+	{
+		return -1;
+	}
 
 	//creates context compatible with window to be used for bmp
 	HDC hDCMem = CreateCompatibleDC(hWndContext);
-	
+	//check to see if failed
+	if (!hDCMem)
+	{
+		return -1;
+	}
+
 	//creates a bitmap compatible with the device that is associated with the specified device context.
-	HBITMAP hBitmap = CreateCompatibleBitmap(hWndContext, rect.right - rect.left, rect.top - rect.bottom);
+	HBITMAP hBitmap = CreateCompatibleBitmap(hWndContext, rect.right - rect.left, rect.bottom - rect.top);
+	//check to see if failed
+	if (!hBitmap)
+	{
+		return -1;
+	}
+
 
 	//Takes the compatible bitmap and puts it into the compatible device context of hDCMem
-	SelectObject(hDCMem, hBitmap);
+	if (!SelectObject(hDCMem, hBitmap))
+	{
+		return -1;
+	}
 
 	//Copies window to bitmap
-	BitBlt(hDCMem, 0, 0, rect.right - rect.left, rect.top - rect.bottom, hWndContext, 0, 0, SRCCOPY);
+	success = BitBlt(hDCMem, 0, 0, rect.right - rect.left, rect.bottom - rect.top, hWndContext, 0, 0, SRCCOPY);
+	//check to see if failed
+	if (!success)
+	{
+		return -1;
+	}
 
 	//Rest of function borrows code from example found at following URL:
 	// https://msdn.microsoft.com/en-us/library/windows/desktop/dd183402(v=vs.85).aspx
@@ -1293,6 +1328,10 @@ int MeshEnv::takeScreenshot()
 	BITMAP bmpScreen;
 	// Get the BITMAP from the HBITMAP
 	GetObject(hBitmap, sizeof(BITMAP), &bmpScreen);
+	if (!&bmpScreen)
+	{
+		return -1;
+	}
 
 	BITMAPFILEHEADER   bmfHeader;
 	BITMAPINFOHEADER   bi;
@@ -1311,6 +1350,10 @@ int MeshEnv::takeScreenshot()
 
 	DWORD dwBmpSize = ((bmpScreen.bmWidth * bi.biBitCount + 31) / 32) * 4 * bmpScreen.bmHeight;
 	HANDLE hDIB = GlobalAlloc(GHND, dwBmpSize); //allocation of bitmap memory
+	if (!hDIB)
+	{
+		return -1;
+	}
 	char *lpbitmap = static_cast<char *>(GlobalLock(hDIB)); //buffer, pointing to hDIB, that stores bitmap
 
 	GetDIBits(hWndContext, hBitmap, 0,
