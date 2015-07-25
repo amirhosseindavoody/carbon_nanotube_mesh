@@ -580,6 +580,7 @@ void	MeshEnv::initPhysics(float camDistance)
 			delete[] inputXMLPathArray;
 		}
 	}
+	
 
 	runID = "d";
 	string response;
@@ -1062,6 +1063,7 @@ struct	MyOverlapCallback : public btBroadphaseAabbCallback
 
 uint8_t checkCntr = 0x00;
 uint8_t bitMask = 0x07;
+bool screenShotPrepped = false;
 bool screenshotHasBeenTaken = false;
 /**
 steps the simulation, then it renders the dynamics world. Also responsible for checking if the 
@@ -1078,7 +1080,7 @@ void MeshEnv::clientMoveAndDisplay()
 	if (m_dynamicsWorld)
 	{
 		m_dynamicsWorld->stepSimulation(ms / 1000000.f); ///////////////STEP SIMULATION////////////
-		if ((checkCntr&bitMask) == 0){
+		if ((checkCntr&bitMask) == 0 || screenShotPrepped){
 			/*each 8th step, I would like to check if simulation is done*/
 			bool simComplete = 1;
 			//Gets total number of tubes
@@ -1107,11 +1109,22 @@ void MeshEnv::clientMoveAndDisplay()
 				}
 			}
 			//if we have not taken a screenshot and 10% of tubes in entire simulation are not moving
-			// we want to take a screenshot
-			if (!screenshotHasBeenTaken && (sleepTotCntr / totalTubeNum > .1))
+			// we want to prepare a screenshot
+			if (!screenShotPrepped && (sleepTotCntr / totalTubeNum > .1) && !screenshotHasBeenTaken)
 			{
-				
+				m_debugMode = 0x1800; //render objectss
+				gDisableDeactivation = true; //disable sleeping to ensure correct color
+				screenShotPrepped = true; //next frame the screenshot will be taken
+			} 
+			else if (!screenshotHasBeenTaken && screenShotPrepped)
+			{
+				takeScreenshot();
+				screenshotHasBeenTaken = true;
+				m_debugMode = 1; 
+				gDisableDeactivation = false; //allow deactivation again
+				screenShotPrepped = false; //reset to false to eval every 8th world update
 			}
+
 
 			if (simComplete)
 			{
@@ -1249,7 +1262,76 @@ float	MeshEnv::exitPhysics()
 /**
 Takes a screenshot of the mesh
 */
-void MeshEnv::takeScreenshot()
+int MeshEnv::takeScreenshot()
 {
-	MeshEnv::keyboardCallback('D', 0, 0); //starts without rendering anything, release code
+	//window handle needs wide char array
+	wstring w_runIDstring;
+	w_runIDstring.assign(runID.begin(), runID.end());
+	const wchar_t* w_runID = w_runIDstring.c_str();
+	HWND hWnd = FindWindow(nullptr, w_runID); //get window handle
+	HDC hWndContext = GetDC(hWnd); //gets drawing attributes of window
+
+	RECT rect; //gets window boundaries
+	GetWindowRect(hWnd, &rect);
+
+	//creates context compatible with window to be used for bmp
+	HDC hDCMem = CreateCompatibleDC(hWndContext);
+	
+	//creates a bitmap compatible with the device that is associated with the specified device context.
+	HBITMAP hBitmap = CreateCompatibleBitmap(hWndContext, rect.right - rect.left, rect.top - rect.bottom);
+
+	//Takes the compatible bitmap and puts it into the compatible device context of hDCMem
+	SelectObject(hDCMem, hBitmap);
+
+	//Copies window to bitmap
+	BitBlt(hDCMem, 0, 0, rect.right - rect.left, rect.top - rect.bottom, hWndContext, 0, 0, SRCCOPY);
+
+	BITMAP bmpScreen;
+	// Get the BITMAP from the HBITMAP
+	GetObject(hBitmap, sizeof(BITMAP), &bmpScreen);
+
+	BITMAPFILEHEADER   bmfHeader;
+	BITMAPINFOHEADER   bi;
+
+	bi.biSize = sizeof(BITMAPINFOHEADER);
+	bi.biWidth = bmpScreen.bmWidth;
+	bi.biHeight = bmpScreen.bmHeight;
+	bi.biPlanes = 1;
+	bi.biBitCount = 32;
+	bi.biCompression = BI_RGB;
+	bi.biSizeImage = 0;
+	bi.biXPelsPerMeter = 0;
+	bi.biYPelsPerMeter = 0;
+	bi.biClrUsed = 0;
+	bi.biClrImportant = 0;
+
+	DWORD dwBmpSize = ((bmpScreen.bmWidth * bi.biBitCount + 31) / 32) * 4 * bmpScreen.bmHeight;
+	HANDLE hDIB = GlobalAlloc(GHND, dwBmpSize); //allocation of bitmap memory
+	char *lpbitmap = static_cast<char *>(GlobalLock(hDIB)); //buffer, pointing to hDIB, that stores bitmap
+
+	GetDIBits(hWndContext, hBitmap, 0,
+		static_cast<UINT>(bmpScreen.bmHeight),
+		lpbitmap,
+		reinterpret_cast<BITMAPINFO *>(&bi), DIB_RGB_COLORS);
+
+	//Set up file name for screenshot
+	string screenshotFileName = outputPath + "screenshot.bmp";
+	wstring w_screenshotFileNamestring;
+	w_runIDstring.assign(screenshotFileName.begin(), screenshotFileName.end());
+	const WCHAR* w_screenshotFileName = w_screenshotFileNamestring.c_str();
+
+	// A file is created, this is where we will save the screen capture.
+	HANDLE hFile = CreateFile(w_screenshotFileName,
+		GENERIC_WRITE,
+		0,
+		nullptr,
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL, nullptr);
+
+	delete[] w_screenshotFileName;
+	delete[] w_runID;
+
+	return 0;
+
+
 }
