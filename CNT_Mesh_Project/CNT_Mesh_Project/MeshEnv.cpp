@@ -603,8 +603,8 @@ void	MeshEnv::initPhysics(float camDistance)
 		runID = runID + to_string(currTime.tm_mday) + "." + to_string(currTime.tm_mon + 1) + "."
 			+ to_string(currTime.tm_year % 100) + "_t" + to_string(currTime.tm_hour) + "." +
 			to_string(currTime.tm_min) + "." + to_string(currTime.tm_sec) + "_c" + to_string(numTubes) + 
-			"_x" + to_string(static_cast<int>(m_xdim))+"y" + to_string(static_cast<int>(m_ydim)) + "z" + 
-			to_string(static_cast<int>(m_zdim))+"/";
+			"_x" + to_string(static_cast<int>(m_xdim / 5.0)) + "y" + to_string(static_cast<int>(m_ydim / 5.0)) + "z" +
+			to_string(static_cast<int>(m_zdim / 5.0)) + "/";
 	}
 
 	outputPath = outputFolderPath + runID;
@@ -1086,9 +1086,7 @@ void MeshEnv::clientMoveAndDisplay()
 		if ((checkCntr&bitMask) == 0 || screenShotPrepped){
 			/*each 8th step, I would like to check if simulation is done*/
 			bool simComplete = 1;
-			//Gets total number of tubes
-			totalCylNum = 0;
-			//keeps the total number of resting tubes
+			//keeps the total number of resting cylinders
 			auto sleepTotCntr = 0;
 			//iterate over the list of tubes while we think that the simulation might be done
 			for (list<shared_ptr<tube>>::iterator itrTube = m_tubeList.begin();
@@ -1129,7 +1127,7 @@ void MeshEnv::clientMoveAndDisplay()
 			}
 
 
-			if (simComplete)
+			if (simComplete && screenshotHasBeenTaken)
 			{
 				//iterate for file output
 				for (list<shared_ptr<tube>>::iterator itrTube = m_tubeList.begin();
@@ -1270,8 +1268,8 @@ int MeshEnv::takeScreenshot()
 	//window handle needs wide char array
 	wstring w_runIDstring;
 	w_runIDstring.assign(runID.begin(), runID.end());
-	const wchar_t* w_runID = w_runIDstring.c_str();
-	HWND hWnd = FindWindow(nullptr, w_runID); //get window handle
+	shared_ptr<const wchar_t> w_runID = shared_ptr<const wchar_t>(w_runIDstring.c_str());
+	HWND hWnd = FindWindow(nullptr, w_runID.get()); //get window handle
 	HDC hWndContext = GetDC(hWnd); //gets drawing attributes of window
 
 	RECT rect; //gets window boundaries
@@ -1323,11 +1321,11 @@ int MeshEnv::takeScreenshot()
 	//Set up file name for screenshot
 	string screenshotFileName = outputPath + "screenshot.bmp";
 	wstring w_screenshotFileNamestring;
-	w_runIDstring.assign(screenshotFileName.begin(), screenshotFileName.end());
-	const WCHAR* w_screenshotFileName = w_screenshotFileNamestring.c_str();
+	w_screenshotFileNamestring.assign(screenshotFileName.begin(), screenshotFileName.end());
+	shared_ptr<const WCHAR> w_screenshotFileName = shared_ptr<const WCHAR>(w_screenshotFileNamestring.c_str());
 
 	// A file is created, this is where we will save the screen capture.
-	HANDLE hFile = CreateFile(w_screenshotFileName,
+	HANDLE hFile = CreateFile(w_screenshotFileName.get(),
 		GENERIC_WRITE,
 		0,
 		nullptr,
@@ -1359,8 +1357,6 @@ int MeshEnv::takeScreenshot()
 	DeleteObject(hDCMem);
 	DeleteObject(hBitmap);
 	ReleaseDC(hWnd, hWndContext);
-	delete[] w_screenshotFileName;
-	delete[] w_runID;
 
 	return 0;
 
