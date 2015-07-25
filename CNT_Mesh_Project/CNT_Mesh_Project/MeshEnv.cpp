@@ -1291,6 +1291,9 @@ int MeshEnv::takeScreenshot()
 	{
 		return -1;
 	}
+	//Weird adjustments
+	rect.right -= 16;
+	rect.bottom -= 39;
 
 	//creates context compatible with window to be used for bmp
 	HDC hDCMem = CreateCompatibleDC(hWndContext);

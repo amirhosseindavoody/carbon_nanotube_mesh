@@ -13,7 +13,10 @@ This is a heavily edited version of main.cpp in the BasicDemo example provided b
 #include "GlutStuff.h"
 #include <iostream>
 
+//method declaration
+void GetDesktopResolution(int& horizontal, int& vertical);
 
+//global variables
 string inputXMLPath = "./CNT_Mesh_Config.xml";
 int xmlArrayLength = 300;
 string temp = " ";
@@ -47,10 +50,27 @@ int main(int argc, char *argv[])
 #ifdef CHECK_MEMORY_LEAKS
 	ccdDemo.exitPhysics();
 #else
-	return glutmain(argc, argv, 1910, 1010, runID.c_str(), &ccdDemo);
+	int vert = 0;
+	int horiz = 0;
+	GetDesktopResolution(vert, horiz);
+	return glutmain(argc, argv, vert, horiz, runID.c_str(), &ccdDemo);
 #endif
 
 	//default glut doesn't return from mainloop
 	return 0;
 }
 
+// Get the horizontal and vertical screen sizes in pixel
+void GetDesktopResolution(int& horizontal, int& vertical)
+{
+	RECT desktop;
+	// Get a handle to the desktop window
+	const HWND hDesktop = GetDesktopWindow();
+	// Get the size of screen to the variable desktop
+	GetWindowRect(hDesktop, &desktop);
+	// The top left corner will have coordinates (0,0)
+	// and the bottom right corner will have coordinates
+	// (horizontal, vertical)
+	horizontal = desktop.right;
+	vertical = desktop.bottom;
+}
