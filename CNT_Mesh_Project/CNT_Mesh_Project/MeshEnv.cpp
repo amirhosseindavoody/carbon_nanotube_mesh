@@ -629,6 +629,22 @@ void	MeshEnv::initPhysics(float camDistance)
 		}
 	}
 
+	//Copy the input xml config file to the destination folder.
+	wstring w_inputXMLPathString;
+	w_inputXMLPathString.assign(inputXMLPath.begin(), inputXMLPath.end());
+	const wchar_t* w_inputXMLPath = w_inputXMLPathString.c_str();
+
+	string xmlCopy = outputPath + runID + ".xml";
+	wstring w_runIDstring;
+	w_runIDstring.assign(xmlCopy.begin(), xmlCopy.end());
+	const wchar_t* w_runID = w_runIDstring.c_str(); //allocated on stack. Don't need to delete
+	BOOL success = CopyFile(w_inputXMLPath, w_runID, false);
+	//Check to see if file copy was a success
+	if (!success)
+	{
+		cout << "Configuration file could not be copied into results directory.\n";
+	}
+
 	/////////////////////////////// END OF ENVIRONMENT PARAMETERS //////////////////////////////////
 
 	///collision configuration contains default setup for memory, collision setup
@@ -1384,6 +1400,9 @@ int MeshEnv::takeScreenshot()
 	
 	//Offset to where the actual bitmap bits start.
 	bmfHeader.bfOffBits = static_cast<DWORD>(sizeof(BITMAPFILEHEADER)) + static_cast<DWORD>(sizeof(BITMAPINFOHEADER));
+
+	//Size of the file
+	bmfHeader.bfSize = dwSizeofDIB;
 
 	//bfType must always be BM for Bitmaps
 	bmfHeader.bfType = 0x4D42; //BM   
