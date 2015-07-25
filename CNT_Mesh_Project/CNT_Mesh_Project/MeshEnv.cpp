@@ -1286,6 +1286,9 @@ int MeshEnv::takeScreenshot()
 	//Copies window to bitmap
 	BitBlt(hDCMem, 0, 0, rect.right - rect.left, rect.top - rect.bottom, hWndContext, 0, 0, SRCCOPY);
 
+	//Rest of function borrows code from example found at following URL:
+	// https://msdn.microsoft.com/en-us/library/windows/desktop/dd183402(v=vs.85).aspx
+
 	BITMAP bmpScreen;
 	// Get the BITMAP from the HBITMAP
 	GetObject(hBitmap, sizeof(BITMAP), &bmpScreen);
@@ -1328,6 +1331,31 @@ int MeshEnv::takeScreenshot()
 		CREATE_ALWAYS,
 		FILE_ATTRIBUTE_NORMAL, nullptr);
 
+	// Add the size of the headers to the size of the bitmap to get the total file size
+	DWORD dwSizeofDIB = dwBmpSize + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
+	
+	//Offset to where the actual bitmap bits start.
+	bmfHeader.bfOffBits = static_cast<DWORD>(sizeof(BITMAPFILEHEADER)) + static_cast<DWORD>(sizeof(BITMAPINFOHEADER));
+
+	//bfType must always be BM for Bitmaps
+	bmfHeader.bfType = 0x4D42; //BM   
+
+	DWORD dwBytesWritten = 0;
+	WriteFile(hFile, reinterpret_cast<LPSTR>(&bmfHeader), sizeof(BITMAPFILEHEADER), &dwBytesWritten, nullptr);
+	WriteFile(hFile, reinterpret_cast<LPSTR>(&bi), sizeof(BITMAPINFOHEADER), &dwBytesWritten, nullptr);
+	WriteFile(hFile, reinterpret_cast<LPSTR>(lpbitmap), dwBmpSize, &dwBytesWritten, nullptr);
+
+	//Unlock and Free the DIB from the heap
+	GlobalUnlock(hDIB);
+	GlobalFree(hDIB);
+
+	//Close the handle for the file that was created
+	CloseHandle(hFile);
+
+	//clean up
+	DeleteObject(hDCMem);
+	DeleteObject(hBitmap);
+	ReleaseDC(hWnd, hWndContext);
 	delete[] w_screenshotFileName;
 	delete[] w_runID;
 

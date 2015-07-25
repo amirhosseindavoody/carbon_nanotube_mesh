@@ -3885,9 +3885,9 @@
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\setupicon.ico</td><td>0</td></row>
 		<row><td>_28DC6A3AE20546269FA4A93BAF9CAC43.exe</td><td/><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\Release\CNT_Mesh_Project.exe</td><td>0</td></row>
 		<row><td>_Built1_4A1634A8010D4DFEA24F26BE89F16BC4.exe</td><td/><td>&lt;VSSolutionFolder&gt;\DNA.ico</td><td>0</td></row>
-		<row><td>_Built1_F4A8B40BE36D4AB5BF77D1F6DD9A7FE5.exe</td><td/><td>&lt;VSSolutionFolder&gt;\DNA.ico</td><td>0</td></row>
+		<row><td>_Built1_51B9F7752ED5447099A01C87E8CAB3FE.exe</td><td/><td>&lt;VSSolutionFolder&gt;\DNA.ico</td><td>0</td></row>
 		<row><td>_Built_16DFF0CAF2FD46CB9EFA9804933C7980.exe</td><td/><td>&lt;VSSolutionFolder&gt;\DNA.ico</td><td>0</td></row>
-		<row><td>_Built_93A222372FCC47A09A325D78C1EC6C91.exe</td><td/><td>&lt;VSSolutionFolder&gt;\DNA.ico</td><td>0</td></row>
+		<row><td>_Built_7DE0EB450F004ECCA3B01D4A7FD2072F.exe</td><td/><td>&lt;VSSolutionFolder&gt;\DNA.ico</td><td>0</td></row>
 		<row><td>_E94317FA52D94EC0806F8BCB2FB7DF79.exe</td><td/><td>C:\CarbonNanotubeMesh\CNT_Mesh_Project\Release\CNT_Mesh_Project.exe</td><td>0</td></row>
 	</table>
 
@@ -4558,8 +4558,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>_Built</td><td>cnt_me_1_cnt_mesh_generator</td><td>##IDS_SHORTCUT_DISPLAY_NAME2##</td><td>CNT_Mesh_Project.Primary_Output</td><td>AlwaysInstall</td><td/><td/><td/><td>_Built_93A222372FCC47A09A325D78C1EC6C91.exe</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>_Built1</td><td>DesktopFolder</td><td>##IDS_SHORTCUT_DISPLAY_NAME2##</td><td>CNT_Mesh_Project.Primary_Output</td><td>AlwaysInstall</td><td/><td/><td/><td>_Built1_F4A8B40BE36D4AB5BF77D1F6DD9A7FE5.exe</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>_Built</td><td>cnt_me_1_cnt_mesh_generator</td><td>##IDS_SHORTCUT_DISPLAY_NAME2##</td><td>CNT_Mesh_Project.Primary_Output</td><td>AlwaysInstall</td><td/><td/><td/><td>_Built_7DE0EB450F004ECCA3B01D4A7FD2072F.exe</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>_Built1</td><td>DesktopFolder</td><td>##IDS_SHORTCUT_DISPLAY_NAME2##</td><td>CNT_Mesh_Project.Primary_Output</td><td>AlwaysInstall</td><td/><td/><td/><td>_Built1_51B9F7752ED5447099A01C87E8CAB3FE.exe</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">

@@ -11,6 +11,7 @@ CNT_Mesh_Project/CNTMeshGeneratorSetup/CNTMeshGeneratorSetup/
 *.user
 *.sln.docstates
 *.tlog
+*.stamp
 
 # Build results
 CNT_Mesh_Project/CNT_Mesh_Project/Debug/
