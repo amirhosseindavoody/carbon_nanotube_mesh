@@ -390,6 +390,8 @@ void	MeshEnv::initPhysics(float camDistance)
 	setShadows(true);
 	setCameraDistance(camDistance);
 
+	//m_cameraTargetPosition[0] = m_cameraTargetPosition[1] = m_cameraTargetPosition[2] = 0;
+
 	//// XML Parameter Instantiation ////
 	string outputFolderPath = "";
 	int numTubes = 5;

@@ -71,8 +71,8 @@ m_pickConstraint(0),
 m_shootBoxShape(0),
 m_cameraDistance(15.0),
 m_debugMode(0),
-m_ele(20.f),
-m_azi(0.f),
+m_ele(20.f),//normal angle, angle from xz plane to y
+m_azi(0.f), //azimuthal angle. Angle from x to z in xz plane. turning clockwise
 m_cameraPosition(0.f,0.f,0.f),
 m_cameraTargetPosition(0.f,0.f,0.f),
 m_mouseOldX(0),
@@ -81,8 +81,8 @@ m_mouseButtons(0),
 m_modifierKeys(0),
 m_scaleBottom(0.5f),
 m_scaleFactor(2.f),
-m_cameraUp(0,1,0),
-m_forwardAxis(2),
+m_cameraUp(0,1,0), //Which way the top of the camera is pointing
+m_forwardAxis(2), //Which direction the camera is facing -> z-dir
 m_zoomStepSize(0.4),	
 m_glutScreenWidth(0),
 m_glutScreenHeight(0),
