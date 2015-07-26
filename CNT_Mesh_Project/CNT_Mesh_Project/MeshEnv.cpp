@@ -390,7 +390,7 @@ void	MeshEnv::initPhysics(float camDistance)
 	setShadows(true);
 	setCameraDistance(camDistance);
 
-	//m_cameraTargetPosition[0] = m_cameraTargetPosition[1] = m_cameraTargetPosition[2] = 0;
+	
 
 	//// XML Parameter Instantiation ////
 	string outputFolderPath = "";
@@ -1139,6 +1139,14 @@ void MeshEnv::clientMoveAndDisplay()
 				//turn off context
 				m_debugMode |= btIDebugDraw::DBG_NoHelpText;
 				getDynamicsWorld()->getDebugDrawer()->setDebugMode(m_debugMode);
+
+				//set camera distance
+				setCameraDistance(sqrt(2*pow(m_xdim, 2) + 2*pow(m_zdim, 2) + pow(m_ydim*1.5, 2)));
+				m_cameraTargetPosition[0] = m_cameraTargetPosition[1] = m_cameraTargetPosition[2] = 0;
+				m_ele = 30;
+				m_azi = 40; 
+
+
 				screenShotPrepped = true; //next frame the screenshot will be taken
 			} 
 			else if (!screenshotHasBeenTaken && screenShotPrepped)
