@@ -62,6 +62,7 @@ extern int gTotalBytesAlignedAllocs;
 #endif //
 
 extern bool toDebugDraw; // Imported from MeshEnv
+extern bool manualEndSimulation;
 
 DemoApplication::DemoApplication()
 //see btIDebugDraw.h for modes
@@ -469,6 +470,7 @@ void DemoApplication::keyboardCallback(unsigned char key, int x, int y)
 		}
 		break;
 
+	//Toggles rendering
 	case 'D':
 		{
 			toDebugDraw = !toDebugDraw;
@@ -480,7 +482,12 @@ void DemoApplication::keyboardCallback(unsigned char key, int x, int y)
 			break;
 
 		}
-
+	//manually quits the simulation
+	case 'Q':
+	{
+		manualEndSimulation = true;
+		break;
+	}
 
 	case 'o' :
 		{

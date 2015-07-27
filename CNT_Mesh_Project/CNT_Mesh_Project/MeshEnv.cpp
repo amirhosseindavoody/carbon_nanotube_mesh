@@ -45,6 +45,7 @@ string outputPath;
 bool toDebugDraw = true;
 string runID;
 UINT32 totalCylNum;
+bool manualEndSimulation = false;
 
 /**
 Multiplies two btMatrix3x3 matricies together. m*v
@@ -1100,16 +1101,14 @@ void MeshEnv::clientMoveAndDisplay()
 	if (m_dynamicsWorld)
 	{
 		m_dynamicsWorld->stepSimulation(ms / 1000000.f); ///////////////STEP SIMULATION////////////
-		if ((checkCntr&bitMask) == 0 || screenShotPrepped){
+		if ((checkCntr&bitMask) == 0 || screenShotPrepped || manualEndSimulation){
 			/*each 8th step, I would like to check if simulation is done*/
-			bool simComplete = 1;
+			bool simComplete = true;
 			//keeps the total number of resting cylinders
 			auto sleepTotCntr = 0;
-
-			int temp = (btIDebugDraw::DBG_NoHelpText | btIDebugDraw::DBG_NoDeactivation);
 			//iterate over the list of tubes while we think that the simulation might be done
 			for (list<shared_ptr<tube>>::iterator itrTube = m_tubeList.begin();
-				itrTube != m_tubeList.end() && simComplete; ++itrTube)
+				itrTube != m_tubeList.end() && simComplete && !manualEndSimulation; ++itrTube)
 			{
 				shared_ptr<list<btRigidBody*>> tempCylList = (*itrTube)->getCylList();
 				int sleepCntr = 0;
@@ -1125,13 +1124,13 @@ void MeshEnv::clientMoveAndDisplay()
 				//if 10% of the cylinders are ready to or are sleeping, then the tube is done.
 				if (float(sleepCntr) / float(tempCylList->size()) < .1)
 				{
-					simComplete = 0;
+					simComplete = false;
 				}
 			}
 			//if we have not taken a screenshot and 10% of tubes in entire simulation are not moving
 			// we want to prepare a screenshot
 			if (!screenShotPrepped && (static_cast<double>(sleepTotCntr) / static_cast<double>(totalCylNum) > .1) 
-				&& !screenshotHasBeenTaken)
+				&& !screenshotHasBeenTaken || manualEndSimulation)
 			{
 				m_debugMode = 0x1800; //render objects
 				m_debugMode |= btIDebugDraw::DBG_NoDeactivation;
@@ -1148,6 +1147,7 @@ void MeshEnv::clientMoveAndDisplay()
 
 
 				screenShotPrepped = true; //next frame the screenshot will be taken
+				manualEndSimulation = false; // to skip this process next call
 			} 
 			else if (!screenshotHasBeenTaken && screenShotPrepped)
 			{
@@ -1164,14 +1164,15 @@ void MeshEnv::clientMoveAndDisplay()
 				getDynamicsWorld()->getDebugDrawer()->setDebugMode(m_debugMode);
 				gDisableDeactivation = false; //allow deactivation again
 				screenShotPrepped = false; //reset to false to eval every 8th world update
+				manualEndSimulation = true; //reset value to end simulation
 			}
 
 
-			if (simComplete && screenshotHasBeenTaken)
+			if ((simComplete || manualEndSimulation) && screenshotHasBeenTaken)
 			{
 				//iterate for file output
 				for (list<shared_ptr<tube>>::iterator itrTube = m_tubeList.begin();
-					itrTube != m_tubeList.end() && simComplete; ++itrTube)
+					itrTube != m_tubeList.end(); ++itrTube)
 				{
 					//create file with some filename
 					int tubeNum = (*itrTube)->getTubeNum();
