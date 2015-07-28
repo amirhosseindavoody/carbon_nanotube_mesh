@@ -20,6 +20,7 @@ This is a heavily edited version of BasicDemo.h provided by Bullet Physics
 
 //preprocessor function define
 #define BIT(x)	(1<<(x))
+#include "png.h"
 
 //use this to create collision maps such that the spacing cylinders do not collide with
 // the spine cylinders at all. In the end, we only want spacing cylinders to collide with
@@ -182,6 +183,8 @@ public:
 	double convertUnits(std::string unit, double val);
 
 	int takeScreenshot();
+
+	inline void setRGB(png_byte *ptr, float val);
 
 };
 

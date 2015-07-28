@@ -33,6 +33,7 @@ This is a heavily edited version of BasicDemo.cpp provided by Bullet Physics
 #include <iostream>
 #include <sstream>
 #include "windows.h"
+#include "png.h"
 
 using namespace rapidxml;
 using namespace std;
@@ -1306,23 +1307,20 @@ Takes a screenshot of the mesh
 */
 int MeshEnv::takeScreenshot()
 {
+	int code = 0; //return code
+
 	//window handle needs wide char array
 	wstring w_runIDstring;
 	w_runIDstring.assign(runID.begin(), runID.end());
 	const wchar_t* w_runID = w_runIDstring.c_str(); //allocated on stack no delete
 	HWND hWnd = FindWindow(L"GLUT", w_runID); //get window handle
-	SetForegroundWindow(hWnd);
 	//check to see if failed
 	if (!hWnd)
 	{
 		return -1;
 	}
-	HDC hWndContext = GetDC(hWnd); //gets drawing attributes of window
-	//check to see if failed
-	if (!hWndContext)
-	{
-		return -1;
-	}
+	SetForegroundWindow(hWnd);
+
 
 	RECT rect; //gets window boundaries
 	BOOL success = GetWindowRect(hWnd, &rect);
@@ -1331,124 +1329,118 @@ int MeshEnv::takeScreenshot()
 	{
 		return -1;
 	}
-	//Weird adjustments
-	rect.right -= 16;
-	rect.bottom -= 39;
-
-	//creates context compatible with window to be used for bmp
-	HDC hDCMem = CreateCompatibleDC(hWndContext);
-	//check to see if failed
-	if (!hDCMem)
-	{
-		return -1;
-	}
-
-	//creates a bitmap compatible with the device that is associated with the specified device context.
-	HBITMAP hBitmap = CreateCompatibleBitmap(hWndContext, rect.right - rect.left, rect.bottom - rect.top);
-	//check to see if failed
-	if (!hBitmap)
-	{
-		return -1;
-	}
-
-
-	//Takes the compatible bitmap and puts it into the compatible device context of hDCMem
-	if (!SelectObject(hDCMem, hBitmap))
-	{
-		return -1;
-	}
-
-	//Copies window to bitmap
-	success = BitBlt(hDCMem, 0, 0, rect.right - rect.left, rect.bottom - rect.top, hWndContext, 0, 0, SRCCOPY);
-	//check to see if failed
-	if (!success)
-	{
-		return -1;
-	}
-
-	//Rest of function borrows code from example found at following URL:
-	// https://msdn.microsoft.com/en-us/library/windows/desktop/dd183402(v=vs.85).aspx
-
-	BITMAP bmpScreen;
-	// Get the BITMAP from the HBITMAP
-	GetObject(hBitmap, sizeof(BITMAP), &bmpScreen);
-	if (!&bmpScreen)
-	{
-		return -1;
-	}
-
-	BITMAPFILEHEADER   bmfHeader;
-	BITMAPINFOHEADER   bi;
-
-	bi.biSize = sizeof(BITMAPINFOHEADER);
-	bi.biWidth = bmpScreen.bmWidth;
-	bi.biHeight = bmpScreen.bmHeight;
-	bi.biPlanes = 1;
-	bi.biBitCount = 32;
-	bi.biCompression = BI_RGB;
-	bi.biSizeImage = 0;
-	bi.biXPelsPerMeter = 0;
-	bi.biYPelsPerMeter = 0;
-	bi.biClrUsed = 0;
-	bi.biClrImportant = 0;
-
-	DWORD dwBmpSize = ((bmpScreen.bmWidth * bi.biBitCount + 31) / 32) * 4 * bmpScreen.bmHeight;
-	HANDLE hDIB = GlobalAlloc(GHND, dwBmpSize); //allocation of bitmap memory
-	if (!hDIB)
-	{
-		return -1;
-	}
-	char *lpbitmap = static_cast<char *>(GlobalLock(hDIB)); //buffer, pointing to hDIB, that stores bitmap
-
-	GetDIBits(hWndContext, hBitmap, 0,
-		static_cast<UINT>(bmpScreen.bmHeight),
-		lpbitmap,
-		reinterpret_cast<BITMAPINFO *>(&bi), DIB_RGB_COLORS);
-
-	//Set up file name for screenshot
-	string screenshotFileName = outputPath + runID + ".bmp";
-	wstring w_screenshotFileNamestring;
-	w_screenshotFileNamestring.assign(screenshotFileName.begin(), screenshotFileName.end());
-	const WCHAR* w_screenshotFileName = w_screenshotFileNamestring.c_str();
-
-	// A file is created, this is where we will save the screen capture.
-	HANDLE hFile = CreateFile(w_screenshotFileName,
-		GENERIC_WRITE,
-		0,
-		nullptr,
-		CREATE_ALWAYS,
-		FILE_ATTRIBUTE_NORMAL, nullptr);
-
-	// Add the size of the headers to the size of the bitmap to get the total file size
-	DWORD dwSizeofDIB = dwBmpSize + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
 	
-	//Offset to where the actual bitmap bits start.
-	bmfHeader.bfOffBits = static_cast<DWORD>(sizeof(BITMAPFILEHEADER)) + static_cast<DWORD>(sizeof(BITMAPINFOHEADER));
+	LONG width = rect.right - rect.left;
+	LONG height = rect.bottom - rect.top;
 
-	//Size of the file
-	bmfHeader.bfSize = dwSizeofDIB;
+	BYTE* pixels = new BYTE[3 * width*height];
 
-	//bfType must always be BM for Bitmaps
-	bmfHeader.bfType = 0x4D42; //BM   
+	//Build the pixel array to be saved to PNG
+	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 
-	DWORD dwBytesWritten = 0;
-	WriteFile(hFile, reinterpret_cast<LPSTR>(&bmfHeader), sizeof(BITMAPFILEHEADER), &dwBytesWritten, nullptr);
-	WriteFile(hFile, reinterpret_cast<LPSTR>(&bi), sizeof(BITMAPINFOHEADER), &dwBytesWritten, nullptr);
-	WriteFile(hFile, reinterpret_cast<LPSTR>(lpbitmap), dwBmpSize, &dwBytesWritten, nullptr);
+	/////////// libpng FILE OUTPUT ////////////
 
-	//Unlock and Free the DIB from the heap
-	GlobalUnlock(hDIB);
-	GlobalFree(hDIB);
+	FILE *fp; //output file pointer
+	png_structp png_ptr;
+	png_infop info_ptr = nullptr;
+	png_bytep row = nullptr;
 
-	//Close the handle for the file that was created
-	CloseHandle(hFile);
+	string screenshotFileName = outputPath + runID + ".png";
+	char* title;
+	runID.copy(title, runID.size());
 
-	//clean up
-	DeleteObject(hDCMem);
-	DeleteObject(hBitmap);
-	ReleaseDC(hWnd, hWndContext);
+	// Open file for writing (binary mode)
+	fp = fopen(screenshotFileName.c_str(), "wb");
+	if (fp == nullptr) {
+		fprintf(stderr, "Could not open file %s for writing\n", screenshotFileName.c_str());
+		code = -1;
+		goto finalise;
+	}
 
-	return 0;
+	// Initialize write structure
+	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
+	if (png_ptr == nullptr) {
+		fprintf(stderr, "Could not allocate write struct\n");
+		code = -1;
+		goto finalise;
+	}
+
+	// Initialize info structure
+	info_ptr = png_create_info_struct(png_ptr);
+	if (info_ptr == nullptr) {
+		fprintf(stderr, "Could not allocate info struct\n");
+		code = -1;
+		goto finalise;
+	}
+
+	// Setup Exception handling
+	if (setjmp(png_jmpbuf(png_ptr))) {
+		fprintf(stderr, "Error during png creation\n");
+		code = -1;
+		goto finalise;
+	}
+
+	png_init_io(png_ptr, fp);
+
+	// Write header (8 bit colour depth)
+	png_set_IHDR(png_ptr, info_ptr, width, height,
+		8, PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE,
+		PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+
+	// Set title
+	if (title != nullptr) {
+		png_text title_text;
+		title_text.compression = PNG_TEXT_COMPRESSION_NONE;
+		title_text.key = "Title";
+		title_text.text = title;
+		png_set_text(png_ptr, info_ptr, &title_text, 1);
+	}
+
+	png_write_info(png_ptr, info_ptr);
+
+	// Allocate memory for one row (3 bytes per pixel - RGB)
+	row = static_cast<png_bytep>(malloc(3 * width * sizeof(png_byte)));
+
+	// Write image data
+	int x, y;
+	for (y = 0; y<height; y++) {
+		for (x = 0; x<width; x++) {
+			setRGB(&(row[x * 3]), pixels[y*width + x]);
+		}
+		png_write_row(png_ptr, row);
+	}
+
+	// End write
+	png_write_end(png_ptr, nullptr);
+
+finalise:
+	if (fp != nullptr) fclose(fp);
+	if (info_ptr != nullptr) png_free_data(png_ptr, info_ptr, PNG_FREE_ALL, -1);
+	if (png_ptr != nullptr) png_destroy_write_struct(&png_ptr, static_cast<png_infopp>(nullptr));
+	if (row != nullptr) free(row);
+
+	delete[] pixels;
+
+	return code;
 
 
+}
+
+
+inline void MeshEnv::setRGB(png_byte *ptr, float val)
+{
+	int v = static_cast<int>(val * 767);
+	if (v < 0) v = 0;
+	if (v > 767) v = 767;
+	int offset = v % 256;
+
+	if (v<256) {
+		ptr[0] = 0; ptr[1] = 0; ptr[2] = offset;
+	}
+	else if (v<512) {
+		ptr[0] = 0; ptr[1] = offset; ptr[2] = 255 - offset;
+	}
+	else {
+		ptr[0] = offset; ptr[1] = 255 - offset; ptr[2] = 0;
+	}
 }
