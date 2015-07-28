@@ -2635,6 +2635,7 @@
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
 		<row><td>_5DFE9F2F_5E92_4F87_9CD6_7BA42575BBFA_</td><td>Microsoft Visual C++ 2012 Redistributable Package (x86).prq</td><td/><td/><td/></row>
+		<row><td>_EDE58A8E_E23F_46E7_94A4_7D7EFB05D5DF_</td><td>Microsoft Visual C++ 2012 Redistributable Package (x64).prq</td><td/><td/><td/></row>
 	</table>
 
 	<table name="ISSetupType">
@@ -2668,7 +2669,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-1818012849</td></row>
+		<row><td>COMPANY_NAME</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-610018729</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1033</td><td>Always Install</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1033</td><td>The color settings of your system are not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>1033</td><td>The operating system is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
@@ -3770,8 +3771,8 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1033</td><td>The processor is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>-1960631984</td></row>
-		<row><td>ID_STRING1</td><td>1033</td><td>www.wisc.edu</td><td>0</td><td/><td>-1817987888</td></row>
-		<row><td>ID_STRING2</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-1818012849</td></row>
+		<row><td>ID_STRING1</td><td>1033</td><td>http://www.KnezevicResearch.com</td><td>0</td><td/><td>-610018729</td></row>
+		<row><td>ID_STRING2</td><td>1033</td><td>KnezevicResearch</td><td>0</td><td/><td>-610018729</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-1960605232</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>CNT Mesh Generator</td><td>0</td><td/><td>-1826379058</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>-1960631984</td></row>
