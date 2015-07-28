@@ -24,6 +24,7 @@ extern string runID;
 
 int main(int argc, char *argv[])
 {
+
 	if (argc == 1)
 	{
 		char *inputXMLPathArray = new char[xmlArrayLength];
