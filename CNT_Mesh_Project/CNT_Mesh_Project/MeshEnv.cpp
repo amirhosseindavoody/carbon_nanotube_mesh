@@ -1341,17 +1341,17 @@ int MeshEnv::takeScreenshot()
 	/////////// libpng FILE OUTPUT ////////////
 
 	FILE *fp; //output file pointer
-	png_structp png_ptr;
+	png_structp png_ptr = nullptr;
 	png_infop info_ptr = nullptr;
 	png_bytep row = nullptr;
 
 	string screenshotFileName = outputPath + runID + ".png";
-	char* title;
-	runID.copy(title, runID.size());
+	char* title = new char[runID.length()];
+	strcpy_s(title,runID.length(),runID.c_str());
 
 	// Open file for writing (binary mode)
-	fp = fopen(screenshotFileName.c_str(), "wb");
-	if (fp == nullptr) {
+	errno_t errorCode = fopen_s(&fp,screenshotFileName.c_str(), "wb");
+	if (!errorCode) {
 		fprintf(stderr, "Could not open file %s for writing\n", screenshotFileName.c_str());
 		code = -1;
 		goto finalise;
@@ -1419,6 +1419,7 @@ finalise:
 	if (png_ptr != nullptr) png_destroy_write_struct(&png_ptr, static_cast<png_infopp>(nullptr));
 	if (row != nullptr) free(row);
 
+	delete[] title;
 	delete[] pixels;
 
 	return code;
