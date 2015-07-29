@@ -1017,9 +1017,9 @@ void	MeshEnv::initPhysics(float camDistance)
 			btPoint2PointConstraint* p2p = new btPoint2PointConstraint(*prevSpineCyl, *currSpineCyl, pivotInA, pivotInB);
 			//set constraint to max value so there is no breaking
 			p2p->setBreakingImpulseThreshold(btScalar(BT_LARGE_FLOAT));
-			p2p->setDbgDrawSize(btScalar(2.f));
+			p2p->setDbgDrawSize(btScalar(0.f));
 			m_dynamicsWorld->addConstraint(p2p);
-			//delete p2p;
+
 
 			//
 			//ith space cylinder
@@ -1043,6 +1043,7 @@ void	MeshEnv::initPhysics(float camDistance)
 			hinge = new btHingeConstraint(*currSpineCyl, *currSpaceCyl, pivotA, pivotB, axisA, axisB);
 			hinge->setBreakingImpulseThreshold(btScalar(BT_LARGE_FLOAT));
 			hinge->setLimit(0, 0);
+			hinge->setDbgDrawSize(btScalar(0.f));
 			m_dynamicsWorld->addConstraint(hinge);
 
 			//
