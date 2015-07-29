@@ -13,7 +13,7 @@ CNT_Mesh_Project/CNTMeshGeneratorSetup/CNTMeshGeneratorSetup/
 *.tlog
 *.stamp
 CNT_Mesh_Project/CNT_Mesh_Project/x64/Debug/vc120.idb
-*idb
+*.idb
 
 # Build results
 CNT_Mesh_Project/CNT_Mesh_Project/Debug/
