@@ -33,7 +33,6 @@ This is a heavily edited version of BasicDemo.cpp provided by Bullet Physics
 #include <iostream>
 #include <sstream>
 #include "windows.h"
-#include "png.h"
 
 using namespace rapidxml;
 using namespace std;
@@ -1337,89 +1336,25 @@ int MeshEnv::takeScreenshot()
 
 	//Build the pixel array to be saved to PNG
 	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels);
-
-	/////////// libpng FILE OUTPUT ////////////
-
-	FILE *fp; //output file pointer
-	png_structp png_ptr = nullptr;
-	png_infop info_ptr = nullptr;
-	png_bytep row = nullptr;
-
-	string screenshotFileName = outputPath + runID + ".png";
-	char* title = new char[runID.length()];
-	strcpy_s(title,runID.length(),runID.c_str());
-
-	// Open file for writing (binary mode)
-	errno_t errorCode = fopen_s(&fp,screenshotFileName.c_str(), "wb");
-	if (!errorCode) {
-		fprintf(stderr, "Could not open file %s for writing\n", screenshotFileName.c_str());
+	
+	//Set up file name for screenshot
+	string screenshotFileName = outputPath + runID + ".bmp";
+	wstring w_screenshotFileNamestring;
+	w_screenshotFileNamestring.assign(screenshotFileName.begin(), screenshotFileName.end());
+	const WCHAR* w_screenshotFileName = w_screenshotFileNamestring.c_str();
+	
+	//Convert to bitmap and save
+	long size;
+	BYTE* buffer = ConvertRGBToBMPBuffer(pixels, width, height, &size);
+	success = SaveBMP(buffer, width, height, size, w_screenshotFileName);
+	if (!success)
+	{
 		code = -1;
-		goto finalise;
+		goto cleanup;
 	}
 
-	// Initialize write structure
-	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
-	if (png_ptr == nullptr) {
-		fprintf(stderr, "Could not allocate write struct\n");
-		code = -1;
-		goto finalise;
-	}
-
-	// Initialize info structure
-	info_ptr = png_create_info_struct(png_ptr);
-	if (info_ptr == nullptr) {
-		fprintf(stderr, "Could not allocate info struct\n");
-		code = -1;
-		goto finalise;
-	}
-
-	// Setup Exception handling
-	if (setjmp(png_jmpbuf(png_ptr))) {
-		fprintf(stderr, "Error during png creation\n");
-		code = -1;
-		goto finalise;
-	}
-
-	png_init_io(png_ptr, fp);
-
-	// Write header (8 bit colour depth)
-	png_set_IHDR(png_ptr, info_ptr, width, height,
-		8, PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE,
-		PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
-
-	// Set title
-	if (title != nullptr) {
-		png_text title_text;
-		title_text.compression = PNG_TEXT_COMPRESSION_NONE;
-		title_text.key = "Title";
-		title_text.text = title;
-		png_set_text(png_ptr, info_ptr, &title_text, 1);
-	}
-
-	png_write_info(png_ptr, info_ptr);
-
-	// Allocate memory for one row (3 bytes per pixel - RGB)
-	row = static_cast<png_bytep>(malloc(3 * width * sizeof(png_byte)));
-
-	// Write image data
-	int x, y;
-	for (y = 0; y<height; y++) {
-		for (x = 0; x<width; x++) {
-			setRGB(&(row[x * 3]), pixels[y*width + x]);
-		}
-		png_write_row(png_ptr, row);
-	}
-
-	// End write
-	png_write_end(png_ptr, nullptr);
-
-finalise:
-	if (fp != nullptr) fclose(fp);
-	if (info_ptr != nullptr) png_free_data(png_ptr, info_ptr, PNG_FREE_ALL, -1);
-	if (png_ptr != nullptr) png_destroy_write_struct(&png_ptr, static_cast<png_infopp>(nullptr));
-	if (row != nullptr) free(row);
-
-	delete[] title;
+cleanup:
+	delete[] buffer;
 	delete[] pixels;
 
 	return code;
@@ -1427,21 +1362,153 @@ finalise:
 
 }
 
+//http://tipsandtricks.runicsoft.com/Cpp/BitmapTutorial.html#chapter5
+/*
+BYTE* ConvertRGBToBMPBuffer ( BYTE* Buffer, int width,
+int height, long* newsize )
 
-inline void MeshEnv::setRGB(png_byte *ptr, float val)
+
+This function takes as input an array of RGB values, it's width
+and height.
+The buffer gets then transformed to an array that can be used
+to write to a windows bitmap file. The size of the array
+is returned in newsize, the array itself is the
+return value of the function.
+Both input and output buffers must be deleted by the
+calling function.
+
+The input buffer is expected to consist of width * height
+RGB triplets. Thus the total size of the buffer is taken as
+width * height * 3.
+
+The function then transforms this buffer so that it can be written
+to a windows bitmap file:
+First the RGB triplets are converted to BGR.
+Then the buffer is swapped around since .bmps store
+images uside-down.
+Finally the buffer gets DWORD ( 32bit ) aligned,
+meaning that each scanline ( 3 * width bytes ) gets
+padded with 0x00 bytes up to the next DWORD boundary
+
+*/
+
+BYTE* MeshEnv::ConvertRGBToBMPBuffer(BYTE* Buffer, int width, int height, long* newsize)
 {
-	int v = static_cast<int>(val * 767);
-	if (v < 0) v = 0;
-	if (v > 767) v = 767;
-	int offset = v % 256;
 
-	if (v<256) {
-		ptr[0] = 0; ptr[1] = 0; ptr[2] = offset;
+	// first make sure the parameters are valid
+	if ((nullptr == Buffer) || (width == 0) || (height == 0))
+		return nullptr;
+
+	// now we have to find with how many bytes
+	// we have to pad for the next DWORD boundary	
+
+	int padding = 0;
+	int scanlinebytes = width * 3;
+	while ((scanlinebytes + padding) % 4 != 0)     // DWORD = 4 bytes
+		padding++;
+	// get the padded scanline width
+	int psw = scanlinebytes + padding;
+
+	// we can already store the size of the new padded buffer
+	*newsize = height * psw;
+
+	// and create new buffer
+	BYTE* newbuf = new BYTE[*newsize];
+
+	// fill the buffer with zero bytes then we dont have to add
+	// extra padding zero bytes later on
+	memset(newbuf, 0, *newsize);
+
+	// now we loop trough all bytes of the original buffer, 
+	// swap the R and B bytes and the scanlines
+	long bufpos = 0;
+	long newpos = 0;
+	for (int y = 0; y < height; y++)
+		for (int x = 0; x < 3 * width; x += 3)
+		{
+			bufpos = y * 3 * width + x;     // position in original buffer
+
+			newbuf[bufpos] = Buffer[bufpos + 2];       // swap r and b
+			newbuf[bufpos + 1] = Buffer[bufpos + 1]; // g stays
+			newbuf[bufpos + 2] = Buffer[bufpos];     // swap b and r
+		}
+
+	return newbuf;
+}
+
+/*
+bool SaveBMP ( BYTE* Buffer, int width, int height,
+long paddedsize, LPCTSTR bmpfile )
+
+Function takes a buffer of size <paddedsize>
+and saves it as a <width> * <height> sized bitmap
+under the supplied filename.
+On error the return value is false.
+
+*/
+
+bool MeshEnv::SaveBMP(BYTE* Buffer, int width, int height, long paddedsize, LPCTSTR bmpfile)
+{
+	// declare bmp structures 
+	BITMAPFILEHEADER bmfh;
+	BITMAPINFOHEADER info;
+
+	// andinitialize them to zero
+	memset(&bmfh, 0, sizeof(BITMAPFILEHEADER));
+	memset(&info, 0, sizeof(BITMAPINFOHEADER));
+
+	// fill the fileheader with data
+	bmfh.bfType = 0x4d42;       // 0x4d42 = 'BM'
+	bmfh.bfReserved1 = 0;
+	bmfh.bfReserved2 = 0;
+	bmfh.bfSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + paddedsize;
+	bmfh.bfOffBits = 0x36;		// number of bytes to start of bitmap bits
+
+	// fill the infoheader
+
+	info.biSize = sizeof(BITMAPINFOHEADER);
+	info.biWidth = width;
+	info.biHeight = height;
+	info.biPlanes = 1;			// we only have one bitplane
+	info.biBitCount = 24;		// RGB mode is 24 bits
+	info.biCompression = BI_RGB;
+	info.biSizeImage = 0;		// can be 0 for 24 bit images
+	info.biXPelsPerMeter = 0x0ec4;     // paint and PSP use this values
+	info.biYPelsPerMeter = 0x0ec4;
+	info.biClrUsed = 0;			// we are in RGB mode and have no palette
+	info.biClrImportant = 0;    // all colors are important
+
+	// now we open the file to write to
+	HANDLE file = CreateFile(bmpfile, GENERIC_WRITE, FILE_SHARE_READ,
+		nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+	if (file == nullptr)
+	{
+		CloseHandle(file);
+		return false;
 	}
-	else if (v<512) {
-		ptr[0] = 0; ptr[1] = offset; ptr[2] = 255 - offset;
+
+	// write file header
+	unsigned long bwritten;
+	if (WriteFile(file, &bmfh, sizeof(BITMAPFILEHEADER), &bwritten, nullptr) == false)
+	{
+		CloseHandle(file);
+		return false;
 	}
-	else {
-		ptr[0] = offset; ptr[1] = 255 - offset; ptr[2] = 0;
+	// write infoheader
+	if (WriteFile(file, &info, sizeof(BITMAPINFOHEADER), &bwritten, nullptr) == false)
+	{
+		CloseHandle(file);
+		return false;
 	}
+	// write image data
+	if (WriteFile(file, Buffer, paddedsize, &bwritten, nullptr) == false)
+	{
+		CloseHandle(file);
+		return false;
+	}
+
+	// and close file
+	CloseHandle(file);
+
+	return true;
 }
