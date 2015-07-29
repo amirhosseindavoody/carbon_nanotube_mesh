@@ -1111,21 +1111,19 @@ void MeshEnv::clientMoveAndDisplay()
 				itrTube != m_tubeList.end() && simComplete && !manualEndSimulation; ++itrTube)
 			{
 				shared_ptr<list<btRigidBody*>> tempCylList = (*itrTube)->getCylList();
-				int sleepCntr = 0;
 				for (list<btRigidBody*>::iterator itrCyl = tempCylList->begin(); itrCyl != tempCylList->end(); ++itrCyl)
 				{
 					if ((*itrCyl)->getActivationState() == ISLAND_SLEEPING ||
 						(*itrCyl)->getActivationState() == WANTS_DEACTIVATION)
 					{
-						sleepCntr++;
 						sleepTotCntr++;
 					}
 				}
-				//if 10% of the cylinders are ready to or are sleeping, then the tube is done.
-				if (float(sleepCntr) / float(tempCylList->size()) < .1)
-				{
-					simComplete = false;
-				}
+			}
+			//if 10% of the cylinders are ready to or are sleeping, then the tube is done.
+			if (float(sleepTotCntr) / float(totalCylNum) < .1)
+			{
+				simComplete = false;
 			}
 			//if we have not taken a screenshot and 10% of tubes in entire simulation are not moving
 			// we want to prepare a screenshot
@@ -1421,8 +1419,7 @@ BYTE* MeshEnv::ConvertRGBToBMPBuffer(BYTE* Buffer, int width, int height, long* 
 
 	// now we loop trough all bytes of the original buffer, 
 	// swap the R and B bytes and the scanlines
-	long bufpos = 0;
-	long newpos = 0;
+	long bufpos;
 	for (int y = 0; y < height; y++)
 		for (int x = 0; x < 3 * width; x += 3)
 		{
