@@ -109,8 +109,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\CarbonNanotubeMesh\GnuWin32\lib;$(SolutionDir)\..\bullet-2.82-r2704\Glut;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libpngd.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\bullet-2.82-r2704\Glut;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -162,16 +162,12 @@
     </ClInclude>
     <ClInclude Include="MeshEnv.h" />
     <ClInclude Include="CNTFunc.h" />
-    <ClInclude Include="png.h" />
-    <ClInclude Include="pngconf.h" />
     <ClInclude Include="rapidxml.hpp" />
     <ClInclude Include="rapidxml_iterators.hpp" />
     <ClInclude Include="rapidxml_utils.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tube.h" />
-    <ClInclude Include="zconf.h" />
-    <ClInclude Include="zlib.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshEnv.cpp" />
