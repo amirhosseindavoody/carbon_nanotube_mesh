@@ -185,7 +185,7 @@ public:
 
 	bool SaveBMP(BYTE* Buffer, int width, int height, long paddedsize, LPCTSTR bmpfile);
 
-	BYTE* ConvertRGBToBMPBuffer(BYTE* Buffer, int width, int height, long* newsize);
+	BYTE* ConvertRGBToBMPBuffer(BYTE* Buffer, int width, int height, long* newsize); 
 
 };
 
