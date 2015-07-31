@@ -41,4 +41,14 @@
         <m>7</m>
       </cnt>
     </chirality>
+  <numberExcitons>1000</numberExcitons>
+  <regionLength>
+        <Units>nm</Units>
+        <min>10</min>
+  </regionLength>
+  <segmentSeparation>
+      <Units>nm</Units>
+      <min>30</min>
+  </segmentSeparation>
+  <numberTimeSteps>100000</numberTimeSteps>
 </Document>
