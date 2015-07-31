@@ -46,6 +46,10 @@
         <Units>nm</Units>
         <min>10</min>
   </regionLength>
+  <segmentLength>
+    <Units>nm</Units>
+    <min>10</min>
+  </segmentLength>
   <segmentSeparation>
       <Units>nm</Units>
       <min>30</min>

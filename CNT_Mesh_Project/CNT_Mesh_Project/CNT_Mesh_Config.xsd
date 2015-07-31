@@ -57,6 +57,14 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="segmentLength">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Units" type="xs:string" />
+              <xs:element name="min" type="xs:unsignedByte" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
         <xs:element name="segmentSeparation">
           <xs:complexType>
             <xs:sequence>

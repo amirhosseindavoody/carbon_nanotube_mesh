@@ -31,6 +31,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     public : ref class chiralityDataTable;
     public : ref class cntDataTable;
     public : ref class regionLengthDataTable;
+    public : ref class segmentLengthDataTable;
     public : ref class segmentSeparationDataTable;
     public : ref class DocumentRow;
     public : ref class spacingRow;
@@ -39,6 +40,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     public : ref class chiralityRow;
     public : ref class cntRow;
     public : ref class regionLengthRow;
+    public : ref class segmentLengthRow;
     public : ref class segmentSeparationRow;
     public : ref class DocumentRowChangeEvent;
     public : ref class spacingRowChangeEvent;
@@ -47,6 +49,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     public : ref class chiralityRowChangeEvent;
     public : ref class cntRowChangeEvent;
     public : ref class regionLengthRowChangeEvent;
+    public : ref class segmentLengthRowChangeEvent;
     public : ref class segmentSeparationRowChangeEvent;
     
     private: NewDataSet::DocumentDataTable^  tableDocument;
@@ -63,6 +66,8 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     
     private: NewDataSet::regionLengthDataTable^  tableregionLength;
     
+    private: NewDataSet::segmentLengthDataTable^  tablesegmentLength;
+    
     private: NewDataSet::segmentSeparationDataTable^  tablesegmentSeparation;
     
     private: ::System::Data::DataRelation^  relationDocument_spacing;
@@ -76,6 +81,8 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     private: ::System::Data::DataRelation^  relationchirality_cnt;
     
     private: ::System::Data::DataRelation^  relationDocument_regionLength;
+    
+    private: ::System::Data::DataRelation^  relationDocument_segmentLength;
     
     private: ::System::Data::DataRelation^  relationDocument_segmentSeparation;
     
@@ -101,6 +108,9 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     
     public : [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
     delegate System::Void regionLengthRowChangeEventHandler(::System::Object^  sender, NewDataSet::regionLengthRowChangeEvent^  e);
+    
+    public : [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+    delegate System::Void segmentLengthRowChangeEventHandler(::System::Object^  sender, NewDataSet::segmentLengthRowChangeEvent^  e);
     
     public : [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
     delegate System::Void segmentSeparationRowChangeEventHandler(::System::Object^  sender, NewDataSet::segmentSeparationRowChangeEvent^  e);
@@ -165,6 +175,14 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     System::ComponentModel::DesignerSerializationVisibility(::System::ComponentModel::DesignerSerializationVisibility::Content)]
     property NewDataSet::regionLengthDataTable^  regionLength {
         NewDataSet::regionLengthDataTable^  get();
+    }
+    
+    public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+    System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0"), 
+    System::ComponentModel::Browsable(false), 
+    System::ComponentModel::DesignerSerializationVisibility(::System::ComponentModel::DesignerSerializationVisibility::Content)]
+    property NewDataSet::segmentLengthDataTable^  segmentLength {
+        NewDataSet::segmentLengthDataTable^  get();
     }
     
     public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
@@ -261,6 +279,10 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     private: [System::Diagnostics::DebuggerNonUserCodeAttribute]
     [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
     ::System::Boolean ShouldSerializeregionLength();
+    
+    private: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+    [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+    ::System::Boolean ShouldSerializesegmentLength();
     
     private: [System::Diagnostics::DebuggerNonUserCodeAttribute]
     [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -1253,6 +1275,136 @@ public ref class NewDataSet : public ::System::Data::DataSet {
 ///</summary>
     [System::Serializable, 
     System::Xml::Serialization::XmlSchemaProviderAttribute(L"GetTypedTableSchema")]
+    ref class segmentLengthDataTable : public ::System::Data::DataTable, public ::System::Collections::IEnumerable {
+        
+        private: ::System::Data::DataColumn^  columnUnits;
+        
+        private: ::System::Data::DataColumn^  columnmin;
+        
+        private: ::System::Data::DataColumn^  columnDocument_Id;
+        
+        public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        event NewDataSet::segmentLengthRowChangeEventHandler^  segmentLengthRowChanging;
+        
+        public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        event NewDataSet::segmentLengthRowChangeEventHandler^  segmentLengthRowChanged;
+        
+        public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        event NewDataSet::segmentLengthRowChangeEventHandler^  segmentLengthRowDeleting;
+        
+        public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        event NewDataSet::segmentLengthRowChangeEventHandler^  segmentLengthRowDeleted;
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        segmentLengthDataTable();
+        internal: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        segmentLengthDataTable(::System::Data::DataTable^  table);
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        segmentLengthDataTable(::System::Runtime::Serialization::SerializationInfo^  info, ::System::Runtime::Serialization::StreamingContext context);
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  UnitsColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  minColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  Document_IdColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0"), 
+        System::ComponentModel::Browsable(false)]
+        property ::System::Int32 Count {
+            ::System::Int32 get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property NewDataSet::segmentLengthRow^  default [::System::Int32 ] {
+            NewDataSet::segmentLengthRow^  get(::System::Int32 index);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void AddsegmentLengthRow(NewDataSet::segmentLengthRow^  row);
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        NewDataSet::segmentLengthRow^  AddsegmentLengthRow(System::String^  Units, System::Byte min, NewDataSet::DocumentRow^  parentDocumentRowByDocument_segmentLength);
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Collections::IEnumerator^  GetEnumerator();
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Data::DataTable^  Clone() override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Data::DataTable^  CreateInstance() override;
+        
+        internal: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void InitVars();
+        
+        private: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void InitClass();
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        NewDataSet::segmentLengthRow^  NewsegmentLengthRow();
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Data::DataRow^  NewRowFromBuilder(::System::Data::DataRowBuilder^  builder) override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Type^  GetRowType() override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Void OnRowChanged(::System::Data::DataRowChangeEventArgs^  e) override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Void OnRowChanging(::System::Data::DataRowChangeEventArgs^  e) override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Void OnRowDeleted(::System::Data::DataRowChangeEventArgs^  e) override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Void OnRowDeleting(::System::Data::DataRowChangeEventArgs^  e) override;
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void RemovesegmentLengthRow(NewDataSet::segmentLengthRow^  row);
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        static ::System::Xml::Schema::XmlSchemaComplexType^  GetTypedTableSchema(::System::Xml::Schema::XmlSchemaSet^  xs);
+    };
+    
+    public : /// <summary>
+///Represents the strongly named DataTable class.
+///</summary>
+    [System::Serializable, 
+    System::Xml::Serialization::XmlSchemaProviderAttribute(L"GetTypedTableSchema")]
     ref class segmentSeparationDataTable : public ::System::Data::DataTable, public ::System::Collections::IEnumerable {
         
         private: ::System::Data::DataColumn^  columnUnits;
@@ -1463,6 +1615,10 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         cli::array< NewDataSet::regionLengthRow^  >^  GetregionLengthRows();
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        cli::array< NewDataSet::segmentLengthRow^  >^  GetsegmentLengthRows();
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -1772,6 +1928,53 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     public : /// <summary>
 ///Represents strongly named DataRow class.
 ///</summary>
+    ref class segmentLengthRow : public ::System::Data::DataRow {
+        
+        private: NewDataSet::segmentLengthDataTable^  tablesegmentLength;
+        
+        internal: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        segmentLengthRow(::System::Data::DataRowBuilder^  rb);
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property System::String^  Units {
+            System::String^  get();
+            System::Void set(System::String^  value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property System::Byte min {
+            System::Byte get();
+            System::Void set(System::Byte value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property System::Int32 Document_Id {
+            System::Int32 get();
+            System::Void set(System::Int32 value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property NewDataSet::DocumentRow^  DocumentRow {
+            NewDataSet::DocumentRow^  get();
+            System::Void set(NewDataSet::DocumentRow^  value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Boolean IsDocument_IdNull();
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void SetDocument_IdNull();
+    };
+    
+    public : /// <summary>
+///Represents strongly named DataRow class.
+///</summary>
     ref class segmentSeparationRow : public ::System::Data::DataRow {
         
         private: NewDataSet::segmentSeparationDataTable^  tablesegmentSeparation;
@@ -2002,6 +2205,32 @@ public ref class NewDataSet : public ::System::Data::DataSet {
 ///Row event argument class
 ///</summary>
     [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+    ref class segmentLengthRowChangeEvent : public ::System::EventArgs {
+        
+        private: NewDataSet::segmentLengthRow^  eventRow;
+        
+        private: ::System::Data::DataRowAction eventAction;
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        segmentLengthRowChangeEvent(NewDataSet::segmentLengthRow^  row, ::System::Data::DataRowAction action);
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property NewDataSet::segmentLengthRow^  Row {
+            NewDataSet::segmentLengthRow^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataRowAction Action {
+            ::System::Data::DataRowAction get();
+        }
+    };
+    
+    public : /// <summary>
+///Row event argument class
+///</summary>
+    [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
     ref class segmentSeparationRowChangeEvent : public ::System::EventArgs {
         
         private: NewDataSet::segmentSeparationRow^  eventRow;
@@ -2069,6 +2298,9 @@ inline NewDataSet::NewDataSet(::System::Runtime::Serialization::SerializationInf
         if (ds->Tables[L"regionLength"] != nullptr) {
             __super::Tables->Add((gcnew NewDataSet::regionLengthDataTable(ds->Tables[L"regionLength"])));
         }
+        if (ds->Tables[L"segmentLength"] != nullptr) {
+            __super::Tables->Add((gcnew NewDataSet::segmentLengthDataTable(ds->Tables[L"segmentLength"])));
+        }
         if (ds->Tables[L"segmentSeparation"] != nullptr) {
             __super::Tables->Add((gcnew NewDataSet::segmentSeparationDataTable(ds->Tables[L"segmentSeparation"])));
         }
@@ -2116,6 +2348,10 @@ inline NewDataSet::cntDataTable^  NewDataSet::cnt::get() {
 
 inline NewDataSet::regionLengthDataTable^  NewDataSet::regionLength::get() {
     return this->tableregionLength;
+}
+
+inline NewDataSet::segmentLengthDataTable^  NewDataSet::segmentLength::get() {
+    return this->tablesegmentLength;
 }
 
 inline NewDataSet::segmentSeparationDataTable^  NewDataSet::segmentSeparation::get() {
@@ -2183,6 +2419,9 @@ inline ::System::Void NewDataSet::ReadXmlSerializable(::System::Xml::XmlReader^ 
         }
         if (ds->Tables[L"regionLength"] != nullptr) {
             __super::Tables->Add((gcnew NewDataSet::regionLengthDataTable(ds->Tables[L"regionLength"])));
+        }
+        if (ds->Tables[L"segmentLength"] != nullptr) {
+            __super::Tables->Add((gcnew NewDataSet::segmentLengthDataTable(ds->Tables[L"segmentLength"])));
         }
         if (ds->Tables[L"segmentSeparation"] != nullptr) {
             __super::Tables->Add((gcnew NewDataSet::segmentSeparationDataTable(ds->Tables[L"segmentSeparation"])));
@@ -2256,6 +2495,12 @@ inline ::System::Void NewDataSet::InitVars(::System::Boolean initTable) {
             this->tableregionLength->InitVars();
         }
     }
+    this->tablesegmentLength = (cli::safe_cast<NewDataSet::segmentLengthDataTable^  >(__super::Tables[L"segmentLength"]));
+    if (initTable == true) {
+        if (this->tablesegmentLength != nullptr) {
+            this->tablesegmentLength->InitVars();
+        }
+    }
     this->tablesegmentSeparation = (cli::safe_cast<NewDataSet::segmentSeparationDataTable^  >(__super::Tables[L"segmentSeparation"]));
     if (initTable == true) {
         if (this->tablesegmentSeparation != nullptr) {
@@ -2268,6 +2513,7 @@ inline ::System::Void NewDataSet::InitVars(::System::Boolean initTable) {
     this->relationDocument_chirality = this->Relations[L"Document_chirality"];
     this->relationchirality_cnt = this->Relations[L"chirality_cnt"];
     this->relationDocument_regionLength = this->Relations[L"Document_regionLength"];
+    this->relationDocument_segmentLength = this->Relations[L"Document_segmentLength"];
     this->relationDocument_segmentSeparation = this->Relations[L"Document_segmentSeparation"];
 }
 
@@ -2291,6 +2537,8 @@ inline ::System::Void NewDataSet::InitClass() {
     __super::Tables->Add(this->tablecnt);
     this->tableregionLength = (gcnew NewDataSet::regionLengthDataTable());
     __super::Tables->Add(this->tableregionLength);
+    this->tablesegmentLength = (gcnew NewDataSet::segmentLengthDataTable());
+    __super::Tables->Add(this->tablesegmentLength);
     this->tablesegmentSeparation = (gcnew NewDataSet::segmentSeparationDataTable());
     __super::Tables->Add(this->tablesegmentSeparation);
     ::System::Data::ForeignKeyConstraint^  fkc;
@@ -2330,6 +2578,12 @@ inline ::System::Void NewDataSet::InitClass() {
     fkc->AcceptRejectRule = ::System::Data::AcceptRejectRule::None;
     fkc->DeleteRule = ::System::Data::Rule::Cascade;
     fkc->UpdateRule = ::System::Data::Rule::Cascade;
+    fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"Document_segmentLength", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablesegmentLength->Document_IdColumn}));
+    this->tablesegmentLength->Constraints->Add(fkc);
+    fkc->AcceptRejectRule = ::System::Data::AcceptRejectRule::None;
+    fkc->DeleteRule = ::System::Data::Rule::Cascade;
+    fkc->UpdateRule = ::System::Data::Rule::Cascade;
     fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"Document_segmentSeparation", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
         gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablesegmentSeparation->Document_IdColumn}));
     this->tablesegmentSeparation->Constraints->Add(fkc);
@@ -2360,6 +2614,10 @@ inline ::System::Void NewDataSet::InitClass() {
         gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableregionLength->Document_IdColumn}, false));
     this->relationDocument_regionLength->Nested = true;
     this->Relations->Add(this->relationDocument_regionLength);
+    this->relationDocument_segmentLength = (gcnew ::System::Data::DataRelation(L"Document_segmentLength", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablesegmentLength->Document_IdColumn}, false));
+    this->relationDocument_segmentLength->Nested = true;
+    this->Relations->Add(this->relationDocument_segmentLength);
     this->relationDocument_segmentSeparation = (gcnew ::System::Data::DataRelation(L"Document_segmentSeparation", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
         gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablesegmentSeparation->Document_IdColumn}, false));
     this->relationDocument_segmentSeparation->Nested = true;
@@ -2391,6 +2649,10 @@ inline ::System::Boolean NewDataSet::ShouldSerializecnt() {
 }
 
 inline ::System::Boolean NewDataSet::ShouldSerializeregionLength() {
+    return false;
+}
+
+inline ::System::Boolean NewDataSet::ShouldSerializesegmentLength() {
     return false;
 }
 
@@ -3945,6 +4207,211 @@ inline ::System::Xml::Schema::XmlSchemaComplexType^  NewDataSet::regionLengthDat
 }
 
 
+inline NewDataSet::segmentLengthDataTable::segmentLengthDataTable() {
+    this->TableName = L"segmentLength";
+    this->BeginInit();
+    this->InitClass();
+    this->EndInit();
+}
+
+inline NewDataSet::segmentLengthDataTable::segmentLengthDataTable(::System::Data::DataTable^  table) {
+    this->TableName = table->TableName;
+    if (table->CaseSensitive != table->DataSet->CaseSensitive) {
+        this->CaseSensitive = table->CaseSensitive;
+    }
+    if (table->Locale->ToString() != table->DataSet->Locale->ToString()) {
+        this->Locale = table->Locale;
+    }
+    if (table->Namespace != table->DataSet->Namespace) {
+        this->Namespace = table->Namespace;
+    }
+    this->Prefix = table->Prefix;
+    this->MinimumCapacity = table->MinimumCapacity;
+}
+
+inline NewDataSet::segmentLengthDataTable::segmentLengthDataTable(::System::Runtime::Serialization::SerializationInfo^  info, 
+            ::System::Runtime::Serialization::StreamingContext context) : 
+        ::System::Data::DataTable(info, context) {
+    this->InitVars();
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::segmentLengthDataTable::UnitsColumn::get() {
+    return this->columnUnits;
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::segmentLengthDataTable::minColumn::get() {
+    return this->columnmin;
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::segmentLengthDataTable::Document_IdColumn::get() {
+    return this->columnDocument_Id;
+}
+
+inline ::System::Int32 NewDataSet::segmentLengthDataTable::Count::get() {
+    return this->Rows->Count;
+}
+
+inline NewDataSet::segmentLengthRow^  NewDataSet::segmentLengthDataTable::default::get(::System::Int32 index) {
+    return (cli::safe_cast<NewDataSet::segmentLengthRow^  >(this->Rows[index]));
+}
+
+inline ::System::Void NewDataSet::segmentLengthDataTable::AddsegmentLengthRow(NewDataSet::segmentLengthRow^  row) {
+    this->Rows->Add(row);
+}
+
+inline NewDataSet::segmentLengthRow^  NewDataSet::segmentLengthDataTable::AddsegmentLengthRow(System::String^  Units, System::Byte min, 
+            NewDataSet::DocumentRow^  parentDocumentRowByDocument_segmentLength) {
+    NewDataSet::segmentLengthRow^  rowsegmentLengthRow = (cli::safe_cast<NewDataSet::segmentLengthRow^  >(this->NewRow()));
+    cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(3) {Units, min, nullptr};
+    if (parentDocumentRowByDocument_segmentLength != nullptr) {
+        columnValuesArray[2] = parentDocumentRowByDocument_segmentLength[7];
+    }
+    rowsegmentLengthRow->ItemArray = columnValuesArray;
+    this->Rows->Add(rowsegmentLengthRow);
+    return rowsegmentLengthRow;
+}
+
+inline ::System::Collections::IEnumerator^  NewDataSet::segmentLengthDataTable::GetEnumerator() {
+    return this->Rows->GetEnumerator();
+}
+
+inline ::System::Data::DataTable^  NewDataSet::segmentLengthDataTable::Clone() {
+    NewDataSet::segmentLengthDataTable^  cln = (cli::safe_cast<NewDataSet::segmentLengthDataTable^  >(__super::Clone()));
+    cln->InitVars();
+    return cln;
+}
+
+inline ::System::Data::DataTable^  NewDataSet::segmentLengthDataTable::CreateInstance() {
+    return (gcnew NewDataSet::segmentLengthDataTable());
+}
+
+inline ::System::Void NewDataSet::segmentLengthDataTable::InitVars() {
+    this->columnUnits = __super::Columns[L"Units"];
+    this->columnmin = __super::Columns[L"min"];
+    this->columnDocument_Id = __super::Columns[L"Document_Id"];
+}
+
+inline ::System::Void NewDataSet::segmentLengthDataTable::InitClass() {
+    this->columnUnits = (gcnew ::System::Data::DataColumn(L"Units", ::System::String::typeid, nullptr, ::System::Data::MappingType::Element));
+    __super::Columns->Add(this->columnUnits);
+    this->columnmin = (gcnew ::System::Data::DataColumn(L"min", ::System::Byte::typeid, nullptr, ::System::Data::MappingType::Element));
+    __super::Columns->Add(this->columnmin);
+    this->columnDocument_Id = (gcnew ::System::Data::DataColumn(L"Document_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
+    __super::Columns->Add(this->columnDocument_Id);
+    this->columnUnits->AllowDBNull = false;
+    this->columnmin->AllowDBNull = false;
+}
+
+inline NewDataSet::segmentLengthRow^  NewDataSet::segmentLengthDataTable::NewsegmentLengthRow() {
+    return (cli::safe_cast<NewDataSet::segmentLengthRow^  >(this->NewRow()));
+}
+
+inline ::System::Data::DataRow^  NewDataSet::segmentLengthDataTable::NewRowFromBuilder(::System::Data::DataRowBuilder^  builder) {
+    return (gcnew NewDataSet::segmentLengthRow(builder));
+}
+
+inline ::System::Type^  NewDataSet::segmentLengthDataTable::GetRowType() {
+    return NewDataSet::segmentLengthRow::typeid;
+}
+
+inline ::System::Void NewDataSet::segmentLengthDataTable::OnRowChanged(::System::Data::DataRowChangeEventArgs^  e) {
+    __super::OnRowChanged(e);
+    {
+        this->segmentLengthRowChanged(this, (gcnew NewDataSet::segmentLengthRowChangeEvent((cli::safe_cast<NewDataSet::segmentLengthRow^  >(e->Row)), 
+                e->Action)));
+    }
+}
+
+inline ::System::Void NewDataSet::segmentLengthDataTable::OnRowChanging(::System::Data::DataRowChangeEventArgs^  e) {
+    __super::OnRowChanging(e);
+    {
+        this->segmentLengthRowChanging(this, (gcnew NewDataSet::segmentLengthRowChangeEvent((cli::safe_cast<NewDataSet::segmentLengthRow^  >(e->Row)), 
+                e->Action)));
+    }
+}
+
+inline ::System::Void NewDataSet::segmentLengthDataTable::OnRowDeleted(::System::Data::DataRowChangeEventArgs^  e) {
+    __super::OnRowDeleted(e);
+    {
+        this->segmentLengthRowDeleted(this, (gcnew NewDataSet::segmentLengthRowChangeEvent((cli::safe_cast<NewDataSet::segmentLengthRow^  >(e->Row)), 
+                e->Action)));
+    }
+}
+
+inline ::System::Void NewDataSet::segmentLengthDataTable::OnRowDeleting(::System::Data::DataRowChangeEventArgs^  e) {
+    __super::OnRowDeleting(e);
+    {
+        this->segmentLengthRowDeleting(this, (gcnew NewDataSet::segmentLengthRowChangeEvent((cli::safe_cast<NewDataSet::segmentLengthRow^  >(e->Row)), 
+                e->Action)));
+    }
+}
+
+inline ::System::Void NewDataSet::segmentLengthDataTable::RemovesegmentLengthRow(NewDataSet::segmentLengthRow^  row) {
+    this->Rows->Remove(row);
+}
+
+inline ::System::Xml::Schema::XmlSchemaComplexType^  NewDataSet::segmentLengthDataTable::GetTypedTableSchema(::System::Xml::Schema::XmlSchemaSet^  xs) {
+    ::System::Xml::Schema::XmlSchemaComplexType^  type = (gcnew ::System::Xml::Schema::XmlSchemaComplexType());
+    ::System::Xml::Schema::XmlSchemaSequence^  sequence = (gcnew ::System::Xml::Schema::XmlSchemaSequence());
+    NewDataSet^  ds = (gcnew NewDataSet());
+    ::System::Xml::Schema::XmlSchemaAny^  any1 = (gcnew ::System::Xml::Schema::XmlSchemaAny());
+    any1->Namespace = L"http://www.w3.org/2001/XMLSchema";
+    any1->MinOccurs = ::System::Decimal(0);
+    any1->MaxOccurs = ::System::Decimal::MaxValue;
+    any1->ProcessContents = ::System::Xml::Schema::XmlSchemaContentProcessing::Lax;
+    sequence->Items->Add(any1);
+    ::System::Xml::Schema::XmlSchemaAny^  any2 = (gcnew ::System::Xml::Schema::XmlSchemaAny());
+    any2->Namespace = L"urn:schemas-microsoft-com:xml-diffgram-v1";
+    any2->MinOccurs = ::System::Decimal(1);
+    any2->ProcessContents = ::System::Xml::Schema::XmlSchemaContentProcessing::Lax;
+    sequence->Items->Add(any2);
+    ::System::Xml::Schema::XmlSchemaAttribute^  attribute1 = (gcnew ::System::Xml::Schema::XmlSchemaAttribute());
+    attribute1->Name = L"namespace";
+    attribute1->FixedValue = ds->Namespace;
+    type->Attributes->Add(attribute1);
+    ::System::Xml::Schema::XmlSchemaAttribute^  attribute2 = (gcnew ::System::Xml::Schema::XmlSchemaAttribute());
+    attribute2->Name = L"tableTypeName";
+    attribute2->FixedValue = L"segmentLengthDataTable";
+    type->Attributes->Add(attribute2);
+    type->Particle = sequence;
+    ::System::Xml::Schema::XmlSchema^  dsSchema = ds->GetSchemaSerializable();
+    if (xs->Contains(dsSchema->TargetNamespace)) {
+        ::System::IO::MemoryStream^  s1 = (gcnew ::System::IO::MemoryStream());
+        ::System::IO::MemoryStream^  s2 = (gcnew ::System::IO::MemoryStream());
+        try {
+            ::System::Xml::Schema::XmlSchema^  schema = nullptr;
+            dsSchema->Write(s1);
+            for (            ::System::Collections::IEnumerator^  schemas = xs->Schemas(dsSchema->TargetNamespace)->GetEnumerator(); schemas->MoveNext();             ) {
+                schema = (cli::safe_cast<::System::Xml::Schema::XmlSchema^  >(schemas->Current));
+                s2->SetLength(0);
+                schema->Write(s2);
+                if (s1->Length == s2->Length) {
+                    s1->Position = 0;
+                    s2->Position = 0;
+                    for (                    ; ((s1->Position != s1->Length) 
+                                && (s1->ReadByte() == s2->ReadByte()));                     ) {
+                        ;
+                    }
+                    if (s1->Position == s1->Length) {
+                        return type;
+                    }
+                }
+            }
+        }
+        finally {
+            if (s1 != nullptr) {
+                s1->Close();
+            }
+            if (s2 != nullptr) {
+                s2->Close();
+            }
+        }
+    }
+    xs->Add(dsSchema);
+    return type;
+}
+
+
 inline NewDataSet::segmentSeparationDataTable::segmentSeparationDataTable() {
     this->TableName = L"segmentSeparation";
     this->BeginInit();
@@ -4253,6 +4720,15 @@ inline cli::array< NewDataSet::regionLengthRow^  >^  NewDataSet::DocumentRow::Ge
     }
     else {
         return (cli::safe_cast<cli::array< NewDataSet::regionLengthRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"Document_regionLength"])));
+    }
+}
+
+inline cli::array< NewDataSet::segmentLengthRow^  >^  NewDataSet::DocumentRow::GetsegmentLengthRows() {
+    if (this->Table->ChildRelations[L"Document_segmentLength"] == nullptr) {
+        return gcnew cli::array< NewDataSet::segmentLengthRow^  >(0);
+    }
+    else {
+        return (cli::safe_cast<cli::array< NewDataSet::segmentLengthRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"Document_segmentLength"])));
     }
 }
 
@@ -4577,6 +5053,54 @@ inline ::System::Void NewDataSet::regionLengthRow::SetDocument_IdNull() {
 }
 
 
+inline NewDataSet::segmentLengthRow::segmentLengthRow(::System::Data::DataRowBuilder^  rb) : 
+        ::System::Data::DataRow(rb) {
+    this->tablesegmentLength = (cli::safe_cast<NewDataSet::segmentLengthDataTable^  >(this->Table));
+}
+
+inline System::String^  NewDataSet::segmentLengthRow::Units::get() {
+    return (cli::safe_cast<::System::String^  >(this[this->tablesegmentLength->UnitsColumn]));
+}
+inline System::Void NewDataSet::segmentLengthRow::Units::set(System::String^  value) {
+    this[this->tablesegmentLength->UnitsColumn] = value;
+}
+
+inline System::Byte NewDataSet::segmentLengthRow::min::get() {
+    return (cli::safe_cast<::System::Byte >(this[this->tablesegmentLength->minColumn]));
+}
+inline System::Void NewDataSet::segmentLengthRow::min::set(System::Byte value) {
+    this[this->tablesegmentLength->minColumn] = value;
+}
+
+inline System::Int32 NewDataSet::segmentLengthRow::Document_Id::get() {
+    try {
+        return (cli::safe_cast<::System::Int32 >(this[this->tablesegmentLength->Document_IdColumn]));
+    }
+    catch (::System::InvalidCastException^ e) {
+        throw (gcnew ::System::Data::StrongTypingException(L"The value for column \'Document_Id\' in table \'segmentLength\' is DBNull.", 
+            e));
+    }
+}
+inline System::Void NewDataSet::segmentLengthRow::Document_Id::set(System::Int32 value) {
+    this[this->tablesegmentLength->Document_IdColumn] = value;
+}
+
+inline NewDataSet::DocumentRow^  NewDataSet::segmentLengthRow::DocumentRow::get() {
+    return (cli::safe_cast<NewDataSet::DocumentRow^  >(this->GetParentRow(this->Table->ParentRelations[L"Document_segmentLength"])));
+}
+inline System::Void NewDataSet::segmentLengthRow::DocumentRow::set(NewDataSet::DocumentRow^  value) {
+    this->SetParentRow(value, this->Table->ParentRelations[L"Document_segmentLength"]);
+}
+
+inline ::System::Boolean NewDataSet::segmentLengthRow::IsDocument_IdNull() {
+    return this->IsNull(this->tablesegmentLength->Document_IdColumn);
+}
+
+inline ::System::Void NewDataSet::segmentLengthRow::SetDocument_IdNull() {
+    this[this->tablesegmentLength->Document_IdColumn] = ::System::Convert::DBNull;
+}
+
+
 inline NewDataSet::segmentSeparationRow::segmentSeparationRow(::System::Data::DataRowBuilder^  rb) : 
         ::System::Data::DataRow(rb) {
     this->tablesegmentSeparation = (cli::safe_cast<NewDataSet::segmentSeparationDataTable^  >(this->Table));
@@ -4720,6 +5244,20 @@ inline NewDataSet::regionLengthRow^  NewDataSet::regionLengthRowChangeEvent::Row
 }
 
 inline ::System::Data::DataRowAction NewDataSet::regionLengthRowChangeEvent::Action::get() {
+    return this->eventAction;
+}
+
+
+inline NewDataSet::segmentLengthRowChangeEvent::segmentLengthRowChangeEvent(NewDataSet::segmentLengthRow^  row, ::System::Data::DataRowAction action) {
+    this->eventRow = row;
+    this->eventAction = action;
+}
+
+inline NewDataSet::segmentLengthRow^  NewDataSet::segmentLengthRowChangeEvent::Row::get() {
+    return this->eventRow;
+}
+
+inline ::System::Data::DataRowAction NewDataSet::segmentLengthRowChangeEvent::Action::get() {
     return this->eventAction;
 }
 
