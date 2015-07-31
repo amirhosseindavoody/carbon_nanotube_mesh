@@ -157,6 +157,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CNT_Mesh_Config.h">
+      <DependentUpon>CNT_Mesh_Config.xsd</DependentUpon>
+    </ClInclude>
     <ClInclude Include="MeshEnv.h" />
     <ClInclude Include="CNTFunc.h" />
     <ClInclude Include="rapidxml.hpp" />
@@ -194,6 +197,9 @@
     <ProjectReference Include="..\..\BulletBuild\src\LinearMath\LinearMath.vcxproj">
       <Project>{01f38d8d-977c-42aa-8926-16d054600b4e}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Xsd Include="CNT_Mesh_Config.xsd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
