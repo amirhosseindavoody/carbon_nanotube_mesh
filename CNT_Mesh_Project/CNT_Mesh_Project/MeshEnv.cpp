@@ -33,6 +33,7 @@ This is a heavily edited version of BasicDemo.cpp provided by Bullet Physics
 #include <iostream>
 #include <sstream>
 #include "windows.h"
+#include <regex>
 
 using namespace rapidxml;
 using namespace std;
@@ -418,7 +419,12 @@ void	MeshEnv::initPhysics(float camDistance)
 			
 			//OUTPUT FOLDER
 			currNode = currNode->first_node(); //Output folder validated below
-			outputFolderPath = currNode->value(); 
+			outputFolderPath = currNode->value();
+			outputFolderPath = fixPath(outputFolderPath);
+			if (outputFolderPath.back() != '/')
+			{
+				outputFolderPath += "/";
+			}
 
 			//NUMTUBES NODE
 			currNode = currNode->next_sibling(); 
@@ -1509,4 +1515,15 @@ bool MeshEnv::SaveBMP(BYTE* Buffer, int width, int height, long paddedsize, LPCT
 	CloseHandle(file);
 
 	return true;
+}
+
+/**
+Changes \ to / in strings. This is to fix file paths
+
+@param path The path to be fixed
+*/
+string MeshEnv::fixPath(string &path)
+{
+	regex rgx("\\\\");
+	return regex_replace(path, rgx, "/");
 }

@@ -187,6 +187,8 @@ public:
 
 	BYTE* ConvertRGBToBMPBuffer(BYTE* Buffer, int width, int height, long* newsize);
 
+	string static MeshEnv::fixPath(string &path);
+
 };
 
 #endif //BASIC_DEMO_H

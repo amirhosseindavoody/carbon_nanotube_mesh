@@ -43,7 +43,9 @@ int main(int argc, char *argv[])
 	{
 		inputXMLPath = argv[1];
 	}
-	
+	//fix goofy path names
+	inputXMLPath = MeshEnv::fixPath(inputXMLPath);
+
 	MeshEnv ccdDemo;
 	ccdDemo.initPhysics(btScalar(300));
 
