@@ -339,7 +339,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         private: ::System::Data::DataColumn^  columnnumberTimeSteps;
         
-        private: ::System::Data::DataColumn^  columnpercentMovementsBelowDeltaT;
+        private: ::System::Data::DataColumn^  columnpercentFreeFlightTimesAboveDeltaT;
         
         private: ::System::Data::DataColumn^  columnDocument_Id;
         
@@ -408,7 +408,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property ::System::Data::DataColumn^  percentMovementsBelowDeltaTColumn {
+        property ::System::Data::DataColumn^  percentFreeFlightTimesAboveDeltaTColumn {
             ::System::Data::DataColumn^  get();
         }
         
@@ -445,7 +445,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
                     System::Decimal gravity, 
                     System::UInt16 numberExcitons, 
                     System::UInt32 numberTimeSteps, 
-                    System::Byte percentMovementsBelowDeltaT);
+                    System::Byte percentFreeFlightTimesAboveDeltaT);
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -1769,7 +1769,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
-        property System::Byte percentMovementsBelowDeltaT {
+        property System::Byte percentFreeFlightTimesAboveDeltaT {
             System::Byte get();
             System::Void set(System::Byte value);
         }
@@ -3076,8 +3076,8 @@ inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::numberTimeSte
     return this->columnnumberTimeSteps;
 }
 
-inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::percentMovementsBelowDeltaTColumn::get() {
-    return this->columnpercentMovementsBelowDeltaT;
+inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::percentFreeFlightTimesAboveDeltaTColumn::get() {
+    return this->columnpercentFreeFlightTimesAboveDeltaT;
 }
 
 inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::Document_IdColumn::get() {
@@ -3104,10 +3104,10 @@ inline NewDataSet::DocumentRow^  NewDataSet::DocumentDataTable::AddDocumentRow(
             System::Decimal gravity, 
             System::UInt16 numberExcitons, 
             System::UInt32 numberTimeSteps, 
-            System::Byte percentMovementsBelowDeltaT) {
+            System::Byte percentFreeFlightTimesAboveDeltaT) {
     NewDataSet::DocumentRow^  rowDocumentRow = (cli::safe_cast<NewDataSet::DocumentRow^  >(this->NewRow()));
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(9) {Type, outputDirectory, 
-        numberTubes, friction, gravity, numberExcitons, numberTimeSteps, percentMovementsBelowDeltaT, nullptr};
+        numberTubes, friction, gravity, numberExcitons, numberTimeSteps, percentFreeFlightTimesAboveDeltaT, nullptr};
     rowDocumentRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowDocumentRow);
     return rowDocumentRow;
@@ -3135,7 +3135,7 @@ inline ::System::Void NewDataSet::DocumentDataTable::InitVars() {
     this->columngravity = __super::Columns[L"gravity"];
     this->columnnumberExcitons = __super::Columns[L"numberExcitons"];
     this->columnnumberTimeSteps = __super::Columns[L"numberTimeSteps"];
-    this->columnpercentMovementsBelowDeltaT = __super::Columns[L"percentMovementsBelowDeltaT"];
+    this->columnpercentFreeFlightTimesAboveDeltaT = __super::Columns[L"percentFreeFlightTimesAboveDeltaT"];
     this->columnDocument_Id = __super::Columns[L"Document_Id"];
 }
 
@@ -3154,9 +3154,9 @@ inline ::System::Void NewDataSet::DocumentDataTable::InitClass() {
     __super::Columns->Add(this->columnnumberExcitons);
     this->columnnumberTimeSteps = (gcnew ::System::Data::DataColumn(L"numberTimeSteps", ::System::UInt32::typeid, nullptr, ::System::Data::MappingType::Element));
     __super::Columns->Add(this->columnnumberTimeSteps);
-    this->columnpercentMovementsBelowDeltaT = (gcnew ::System::Data::DataColumn(L"percentMovementsBelowDeltaT", ::System::Byte::typeid, 
+    this->columnpercentFreeFlightTimesAboveDeltaT = (gcnew ::System::Data::DataColumn(L"percentFreeFlightTimesAboveDeltaT", ::System::Byte::typeid, 
         nullptr, ::System::Data::MappingType::Element));
-    __super::Columns->Add(this->columnpercentMovementsBelowDeltaT);
+    __super::Columns->Add(this->columnpercentFreeFlightTimesAboveDeltaT);
     this->columnDocument_Id = (gcnew ::System::Data::DataColumn(L"Document_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
     __super::Columns->Add(this->columnDocument_Id);
     this->Constraints->Add((gcnew ::System::Data::UniqueConstraint(L"Constraint1", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->columnDocument_Id}, 
@@ -3169,7 +3169,7 @@ inline ::System::Void NewDataSet::DocumentDataTable::InitClass() {
     this->columngravity->AllowDBNull = false;
     this->columnnumberExcitons->AllowDBNull = false;
     this->columnnumberTimeSteps->AllowDBNull = false;
-    this->columnpercentMovementsBelowDeltaT->AllowDBNull = false;
+    this->columnpercentFreeFlightTimesAboveDeltaT->AllowDBNull = false;
     this->columnDocument_Id->AutoIncrement = true;
     this->columnDocument_Id->AllowDBNull = false;
     this->columnDocument_Id->Unique = true;
@@ -5212,11 +5212,11 @@ inline System::Void NewDataSet::DocumentRow::numberTimeSteps::set(System::UInt32
     this[this->tableDocument->numberTimeStepsColumn] = value;
 }
 
-inline System::Byte NewDataSet::DocumentRow::percentMovementsBelowDeltaT::get() {
-    return (cli::safe_cast<::System::Byte >(this[this->tableDocument->percentMovementsBelowDeltaTColumn]));
+inline System::Byte NewDataSet::DocumentRow::percentFreeFlightTimesAboveDeltaT::get() {
+    return (cli::safe_cast<::System::Byte >(this[this->tableDocument->percentFreeFlightTimesAboveDeltaTColumn]));
 }
-inline System::Void NewDataSet::DocumentRow::percentMovementsBelowDeltaT::set(System::Byte value) {
-    this[this->tableDocument->percentMovementsBelowDeltaTColumn] = value;
+inline System::Void NewDataSet::DocumentRow::percentFreeFlightTimesAboveDeltaT::set(System::Byte value) {
+    this[this->tableDocument->percentFreeFlightTimesAboveDeltaTColumn] = value;
 }
 
 inline System::Int32 NewDataSet::DocumentRow::Document_Id::get() {

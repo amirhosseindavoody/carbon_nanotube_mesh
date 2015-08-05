@@ -74,7 +74,7 @@
           </xs:complexType>
         </xs:element>
         <xs:element name="numberTimeSteps" type="xs:unsignedInt" />
-        <xs:element name="percentMovementsBelowDeltaT" type="xs:unsignedByte" />
+        <xs:element name="percentFreeFlightTimesAboveDeltaT" type="xs:unsignedByte" />
         <xs:element name="autoComplete">
           <xs:complexType>
             <xs:sequence>

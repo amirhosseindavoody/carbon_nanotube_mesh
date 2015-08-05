@@ -55,7 +55,7 @@
       <min>30</min>
   </segmentSeparation>
   <numberTimeSteps>100000</numberTimeSteps>
-  <percentMovementsBelowDeltaT>30</percentMovementsBelowDeltaT>
+  <percentFreeFlightTimesAboveDeltaT>30</percentFreeFlightTimesAboveDeltaT>
   <autoComplete>
     <enabled>true</enabled>
     <threshold>.01</threshold>
