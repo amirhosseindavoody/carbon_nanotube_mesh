@@ -55,4 +55,10 @@
       <min>30</min>
   </segmentSeparation>
   <numberTimeSteps>100000</numberTimeSteps>
+  <autoComplete>
+    <enabled>true</enabled>
+    <threshold>.01</threshold>
+    <numBelowThreshold>5</numBelowThreshold>
+    <numToAverage>1000</numToAverage>
+  </autoComplete>
 </Document>

@@ -74,6 +74,16 @@
           </xs:complexType>
         </xs:element>
         <xs:element name="numberTimeSteps" type="xs:unsignedInt" />
+        <xs:element name="autoComplete">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="enabled" type="xs:boolean" />
+              <xs:element name="threshold" type="xs:decimal" />
+              <xs:element name="numBelowThreshold" type="xs:unsignedByte" />
+              <xs:element name="numToAverage" type="xs:unsignedShort" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:sequence>
       <xs:attribute name="Type" type="xs:string" use="required" />
     </xs:complexType>

@@ -33,6 +33,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     public : ref class regionLengthDataTable;
     public : ref class segmentLengthDataTable;
     public : ref class segmentSeparationDataTable;
+    public : ref class autoCompleteDataTable;
     public : ref class DocumentRow;
     public : ref class spacingRow;
     public : ref class LengthsRow;
@@ -42,6 +43,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     public : ref class regionLengthRow;
     public : ref class segmentLengthRow;
     public : ref class segmentSeparationRow;
+    public : ref class autoCompleteRow;
     public : ref class DocumentRowChangeEvent;
     public : ref class spacingRowChangeEvent;
     public : ref class LengthsRowChangeEvent;
@@ -51,6 +53,7 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     public : ref class regionLengthRowChangeEvent;
     public : ref class segmentLengthRowChangeEvent;
     public : ref class segmentSeparationRowChangeEvent;
+    public : ref class autoCompleteRowChangeEvent;
     
     private: NewDataSet::DocumentDataTable^  tableDocument;
     
@@ -70,6 +73,8 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     
     private: NewDataSet::segmentSeparationDataTable^  tablesegmentSeparation;
     
+    private: NewDataSet::autoCompleteDataTable^  tableautoComplete;
+    
     private: ::System::Data::DataRelation^  relationDocument_spacing;
     
     private: ::System::Data::DataRelation^  relationDocument_Lengths;
@@ -85,6 +90,8 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     private: ::System::Data::DataRelation^  relationDocument_segmentLength;
     
     private: ::System::Data::DataRelation^  relationDocument_segmentSeparation;
+    
+    private: ::System::Data::DataRelation^  relationDocument_autoComplete;
     
     private: ::System::Data::SchemaSerializationMode _schemaSerializationMode;
     
@@ -114,6 +121,9 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     
     public : [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
     delegate System::Void segmentSeparationRowChangeEventHandler(::System::Object^  sender, NewDataSet::segmentSeparationRowChangeEvent^  e);
+    
+    public : [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+    delegate System::Void autoCompleteRowChangeEventHandler(::System::Object^  sender, NewDataSet::autoCompleteRowChangeEvent^  e);
     
     public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
     [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -191,6 +201,14 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     System::ComponentModel::DesignerSerializationVisibility(::System::ComponentModel::DesignerSerializationVisibility::Content)]
     property NewDataSet::segmentSeparationDataTable^  segmentSeparation {
         NewDataSet::segmentSeparationDataTable^  get();
+    }
+    
+    public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+    System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0"), 
+    System::ComponentModel::Browsable(false), 
+    System::ComponentModel::DesignerSerializationVisibility(::System::ComponentModel::DesignerSerializationVisibility::Content)]
+    property NewDataSet::autoCompleteDataTable^  autoComplete {
+        NewDataSet::autoCompleteDataTable^  get();
     }
     
     public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
@@ -287,6 +305,10 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     private: [System::Diagnostics::DebuggerNonUserCodeAttribute]
     [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
     ::System::Boolean ShouldSerializesegmentSeparation();
+    
+    private: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+    [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+    ::System::Boolean ShouldSerializeautoComplete();
     
     private: [System::Diagnostics::DebuggerNonUserCodeAttribute]
     [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -1531,6 +1553,153 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     };
     
     public : /// <summary>
+///Represents the strongly named DataTable class.
+///</summary>
+    [System::Serializable, 
+    System::Xml::Serialization::XmlSchemaProviderAttribute(L"GetTypedTableSchema")]
+    ref class autoCompleteDataTable : public ::System::Data::DataTable, public ::System::Collections::IEnumerable {
+        
+        private: ::System::Data::DataColumn^  columnenabled;
+        
+        private: ::System::Data::DataColumn^  columnthreshold;
+        
+        private: ::System::Data::DataColumn^  columnnumBelowThreshold;
+        
+        private: ::System::Data::DataColumn^  columnnumToAverage;
+        
+        private: ::System::Data::DataColumn^  columnDocument_Id;
+        
+        public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        event NewDataSet::autoCompleteRowChangeEventHandler^  autoCompleteRowChanging;
+        
+        public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        event NewDataSet::autoCompleteRowChangeEventHandler^  autoCompleteRowChanged;
+        
+        public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        event NewDataSet::autoCompleteRowChangeEventHandler^  autoCompleteRowDeleting;
+        
+        public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        event NewDataSet::autoCompleteRowChangeEventHandler^  autoCompleteRowDeleted;
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        autoCompleteDataTable();
+        internal: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        autoCompleteDataTable(::System::Data::DataTable^  table);
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        autoCompleteDataTable(::System::Runtime::Serialization::SerializationInfo^  info, ::System::Runtime::Serialization::StreamingContext context);
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  enabledColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  thresholdColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  numBelowThresholdColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  numToAverageColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  Document_IdColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0"), 
+        System::ComponentModel::Browsable(false)]
+        property ::System::Int32 Count {
+            ::System::Int32 get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property NewDataSet::autoCompleteRow^  default [::System::Int32 ] {
+            NewDataSet::autoCompleteRow^  get(::System::Int32 index);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void AddautoCompleteRow(NewDataSet::autoCompleteRow^  row);
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        NewDataSet::autoCompleteRow^  AddautoCompleteRow(System::Boolean enabled, System::Decimal threshold, System::Byte numBelowThreshold, 
+                    System::UInt16 numToAverage, NewDataSet::DocumentRow^  parentDocumentRowByDocument_autoComplete);
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Collections::IEnumerator^  GetEnumerator();
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Data::DataTable^  Clone() override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Data::DataTable^  CreateInstance() override;
+        
+        internal: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void InitVars();
+        
+        private: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void InitClass();
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        NewDataSet::autoCompleteRow^  NewautoCompleteRow();
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Data::DataRow^  NewRowFromBuilder(::System::Data::DataRowBuilder^  builder) override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Type^  GetRowType() override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Void OnRowChanged(::System::Data::DataRowChangeEventArgs^  e) override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Void OnRowChanging(::System::Data::DataRowChangeEventArgs^  e) override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Void OnRowDeleted(::System::Data::DataRowChangeEventArgs^  e) override;
+        
+        protected: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        virtual ::System::Void OnRowDeleting(::System::Data::DataRowChangeEventArgs^  e) override;
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void RemoveautoCompleteRow(NewDataSet::autoCompleteRow^  row);
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        static ::System::Xml::Schema::XmlSchemaComplexType^  GetTypedTableSchema(::System::Xml::Schema::XmlSchemaSet^  xs);
+    };
+    
+    public : /// <summary>
 ///Represents strongly named DataRow class.
 ///</summary>
     ref class DocumentRow : public ::System::Data::DataRow {
@@ -1623,6 +1792,10 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         cli::array< NewDataSet::segmentSeparationRow^  >^  GetsegmentSeparationRows();
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        cli::array< NewDataSet::autoCompleteRow^  >^  GetautoCompleteRows();
     };
     
     public : /// <summary>
@@ -2020,6 +2193,67 @@ public ref class NewDataSet : public ::System::Data::DataSet {
     };
     
     public : /// <summary>
+///Represents strongly named DataRow class.
+///</summary>
+    ref class autoCompleteRow : public ::System::Data::DataRow {
+        
+        private: NewDataSet::autoCompleteDataTable^  tableautoComplete;
+        
+        internal: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        autoCompleteRow(::System::Data::DataRowBuilder^  rb);
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property System::Boolean enabled {
+            System::Boolean get();
+            System::Void set(System::Boolean value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property System::Decimal threshold {
+            System::Decimal get();
+            System::Void set(System::Decimal value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property System::Byte numBelowThreshold {
+            System::Byte get();
+            System::Void set(System::Byte value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property System::UInt16 numToAverage {
+            System::UInt16 get();
+            System::Void set(System::UInt16 value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property System::Int32 Document_Id {
+            System::Int32 get();
+            System::Void set(System::Int32 value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property NewDataSet::DocumentRow^  DocumentRow {
+            NewDataSet::DocumentRow^  get();
+            System::Void set(NewDataSet::DocumentRow^  value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Boolean IsDocument_IdNull();
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        ::System::Void SetDocument_IdNull();
+    };
+    
+    public : /// <summary>
 ///Row event argument class
 ///</summary>
     [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -2252,6 +2486,32 @@ public ref class NewDataSet : public ::System::Data::DataSet {
             ::System::Data::DataRowAction get();
         }
     };
+    
+    public : /// <summary>
+///Row event argument class
+///</summary>
+    [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+    ref class autoCompleteRowChangeEvent : public ::System::EventArgs {
+        
+        private: NewDataSet::autoCompleteRow^  eventRow;
+        
+        private: ::System::Data::DataRowAction eventAction;
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
+        [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        autoCompleteRowChangeEvent(NewDataSet::autoCompleteRow^  row, ::System::Data::DataRowAction action);
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property NewDataSet::autoCompleteRow^  Row {
+            NewDataSet::autoCompleteRow^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataRowAction Action {
+            ::System::Data::DataRowAction get();
+        }
+    };
 };
 
 
@@ -2303,6 +2563,9 @@ inline NewDataSet::NewDataSet(::System::Runtime::Serialization::SerializationInf
         }
         if (ds->Tables[L"segmentSeparation"] != nullptr) {
             __super::Tables->Add((gcnew NewDataSet::segmentSeparationDataTable(ds->Tables[L"segmentSeparation"])));
+        }
+        if (ds->Tables[L"autoComplete"] != nullptr) {
+            __super::Tables->Add((gcnew NewDataSet::autoCompleteDataTable(ds->Tables[L"autoComplete"])));
         }
         this->DataSetName = ds->DataSetName;
         this->Prefix = ds->Prefix;
@@ -2356,6 +2619,10 @@ inline NewDataSet::segmentLengthDataTable^  NewDataSet::segmentLength::get() {
 
 inline NewDataSet::segmentSeparationDataTable^  NewDataSet::segmentSeparation::get() {
     return this->tablesegmentSeparation;
+}
+
+inline NewDataSet::autoCompleteDataTable^  NewDataSet::autoComplete::get() {
+    return this->tableautoComplete;
 }
 
 inline ::System::Data::SchemaSerializationMode NewDataSet::SchemaSerializationMode::get() {
@@ -2425,6 +2692,9 @@ inline ::System::Void NewDataSet::ReadXmlSerializable(::System::Xml::XmlReader^ 
         }
         if (ds->Tables[L"segmentSeparation"] != nullptr) {
             __super::Tables->Add((gcnew NewDataSet::segmentSeparationDataTable(ds->Tables[L"segmentSeparation"])));
+        }
+        if (ds->Tables[L"autoComplete"] != nullptr) {
+            __super::Tables->Add((gcnew NewDataSet::autoCompleteDataTable(ds->Tables[L"autoComplete"])));
         }
         this->DataSetName = ds->DataSetName;
         this->Prefix = ds->Prefix;
@@ -2507,6 +2777,12 @@ inline ::System::Void NewDataSet::InitVars(::System::Boolean initTable) {
             this->tablesegmentSeparation->InitVars();
         }
     }
+    this->tableautoComplete = (cli::safe_cast<NewDataSet::autoCompleteDataTable^  >(__super::Tables[L"autoComplete"]));
+    if (initTable == true) {
+        if (this->tableautoComplete != nullptr) {
+            this->tableautoComplete->InitVars();
+        }
+    }
     this->relationDocument_spacing = this->Relations[L"Document_spacing"];
     this->relationDocument_Lengths = this->Relations[L"Document_Lengths"];
     this->relationDocument_DeviceDimensions = this->Relations[L"Document_DeviceDimensions"];
@@ -2515,6 +2791,7 @@ inline ::System::Void NewDataSet::InitVars(::System::Boolean initTable) {
     this->relationDocument_regionLength = this->Relations[L"Document_regionLength"];
     this->relationDocument_segmentLength = this->Relations[L"Document_segmentLength"];
     this->relationDocument_segmentSeparation = this->Relations[L"Document_segmentSeparation"];
+    this->relationDocument_autoComplete = this->Relations[L"Document_autoComplete"];
 }
 
 inline ::System::Void NewDataSet::InitClass() {
@@ -2541,6 +2818,8 @@ inline ::System::Void NewDataSet::InitClass() {
     __super::Tables->Add(this->tablesegmentLength);
     this->tablesegmentSeparation = (gcnew NewDataSet::segmentSeparationDataTable());
     __super::Tables->Add(this->tablesegmentSeparation);
+    this->tableautoComplete = (gcnew NewDataSet::autoCompleteDataTable());
+    __super::Tables->Add(this->tableautoComplete);
     ::System::Data::ForeignKeyConstraint^  fkc;
     fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"Document_spacing", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
         gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablespacing->Document_IdColumn}));
@@ -2590,6 +2869,12 @@ inline ::System::Void NewDataSet::InitClass() {
     fkc->AcceptRejectRule = ::System::Data::AcceptRejectRule::None;
     fkc->DeleteRule = ::System::Data::Rule::Cascade;
     fkc->UpdateRule = ::System::Data::Rule::Cascade;
+    fkc = (gcnew ::System::Data::ForeignKeyConstraint(L"Document_autoComplete", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableautoComplete->Document_IdColumn}));
+    this->tableautoComplete->Constraints->Add(fkc);
+    fkc->AcceptRejectRule = ::System::Data::AcceptRejectRule::None;
+    fkc->DeleteRule = ::System::Data::Rule::Cascade;
+    fkc->UpdateRule = ::System::Data::Rule::Cascade;
     this->relationDocument_spacing = (gcnew ::System::Data::DataRelation(L"Document_spacing", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
         gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablespacing->Document_IdColumn}, false));
     this->relationDocument_spacing->Nested = true;
@@ -2622,6 +2907,10 @@ inline ::System::Void NewDataSet::InitClass() {
         gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tablesegmentSeparation->Document_IdColumn}, false));
     this->relationDocument_segmentSeparation->Nested = true;
     this->Relations->Add(this->relationDocument_segmentSeparation);
+    this->relationDocument_autoComplete = (gcnew ::System::Data::DataRelation(L"Document_autoComplete", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableDocument->Document_IdColumn}, 
+        gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->tableautoComplete->Document_IdColumn}, false));
+    this->relationDocument_autoComplete->Nested = true;
+    this->Relations->Add(this->relationDocument_autoComplete);
 }
 
 inline ::System::Boolean NewDataSet::ShouldSerializeDocument() {
@@ -2657,6 +2946,10 @@ inline ::System::Boolean NewDataSet::ShouldSerializesegmentLength() {
 }
 
 inline ::System::Boolean NewDataSet::ShouldSerializesegmentSeparation() {
+    return false;
+}
+
+inline ::System::Boolean NewDataSet::ShouldSerializeautoComplete() {
     return false;
 }
 
@@ -4617,6 +4910,228 @@ inline ::System::Xml::Schema::XmlSchemaComplexType^  NewDataSet::segmentSeparati
 }
 
 
+inline NewDataSet::autoCompleteDataTable::autoCompleteDataTable() {
+    this->TableName = L"autoComplete";
+    this->BeginInit();
+    this->InitClass();
+    this->EndInit();
+}
+
+inline NewDataSet::autoCompleteDataTable::autoCompleteDataTable(::System::Data::DataTable^  table) {
+    this->TableName = table->TableName;
+    if (table->CaseSensitive != table->DataSet->CaseSensitive) {
+        this->CaseSensitive = table->CaseSensitive;
+    }
+    if (table->Locale->ToString() != table->DataSet->Locale->ToString()) {
+        this->Locale = table->Locale;
+    }
+    if (table->Namespace != table->DataSet->Namespace) {
+        this->Namespace = table->Namespace;
+    }
+    this->Prefix = table->Prefix;
+    this->MinimumCapacity = table->MinimumCapacity;
+}
+
+inline NewDataSet::autoCompleteDataTable::autoCompleteDataTable(::System::Runtime::Serialization::SerializationInfo^  info, 
+            ::System::Runtime::Serialization::StreamingContext context) : 
+        ::System::Data::DataTable(info, context) {
+    this->InitVars();
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::autoCompleteDataTable::enabledColumn::get() {
+    return this->columnenabled;
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::autoCompleteDataTable::thresholdColumn::get() {
+    return this->columnthreshold;
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::autoCompleteDataTable::numBelowThresholdColumn::get() {
+    return this->columnnumBelowThreshold;
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::autoCompleteDataTable::numToAverageColumn::get() {
+    return this->columnnumToAverage;
+}
+
+inline ::System::Data::DataColumn^  NewDataSet::autoCompleteDataTable::Document_IdColumn::get() {
+    return this->columnDocument_Id;
+}
+
+inline ::System::Int32 NewDataSet::autoCompleteDataTable::Count::get() {
+    return this->Rows->Count;
+}
+
+inline NewDataSet::autoCompleteRow^  NewDataSet::autoCompleteDataTable::default::get(::System::Int32 index) {
+    return (cli::safe_cast<NewDataSet::autoCompleteRow^  >(this->Rows[index]));
+}
+
+inline ::System::Void NewDataSet::autoCompleteDataTable::AddautoCompleteRow(NewDataSet::autoCompleteRow^  row) {
+    this->Rows->Add(row);
+}
+
+inline NewDataSet::autoCompleteRow^  NewDataSet::autoCompleteDataTable::AddautoCompleteRow(System::Boolean enabled, System::Decimal threshold, 
+            System::Byte numBelowThreshold, System::UInt16 numToAverage, NewDataSet::DocumentRow^  parentDocumentRowByDocument_autoComplete) {
+    NewDataSet::autoCompleteRow^  rowautoCompleteRow = (cli::safe_cast<NewDataSet::autoCompleteRow^  >(this->NewRow()));
+    cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(5) {enabled, threshold, numBelowThreshold, 
+        numToAverage, nullptr};
+    if (parentDocumentRowByDocument_autoComplete != nullptr) {
+        columnValuesArray[4] = parentDocumentRowByDocument_autoComplete[7];
+    }
+    rowautoCompleteRow->ItemArray = columnValuesArray;
+    this->Rows->Add(rowautoCompleteRow);
+    return rowautoCompleteRow;
+}
+
+inline ::System::Collections::IEnumerator^  NewDataSet::autoCompleteDataTable::GetEnumerator() {
+    return this->Rows->GetEnumerator();
+}
+
+inline ::System::Data::DataTable^  NewDataSet::autoCompleteDataTable::Clone() {
+    NewDataSet::autoCompleteDataTable^  cln = (cli::safe_cast<NewDataSet::autoCompleteDataTable^  >(__super::Clone()));
+    cln->InitVars();
+    return cln;
+}
+
+inline ::System::Data::DataTable^  NewDataSet::autoCompleteDataTable::CreateInstance() {
+    return (gcnew NewDataSet::autoCompleteDataTable());
+}
+
+inline ::System::Void NewDataSet::autoCompleteDataTable::InitVars() {
+    this->columnenabled = __super::Columns[L"enabled"];
+    this->columnthreshold = __super::Columns[L"threshold"];
+    this->columnnumBelowThreshold = __super::Columns[L"numBelowThreshold"];
+    this->columnnumToAverage = __super::Columns[L"numToAverage"];
+    this->columnDocument_Id = __super::Columns[L"Document_Id"];
+}
+
+inline ::System::Void NewDataSet::autoCompleteDataTable::InitClass() {
+    this->columnenabled = (gcnew ::System::Data::DataColumn(L"enabled", ::System::Boolean::typeid, nullptr, ::System::Data::MappingType::Element));
+    __super::Columns->Add(this->columnenabled);
+    this->columnthreshold = (gcnew ::System::Data::DataColumn(L"threshold", ::System::Decimal::typeid, nullptr, ::System::Data::MappingType::Element));
+    __super::Columns->Add(this->columnthreshold);
+    this->columnnumBelowThreshold = (gcnew ::System::Data::DataColumn(L"numBelowThreshold", ::System::Byte::typeid, nullptr, ::System::Data::MappingType::Element));
+    __super::Columns->Add(this->columnnumBelowThreshold);
+    this->columnnumToAverage = (gcnew ::System::Data::DataColumn(L"numToAverage", ::System::UInt16::typeid, nullptr, ::System::Data::MappingType::Element));
+    __super::Columns->Add(this->columnnumToAverage);
+    this->columnDocument_Id = (gcnew ::System::Data::DataColumn(L"Document_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
+    __super::Columns->Add(this->columnDocument_Id);
+    this->columnenabled->AllowDBNull = false;
+    this->columnthreshold->AllowDBNull = false;
+    this->columnnumBelowThreshold->AllowDBNull = false;
+    this->columnnumToAverage->AllowDBNull = false;
+}
+
+inline NewDataSet::autoCompleteRow^  NewDataSet::autoCompleteDataTable::NewautoCompleteRow() {
+    return (cli::safe_cast<NewDataSet::autoCompleteRow^  >(this->NewRow()));
+}
+
+inline ::System::Data::DataRow^  NewDataSet::autoCompleteDataTable::NewRowFromBuilder(::System::Data::DataRowBuilder^  builder) {
+    return (gcnew NewDataSet::autoCompleteRow(builder));
+}
+
+inline ::System::Type^  NewDataSet::autoCompleteDataTable::GetRowType() {
+    return NewDataSet::autoCompleteRow::typeid;
+}
+
+inline ::System::Void NewDataSet::autoCompleteDataTable::OnRowChanged(::System::Data::DataRowChangeEventArgs^  e) {
+    __super::OnRowChanged(e);
+    {
+        this->autoCompleteRowChanged(this, (gcnew NewDataSet::autoCompleteRowChangeEvent((cli::safe_cast<NewDataSet::autoCompleteRow^  >(e->Row)), 
+                e->Action)));
+    }
+}
+
+inline ::System::Void NewDataSet::autoCompleteDataTable::OnRowChanging(::System::Data::DataRowChangeEventArgs^  e) {
+    __super::OnRowChanging(e);
+    {
+        this->autoCompleteRowChanging(this, (gcnew NewDataSet::autoCompleteRowChangeEvent((cli::safe_cast<NewDataSet::autoCompleteRow^  >(e->Row)), 
+                e->Action)));
+    }
+}
+
+inline ::System::Void NewDataSet::autoCompleteDataTable::OnRowDeleted(::System::Data::DataRowChangeEventArgs^  e) {
+    __super::OnRowDeleted(e);
+    {
+        this->autoCompleteRowDeleted(this, (gcnew NewDataSet::autoCompleteRowChangeEvent((cli::safe_cast<NewDataSet::autoCompleteRow^  >(e->Row)), 
+                e->Action)));
+    }
+}
+
+inline ::System::Void NewDataSet::autoCompleteDataTable::OnRowDeleting(::System::Data::DataRowChangeEventArgs^  e) {
+    __super::OnRowDeleting(e);
+    {
+        this->autoCompleteRowDeleting(this, (gcnew NewDataSet::autoCompleteRowChangeEvent((cli::safe_cast<NewDataSet::autoCompleteRow^  >(e->Row)), 
+                e->Action)));
+    }
+}
+
+inline ::System::Void NewDataSet::autoCompleteDataTable::RemoveautoCompleteRow(NewDataSet::autoCompleteRow^  row) {
+    this->Rows->Remove(row);
+}
+
+inline ::System::Xml::Schema::XmlSchemaComplexType^  NewDataSet::autoCompleteDataTable::GetTypedTableSchema(::System::Xml::Schema::XmlSchemaSet^  xs) {
+    ::System::Xml::Schema::XmlSchemaComplexType^  type = (gcnew ::System::Xml::Schema::XmlSchemaComplexType());
+    ::System::Xml::Schema::XmlSchemaSequence^  sequence = (gcnew ::System::Xml::Schema::XmlSchemaSequence());
+    NewDataSet^  ds = (gcnew NewDataSet());
+    ::System::Xml::Schema::XmlSchemaAny^  any1 = (gcnew ::System::Xml::Schema::XmlSchemaAny());
+    any1->Namespace = L"http://www.w3.org/2001/XMLSchema";
+    any1->MinOccurs = ::System::Decimal(0);
+    any1->MaxOccurs = ::System::Decimal::MaxValue;
+    any1->ProcessContents = ::System::Xml::Schema::XmlSchemaContentProcessing::Lax;
+    sequence->Items->Add(any1);
+    ::System::Xml::Schema::XmlSchemaAny^  any2 = (gcnew ::System::Xml::Schema::XmlSchemaAny());
+    any2->Namespace = L"urn:schemas-microsoft-com:xml-diffgram-v1";
+    any2->MinOccurs = ::System::Decimal(1);
+    any2->ProcessContents = ::System::Xml::Schema::XmlSchemaContentProcessing::Lax;
+    sequence->Items->Add(any2);
+    ::System::Xml::Schema::XmlSchemaAttribute^  attribute1 = (gcnew ::System::Xml::Schema::XmlSchemaAttribute());
+    attribute1->Name = L"namespace";
+    attribute1->FixedValue = ds->Namespace;
+    type->Attributes->Add(attribute1);
+    ::System::Xml::Schema::XmlSchemaAttribute^  attribute2 = (gcnew ::System::Xml::Schema::XmlSchemaAttribute());
+    attribute2->Name = L"tableTypeName";
+    attribute2->FixedValue = L"autoCompleteDataTable";
+    type->Attributes->Add(attribute2);
+    type->Particle = sequence;
+    ::System::Xml::Schema::XmlSchema^  dsSchema = ds->GetSchemaSerializable();
+    if (xs->Contains(dsSchema->TargetNamespace)) {
+        ::System::IO::MemoryStream^  s1 = (gcnew ::System::IO::MemoryStream());
+        ::System::IO::MemoryStream^  s2 = (gcnew ::System::IO::MemoryStream());
+        try {
+            ::System::Xml::Schema::XmlSchema^  schema = nullptr;
+            dsSchema->Write(s1);
+            for (            ::System::Collections::IEnumerator^  schemas = xs->Schemas(dsSchema->TargetNamespace)->GetEnumerator(); schemas->MoveNext();             ) {
+                schema = (cli::safe_cast<::System::Xml::Schema::XmlSchema^  >(schemas->Current));
+                s2->SetLength(0);
+                schema->Write(s2);
+                if (s1->Length == s2->Length) {
+                    s1->Position = 0;
+                    s2->Position = 0;
+                    for (                    ; ((s1->Position != s1->Length) 
+                                && (s1->ReadByte() == s2->ReadByte()));                     ) {
+                        ;
+                    }
+                    if (s1->Position == s1->Length) {
+                        return type;
+                    }
+                }
+            }
+        }
+        finally {
+            if (s1 != nullptr) {
+                s1->Close();
+            }
+            if (s2 != nullptr) {
+                s2->Close();
+            }
+        }
+    }
+    xs->Add(dsSchema);
+    return type;
+}
+
+
 inline NewDataSet::DocumentRow::DocumentRow(::System::Data::DataRowBuilder^  rb) : 
         ::System::Data::DataRow(rb) {
     this->tableDocument = (cli::safe_cast<NewDataSet::DocumentDataTable^  >(this->Table));
@@ -4738,6 +5253,15 @@ inline cli::array< NewDataSet::segmentSeparationRow^  >^  NewDataSet::DocumentRo
     }
     else {
         return (cli::safe_cast<cli::array< NewDataSet::segmentSeparationRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"Document_segmentSeparation"])));
+    }
+}
+
+inline cli::array< NewDataSet::autoCompleteRow^  >^  NewDataSet::DocumentRow::GetautoCompleteRows() {
+    if (this->Table->ChildRelations[L"Document_autoComplete"] == nullptr) {
+        return gcnew cli::array< NewDataSet::autoCompleteRow^  >(0);
+    }
+    else {
+        return (cli::safe_cast<cli::array< NewDataSet::autoCompleteRow^  >^  >(__super::GetChildRows(this->Table->ChildRelations[L"Document_autoComplete"])));
     }
 }
 
@@ -5149,6 +5673,68 @@ inline ::System::Void NewDataSet::segmentSeparationRow::SetDocument_IdNull() {
 }
 
 
+inline NewDataSet::autoCompleteRow::autoCompleteRow(::System::Data::DataRowBuilder^  rb) : 
+        ::System::Data::DataRow(rb) {
+    this->tableautoComplete = (cli::safe_cast<NewDataSet::autoCompleteDataTable^  >(this->Table));
+}
+
+inline System::Boolean NewDataSet::autoCompleteRow::enabled::get() {
+    return (cli::safe_cast<::System::Boolean >(this[this->tableautoComplete->enabledColumn]));
+}
+inline System::Void NewDataSet::autoCompleteRow::enabled::set(System::Boolean value) {
+    this[this->tableautoComplete->enabledColumn] = value;
+}
+
+inline System::Decimal NewDataSet::autoCompleteRow::threshold::get() {
+    return (cli::safe_cast<::System::Decimal >(this[this->tableautoComplete->thresholdColumn]));
+}
+inline System::Void NewDataSet::autoCompleteRow::threshold::set(System::Decimal value) {
+    this[this->tableautoComplete->thresholdColumn] = value;
+}
+
+inline System::Byte NewDataSet::autoCompleteRow::numBelowThreshold::get() {
+    return (cli::safe_cast<::System::Byte >(this[this->tableautoComplete->numBelowThresholdColumn]));
+}
+inline System::Void NewDataSet::autoCompleteRow::numBelowThreshold::set(System::Byte value) {
+    this[this->tableautoComplete->numBelowThresholdColumn] = value;
+}
+
+inline System::UInt16 NewDataSet::autoCompleteRow::numToAverage::get() {
+    return (cli::safe_cast<::System::UInt16 >(this[this->tableautoComplete->numToAverageColumn]));
+}
+inline System::Void NewDataSet::autoCompleteRow::numToAverage::set(System::UInt16 value) {
+    this[this->tableautoComplete->numToAverageColumn] = value;
+}
+
+inline System::Int32 NewDataSet::autoCompleteRow::Document_Id::get() {
+    try {
+        return (cli::safe_cast<::System::Int32 >(this[this->tableautoComplete->Document_IdColumn]));
+    }
+    catch (::System::InvalidCastException^ e) {
+        throw (gcnew ::System::Data::StrongTypingException(L"The value for column \'Document_Id\' in table \'autoComplete\' is DBNull.", 
+            e));
+    }
+}
+inline System::Void NewDataSet::autoCompleteRow::Document_Id::set(System::Int32 value) {
+    this[this->tableautoComplete->Document_IdColumn] = value;
+}
+
+inline NewDataSet::DocumentRow^  NewDataSet::autoCompleteRow::DocumentRow::get() {
+    return (cli::safe_cast<NewDataSet::DocumentRow^  >(this->GetParentRow(this->Table->ParentRelations[L"Document_autoComplete"])));
+}
+inline System::Void NewDataSet::autoCompleteRow::DocumentRow::set(NewDataSet::DocumentRow^  value) {
+    this->SetParentRow(value, this->Table->ParentRelations[L"Document_autoComplete"]);
+}
+
+inline ::System::Boolean NewDataSet::autoCompleteRow::IsDocument_IdNull() {
+    return this->IsNull(this->tableautoComplete->Document_IdColumn);
+}
+
+inline ::System::Void NewDataSet::autoCompleteRow::SetDocument_IdNull() {
+    this[this->tableautoComplete->Document_IdColumn] = ::System::Convert::DBNull;
+}
+
+
 inline NewDataSet::DocumentRowChangeEvent::DocumentRowChangeEvent(NewDataSet::DocumentRow^  row, ::System::Data::DataRowAction action) {
     this->eventRow = row;
     this->eventAction = action;
@@ -5273,5 +5859,19 @@ inline NewDataSet::segmentSeparationRow^  NewDataSet::segmentSeparationRowChange
 }
 
 inline ::System::Data::DataRowAction NewDataSet::segmentSeparationRowChangeEvent::Action::get() {
+    return this->eventAction;
+}
+
+
+inline NewDataSet::autoCompleteRowChangeEvent::autoCompleteRowChangeEvent(NewDataSet::autoCompleteRow^  row, ::System::Data::DataRowAction action) {
+    this->eventRow = row;
+    this->eventAction = action;
+}
+
+inline NewDataSet::autoCompleteRow^  NewDataSet::autoCompleteRowChangeEvent::Row::get() {
+    return this->eventRow;
+}
+
+inline ::System::Data::DataRowAction NewDataSet::autoCompleteRowChangeEvent::Action::get() {
     return this->eventAction;
 }
