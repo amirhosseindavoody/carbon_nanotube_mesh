@@ -339,6 +339,8 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         private: ::System::Data::DataColumn^  columnnumberTimeSteps;
         
+        private: ::System::Data::DataColumn^  columnpercentStepsBelowDeltaT;
+        
         private: ::System::Data::DataColumn^  columnDocument_Id;
         
         public: [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -406,6 +408,12 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property ::System::Data::DataColumn^  percentStepsBelowDeltaTColumn {
+            ::System::Data::DataColumn^  get();
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         property ::System::Data::DataColumn^  Document_IdColumn {
             ::System::Data::DataColumn^  get();
         }
@@ -436,7 +444,8 @@ public ref class NewDataSet : public ::System::Data::DataSet {
                     System::Decimal friction, 
                     System::Decimal gravity, 
                     System::UInt16 numberExcitons, 
-                    System::UInt32 numberTimeSteps);
+                    System::UInt32 numberTimeSteps, 
+                    System::Byte percentStepsBelowDeltaT);
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute]
         [System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
@@ -1760,6 +1769,13 @@ public ref class NewDataSet : public ::System::Data::DataSet {
         
         public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
         System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
+        property System::Byte percentStepsBelowDeltaT {
+            System::Byte get();
+            System::Void set(System::Byte value);
+        }
+        
+        public: [System::Diagnostics::DebuggerNonUserCodeAttribute, 
+        System::CodeDom::Compiler::GeneratedCodeAttribute(L"System.Data.Design.TypedDataSetGenerator", L"4.0.0.0")]
         property System::Int32 Document_Id {
             System::Int32 get();
             System::Void set(System::Int32 value);
@@ -3060,6 +3076,10 @@ inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::numberTimeSte
     return this->columnnumberTimeSteps;
 }
 
+inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::percentStepsBelowDeltaTColumn::get() {
+    return this->columnpercentStepsBelowDeltaT;
+}
+
 inline ::System::Data::DataColumn^  NewDataSet::DocumentDataTable::Document_IdColumn::get() {
     return this->columnDocument_Id;
 }
@@ -3083,10 +3103,11 @@ inline NewDataSet::DocumentRow^  NewDataSet::DocumentDataTable::AddDocumentRow(
             System::Decimal friction, 
             System::Decimal gravity, 
             System::UInt16 numberExcitons, 
-            System::UInt32 numberTimeSteps) {
+            System::UInt32 numberTimeSteps, 
+            System::Byte percentStepsBelowDeltaT) {
     NewDataSet::DocumentRow^  rowDocumentRow = (cli::safe_cast<NewDataSet::DocumentRow^  >(this->NewRow()));
-    cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(8) {Type, outputDirectory, 
-        numberTubes, friction, gravity, numberExcitons, numberTimeSteps, nullptr};
+    cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(9) {Type, outputDirectory, 
+        numberTubes, friction, gravity, numberExcitons, numberTimeSteps, percentStepsBelowDeltaT, nullptr};
     rowDocumentRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowDocumentRow);
     return rowDocumentRow;
@@ -3114,6 +3135,7 @@ inline ::System::Void NewDataSet::DocumentDataTable::InitVars() {
     this->columngravity = __super::Columns[L"gravity"];
     this->columnnumberExcitons = __super::Columns[L"numberExcitons"];
     this->columnnumberTimeSteps = __super::Columns[L"numberTimeSteps"];
+    this->columnpercentStepsBelowDeltaT = __super::Columns[L"percentStepsBelowDeltaT"];
     this->columnDocument_Id = __super::Columns[L"Document_Id"];
 }
 
@@ -3132,6 +3154,9 @@ inline ::System::Void NewDataSet::DocumentDataTable::InitClass() {
     __super::Columns->Add(this->columnnumberExcitons);
     this->columnnumberTimeSteps = (gcnew ::System::Data::DataColumn(L"numberTimeSteps", ::System::UInt32::typeid, nullptr, ::System::Data::MappingType::Element));
     __super::Columns->Add(this->columnnumberTimeSteps);
+    this->columnpercentStepsBelowDeltaT = (gcnew ::System::Data::DataColumn(L"percentStepsBelowDeltaT", ::System::Byte::typeid, nullptr, 
+        ::System::Data::MappingType::Element));
+    __super::Columns->Add(this->columnpercentStepsBelowDeltaT);
     this->columnDocument_Id = (gcnew ::System::Data::DataColumn(L"Document_Id", ::System::Int32::typeid, nullptr, ::System::Data::MappingType::Hidden));
     __super::Columns->Add(this->columnDocument_Id);
     this->Constraints->Add((gcnew ::System::Data::UniqueConstraint(L"Constraint1", gcnew cli::array< ::System::Data::DataColumn^  >(1) {this->columnDocument_Id}, 
@@ -3144,6 +3169,7 @@ inline ::System::Void NewDataSet::DocumentDataTable::InitClass() {
     this->columngravity->AllowDBNull = false;
     this->columnnumberExcitons->AllowDBNull = false;
     this->columnnumberTimeSteps->AllowDBNull = false;
+    this->columnpercentStepsBelowDeltaT->AllowDBNull = false;
     this->columnDocument_Id->AutoIncrement = true;
     this->columnDocument_Id->AllowDBNull = false;
     this->columnDocument_Id->Unique = true;
@@ -3315,7 +3341,7 @@ inline NewDataSet::spacingRow^  NewDataSet::spacingDataTable::AddspacingRow(Syst
     NewDataSet::spacingRow^  rowspacingRow = (cli::safe_cast<NewDataSet::spacingRow^  >(this->NewRow()));
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(3) {Units, min, nullptr};
     if (parentDocumentRowByDocument_spacing != nullptr) {
-        columnValuesArray[2] = parentDocumentRowByDocument_spacing[7];
+        columnValuesArray[2] = parentDocumentRowByDocument_spacing[8];
     }
     rowspacingRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowspacingRow);
@@ -3523,7 +3549,7 @@ inline NewDataSet::LengthsRow^  NewDataSet::LengthsDataTable::AddLengthsRow(Syst
     NewDataSet::LengthsRow^  rowLengthsRow = (cli::safe_cast<NewDataSet::LengthsRow^  >(this->NewRow()));
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(4) {Units, Lmin, Lmax, nullptr};
     if (parentDocumentRowByDocument_Lengths != nullptr) {
-        columnValuesArray[3] = parentDocumentRowByDocument_Lengths[7];
+        columnValuesArray[3] = parentDocumentRowByDocument_Lengths[8];
     }
     rowLengthsRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowLengthsRow);
@@ -3741,7 +3767,7 @@ inline NewDataSet::DeviceDimensionsRow^  NewDataSet::DeviceDimensionsDataTable::
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(5) {Units, xdim, ydim, zdim, 
         nullptr};
     if (parentDocumentRowByDocument_DeviceDimensions != nullptr) {
-        columnValuesArray[4] = parentDocumentRowByDocument_DeviceDimensions[7];
+        columnValuesArray[4] = parentDocumentRowByDocument_DeviceDimensions[8];
     }
     rowDeviceDimensionsRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowDeviceDimensionsRow);
@@ -3948,7 +3974,7 @@ inline NewDataSet::chiralityRow^  NewDataSet::chiralityDataTable::AddchiralityRo
     NewDataSet::chiralityRow^  rowchiralityRow = (cli::safe_cast<NewDataSet::chiralityRow^  >(this->NewRow()));
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(2) {nullptr, nullptr};
     if (parentDocumentRowByDocument_chirality != nullptr) {
-        columnValuesArray[1] = parentDocumentRowByDocument_chirality[7];
+        columnValuesArray[1] = parentDocumentRowByDocument_chirality[8];
     }
     rowchiralityRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowchiralityRow);
@@ -4352,7 +4378,7 @@ inline NewDataSet::regionLengthRow^  NewDataSet::regionLengthDataTable::Addregio
     NewDataSet::regionLengthRow^  rowregionLengthRow = (cli::safe_cast<NewDataSet::regionLengthRow^  >(this->NewRow()));
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(3) {Units, min, nullptr};
     if (parentDocumentRowByDocument_regionLength != nullptr) {
-        columnValuesArray[2] = parentDocumentRowByDocument_regionLength[7];
+        columnValuesArray[2] = parentDocumentRowByDocument_regionLength[8];
     }
     rowregionLengthRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowregionLengthRow);
@@ -4557,7 +4583,7 @@ inline NewDataSet::segmentLengthRow^  NewDataSet::segmentLengthDataTable::Addseg
     NewDataSet::segmentLengthRow^  rowsegmentLengthRow = (cli::safe_cast<NewDataSet::segmentLengthRow^  >(this->NewRow()));
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(3) {Units, min, nullptr};
     if (parentDocumentRowByDocument_segmentLength != nullptr) {
-        columnValuesArray[2] = parentDocumentRowByDocument_segmentLength[7];
+        columnValuesArray[2] = parentDocumentRowByDocument_segmentLength[8];
     }
     rowsegmentLengthRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowsegmentLengthRow);
@@ -4762,7 +4788,7 @@ inline NewDataSet::segmentSeparationRow^  NewDataSet::segmentSeparationDataTable
     NewDataSet::segmentSeparationRow^  rowsegmentSeparationRow = (cli::safe_cast<NewDataSet::segmentSeparationRow^  >(this->NewRow()));
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(3) {Units, min, nullptr};
     if (parentDocumentRowByDocument_segmentSeparation != nullptr) {
-        columnValuesArray[2] = parentDocumentRowByDocument_segmentSeparation[7];
+        columnValuesArray[2] = parentDocumentRowByDocument_segmentSeparation[8];
     }
     rowsegmentSeparationRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowsegmentSeparationRow);
@@ -4976,7 +5002,7 @@ inline NewDataSet::autoCompleteRow^  NewDataSet::autoCompleteDataTable::AddautoC
     cli::array< ::System::Object^  >^  columnValuesArray = gcnew cli::array< ::System::Object^  >(5) {enabled, threshold, numBelowThreshold, 
         numToAverage, nullptr};
     if (parentDocumentRowByDocument_autoComplete != nullptr) {
-        columnValuesArray[4] = parentDocumentRowByDocument_autoComplete[7];
+        columnValuesArray[4] = parentDocumentRowByDocument_autoComplete[8];
     }
     rowautoCompleteRow->ItemArray = columnValuesArray;
     this->Rows->Add(rowautoCompleteRow);
@@ -5184,6 +5210,13 @@ inline System::UInt32 NewDataSet::DocumentRow::numberTimeSteps::get() {
 }
 inline System::Void NewDataSet::DocumentRow::numberTimeSteps::set(System::UInt32 value) {
     this[this->tableDocument->numberTimeStepsColumn] = value;
+}
+
+inline System::Byte NewDataSet::DocumentRow::percentStepsBelowDeltaT::get() {
+    return (cli::safe_cast<::System::Byte >(this[this->tableDocument->percentStepsBelowDeltaTColumn]));
+}
+inline System::Void NewDataSet::DocumentRow::percentStepsBelowDeltaT::set(System::Byte value) {
+    this[this->tableDocument->percentStepsBelowDeltaTColumn] = value;
 }
 
 inline System::Int32 NewDataSet::DocumentRow::Document_Id::get() {

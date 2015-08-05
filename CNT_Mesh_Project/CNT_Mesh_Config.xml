@@ -55,6 +55,7 @@
       <min>30</min>
   </segmentSeparation>
   <numberTimeSteps>100000</numberTimeSteps>
+  <percentStepsBelowDeltaT>30</percentStepsBelowDeltaT>
   <autoComplete>
     <enabled>true</enabled>
     <threshold>.01</threshold>
