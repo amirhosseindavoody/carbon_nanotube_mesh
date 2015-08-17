@@ -41,6 +41,7 @@
         <m>7</m>
       </cnt>
     </chirality>
+  <usePrecalculatedTables>true</usePrecalculatedTables>
   <numberExcitons>1000</numberExcitons>
   <regionLength>
         <Units>nm</Units>

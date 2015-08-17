@@ -40,11 +40,49 @@
               <xs:element maxOccurs="unbounded" name="cnt">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element name="m" type="xs:unsignedByte" />
                     <xs:element name="n" type="xs:unsignedByte" />
+                    <xs:element name="m" type="xs:unsignedByte" />
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="usePrecalculatedTables" type="xs:boolean" />
+        <xs:element name="numberExcitons" type="xs:unsignedShort" />
+        <xs:element name="regionLength">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Units" type="xs:string" />
+              <xs:element name="min" type="xs:unsignedByte" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="segmentLength">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Units" type="xs:string" />
+              <xs:element name="min" type="xs:unsignedByte" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="segmentSeparation">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Units" type="xs:string" />
+              <xs:element name="min" type="xs:unsignedByte" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="numberTimeSteps" type="xs:unsignedInt" />
+        <xs:element name="percentFreeFlightTimesAboveDeltaT" type="xs:unsignedByte" />
+        <xs:element name="autoComplete">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="enabled" type="xs:boolean" />
+              <xs:element name="threshold" type="xs:decimal" />
+              <xs:element name="numBelowThreshold" type="xs:unsignedByte" />
+              <xs:element name="numToAverage" type="xs:unsignedShort" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
