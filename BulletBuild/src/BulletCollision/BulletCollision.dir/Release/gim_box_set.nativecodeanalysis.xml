@@ -1,2 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<DEFECTS><DEFECT><SFA><FILEPATH>c:\carbonnanotubemesh\bullet-2.82-r2704\src\bulletcollision\gimpact\</FILEPATH><FILENAME>gim_radixsort.h</FILENAME><LINE>146</LINE><COLUMN>12</COLUMN></SFA><DEFECTCODE>6262</DEFECTCODE><DESCRIPTION>Function uses '24624' bytes of stack:  exceeds /analyze:stacksize '16384'.  Consider moving some data to heap.</DESCRIPTION><FUNCTION>gim_radix_sort_rtokens</FUNCTION><DECORATED>?gim_radix_sort_rtokens@@YAXPAUGIM_RSORT_TOKEN@@0I@Z</DECORATED><FUNCLINE>146</FUNCLINE><PATH/></DEFECT></DEFECTS>
