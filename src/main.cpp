@@ -9,6 +9,39 @@
 #include "../misc_files/ExampleBrowser/OpenGLGuiHelper.h"
 
 #include "BasicExample.h"
+#include "Chain.h"
+
+
+// this block of code and the global variable and function is used for handling mouse input and
+// moving objects via mouse. you can comment it if this capability is not needed any more.
+//*************************************************************************************************
+CommonExampleInterface*    example;
+int gSharedMemoryKey=-1;
+
+b3MouseMoveCallback prevMouseMoveCallback = 0;
+static void OnMouseMove( float x, float y)
+{
+	bool handled = false; 
+	handled = example->mouseMoveCallback(x,y); 	 
+	if (!handled)
+	{
+		if (prevMouseMoveCallback)
+			prevMouseMoveCallback (x,y);
+	}
+}
+
+b3MouseButtonCallback prevMouseButtonCallback  = 0;
+static void OnMouseDown(int button, int state, float x, float y) {
+	bool handled = false;
+
+	handled = example->mouseButtonCallback(button, state, x,y); 
+	if (!handled)
+	{
+		if (prevMouseButtonCallback )
+			prevMouseButtonCallback (button,state,x,y);
+	}
+}
+//*************************************************************************************************
 
 // this is a child of DummyGUIHelper that can only return the CommonGraphicsApp pointer that is fed to it.
 class LessDummyGuiHelper : public DummyGUIHelper
@@ -36,6 +69,12 @@ int main(int argc, char* argv[])
 	
 	// SimpleOpenGL3App is a child of CommonGraphicsApp virtual class.
 	SimpleOpenGL3App* app = new SimpleOpenGL3App("Bullet Standalone Example",1024,768,true);
+
+	prevMouseButtonCallback = app->m_window->getMouseButtonCallback();
+	prevMouseMoveCallback = app->m_window->getMouseMoveCallback();
+
+	app->m_window->setMouseButtonCallback((b3MouseButtonCallback)OnMouseDown);
+	app->m_window->setMouseMoveCallback((b3MouseMoveCallback)OnMouseMove);
 	
 	OpenGLGuiHelper gui(app,false); // the second argument is a dummy one
 	// LessDummyGuiHelper gui(app);
@@ -43,7 +82,9 @@ int main(int argc, char* argv[])
 
 	CommonExampleOptions options(&gui);
 
-	CommonExampleInterface* example = new BasicExample(options.m_guiHelper);
+	// CommonExampleInterface* example;
+	example = new ChainExample(options.m_guiHelper);
+	
 	example->processCommandLineArgs(argc, argv);
 
 	example->initPhysics();

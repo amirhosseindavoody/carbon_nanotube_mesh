@@ -8,8 +8,6 @@
 
 #include "../misc_files/CommonInterfaces/CommonRigidBodyBase.h"
 
-// class CommonExampleInterface;
-
 struct BasicExample : public CommonRigidBodyBase
 {
 	BasicExample(struct GUIHelperInterface* helper)

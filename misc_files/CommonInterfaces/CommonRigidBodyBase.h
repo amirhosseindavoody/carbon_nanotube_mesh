@@ -14,7 +14,7 @@
 
 struct CommonRigidBodyBase : public CommonExampleInterface
 {
-		//keep the collision shapes, for deletion/cleanup
+	//keep the collision shapes, for deletion/cleanup
 	btAlignedObjectArray<btCollisionShape*>	m_collisionShapes;
 	btBroadphaseInterface*	m_broadphase;
 	btCollisionDispatcher*	m_dispatcher;
