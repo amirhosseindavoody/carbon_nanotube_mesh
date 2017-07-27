@@ -16,6 +16,7 @@ struct ChainExample : public CommonRigidBodyBase
 	}
 	virtual ~ChainExample(){}
 	virtual void initPhysics();
+	virtual void add_tube();
 	virtual void renderScene();
 	void resetCamera()
 	{

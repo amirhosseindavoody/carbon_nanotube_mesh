@@ -15,7 +15,8 @@
 // this block of code and the global variable and function is used for handling mouse input and
 // moving objects via mouse. you can comment it if this capability is not needed any more.
 //*************************************************************************************************
-CommonExampleInterface*    example;
+// CommonExampleInterface*    example;
+ChainExample*    example;
 int gSharedMemoryKey=-1;
 
 b3MouseMoveCallback prevMouseMoveCallback = 0;
@@ -64,7 +65,6 @@ public:
 
 int main(int argc, char* argv[])
 {
-	// std::cin.ignore();
 
 	
 	// SimpleOpenGL3App is a child of CommonGraphicsApp virtual class.
@@ -88,12 +88,18 @@ int main(int argc, char* argv[])
 	example->processCommandLineArgs(argc, argv);
 
 	example->initPhysics();
+	example->add_tube();
 	example->resetCamera();
+	
+	// std::cin.ignore();
 	
 	b3Clock clock;
 
-	do
+	int step_number = 0;
+	while(!app->m_window->requestedExit())
 	{
+		step_number ++;
+
 		app->m_instancingRenderer->init();
 		app->m_instancingRenderer->updateCamera(app->getUpAxis());
 
@@ -114,8 +120,37 @@ int main(int argc, char* argv[])
 		
 		app->swapBuffer();
 	
+		if (step_number % 50 == 0)
+		{
+			example->add_tube();
+			// std::cin.ignore();
+		}
+	}
 
-	} while (!app->m_window->requestedExit());
+	// do
+	// {
+	// 	app->m_instancingRenderer->init();
+	// 	app->m_instancingRenderer->updateCamera(app->getUpAxis());
+
+	// 	btScalar dtSec = btScalar(clock.getTimeInSeconds());
+	// 	if (dtSec<0.1)
+	// 		dtSec = 0.1;
+	
+	// 	example->stepSimulation(dtSec);
+	//  	clock.reset();
+
+	// 	example->renderScene();
+	
+
+	// 	// draw some grids in the space
+	// 	DrawGridData dg;
+	// 	dg.upAxis = app->getUpAxis();
+	// 	app->drawGrid(dg);
+		
+	// 	app->swapBuffer();
+	
+
+	// } while (!app->m_window->requestedExit());
 
 	example->exitPhysics();
 	delete example;
