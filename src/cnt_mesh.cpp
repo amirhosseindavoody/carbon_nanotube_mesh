@@ -1,13 +1,13 @@
 #include <iostream>
 
-#include "Chain.h"
+#include "cnt_mesh.h"
 
 #include "btBulletDynamicsCommon.h"
 #include "LinearMath/btVector3.h"
 #include "LinearMath/btAlignedObjectArray.h" 
 #include "../misc_files/CommonInterfaces/CommonRigidBodyBase.h"
 
-void ChainExample::initPhysics()
+void cnt_mesh::initPhysics()
 {
 	m_guiHelper->setUpAxis(1);
 
@@ -17,13 +17,15 @@ void ChainExample::initPhysics()
 
 	if (m_dynamicsWorld->getDebugDrawer())
 		m_dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe+btIDebugDraw::DBG_DrawContactPoints);
+}
+
+void cnt_mesh::create_container()
+{
 
 	// set some simulation inputs sizes and stuff
 	// box is open in the y direction
 	int Lz = 20; // box size in the z direction
 	int Lx = 20; // box size in the x direction
-
-	int section_per_cnt = 10;
 
 	// create a few basic rigid bodies
 	//**********************************************************************************************
@@ -92,71 +94,10 @@ void ChainExample::initPhysics()
 		createRigidBody(mass,groundTransform,groundShape, btVector4(0,0,1,1)); // I think the last input is not used for anything. On paper it is supposed to be the collor
 	}
 	
-	
-
-
-	// // create a few dynamic rigidbodies
-	// //*********************************************************************************************
-	// {
-	// 	// Re-using the same collision is better for memory usage and performance
-	// 	// btBoxShape* colShape = createBoxShape(btVector3(1,1,1));
-
-	// 	btCollisionShape* colShape = new btCylinderShape(btVector3(1,0.5,1));
-	// 	m_collisionShapes.push_back(colShape);
-
-	// 	/// Create Dynamic Objects
-	// 	btTransform startTransform;
-	// 	startTransform.setIdentity();
-
-	// 	btScalar	mass(1.f);
-
-	// 	//rigidbody is dynamic if and only if mass is non zero, otherwise static
-	// 	bool isDynamic = (mass != 0.f);
-
-	// 	btVector3 localInertia(0,0,0);
-	// 	if (isDynamic)
-	// 		colShape->calculateLocalInertia(mass,localInertia);
-		 
-	// 	btAlignedObjectArray<btRigidBody*> boxes;
-	// 	int lastBoxIndex = section_per_cnt-1;
-	// 	for(int i=0;i<section_per_cnt;++i) {
-	// 		startTransform.setOrigin(btVector3(
-	// 								 btScalar(0),
-	// 								 btScalar(5+i*2),
-	// 								 btScalar(0)
-	// 								 )
-	// 								 );
-	// 		// boxes.push_back(createRigidBody((i==lastBoxIndex)?0:mass,startTransform,colShape)); // make the top object static
-	// 		boxes.push_back(createRigidBody(mass,startTransform,colShape));	// no static object
-	// 	} 
-		 
-	// 	//add N-1 spring constraints
-	// 	for(int i=0;i<section_per_cnt-1;++i) {
-	// 		btRigidBody* b1 = boxes[i];
-	// 		btRigidBody* b2 = boxes[i+1];
-			 
-	// 		// btPoint2PointConstraint* leftSpring = new btPoint2PointConstraint(*b1, *b2, btVector3(-0.5,1,0), btVector3(-0.5,-1,0));
-	// 		// leftSpring->m_setting.m_damping = 1.5; //the damping value for the constraint controls how stiff the constraint is. The default value is 1.0
-	// 		// leftSpring->m_setting.m_impulseClamp = 0; //The m_impulseClamp value controls how quickly the dynamic rigid body comes to rest. The defual value is 0.0
-	// 		// m_dynamicsWorld->addConstraint(leftSpring);
-
-	// 		// btPoint2PointConstraint* rightSpring = new btPoint2PointConstraint(*b1, *b2, btVector3(0.5,1,0), btVector3(0.5,-1,0));
-	// 		// rightSpring->m_setting.m_damping = 1.5; //the damping value for the constraint controls how stiff the constraint is. The default value is 1.0
-	// 		// rightSpring->m_setting.m_impulseClamp = 0; //The m_impulseClamp value controls how quickly the dynamic rigid body comes to rest. The defual value is 0.0
-	// 		// m_dynamicsWorld->addConstraint(rightSpring);
-
-	// 		btPoint2PointConstraint* centerSpring = new btPoint2PointConstraint(*b1, *b2, btVector3(0,0.5,0), btVector3(0,-0.5,0));
-	// 		centerSpring->m_setting.m_damping = 1.5; //the damping value for the constraint controls how stiff the constraint is. The default value is 1.0
-	// 		centerSpring->m_setting.m_impulseClamp = 0; //The m_impulseClamp value controls how quickly the dynamic rigid body comes to rest. The defual value is 0.0
-	// 		m_dynamicsWorld->addConstraint(centerSpring);
-	// 	}
-	// }
-
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 }
 
-
-void ChainExample::add_tube()
+void cnt_mesh::add_tube()
 {
 	int section_per_cnt = 10;
 
@@ -165,14 +106,14 @@ void ChainExample::add_tube()
 	{
 		// Re-using the same collision is better for memory usage and performance
 
-		btCollisionShape* colShape = new btCylinderShape(btVector3(1,0.5,1));
+		btCollisionShape* colShape = new btCylinderShape(btVector3(0.5,1,1));
 		m_collisionShapes.push_back(colShape);
 
 		/// Create Dynamic Objects
 		btTransform startTransform;
 		startTransform.setIdentity();
 
-		btScalar	mass(1.f);
+		btScalar mass(1.f);
 
 		//rigidbody is dynamic if and only if mass is non zero, otherwise static
 		bool isDynamic = (mass != 0.f);
@@ -199,17 +140,7 @@ void ChainExample::add_tube()
 			btRigidBody* b1 = boxes[i];
 			btRigidBody* b2 = boxes[i+1];
 			 
-			// btPoint2PointConstraint* leftSpring = new btPoint2PointConstraint(*b1, *b2, btVector3(-0.5,1,0), btVector3(-0.5,-1,0));
-			// leftSpring->m_setting.m_damping = 1.5; //the damping value for the constraint controls how stiff the constraint is. The default value is 1.0
-			// leftSpring->m_setting.m_impulseClamp = 0; //The m_impulseClamp value controls how quickly the dynamic rigid body comes to rest. The defual value is 0.0
-			// m_dynamicsWorld->addConstraint(leftSpring);
-
-			// btPoint2PointConstraint* rightSpring = new btPoint2PointConstraint(*b1, *b2, btVector3(0.5,1,0), btVector3(0.5,-1,0));
-			// rightSpring->m_setting.m_damping = 1.5; //the damping value for the constraint controls how stiff the constraint is. The default value is 1.0
-			// rightSpring->m_setting.m_impulseClamp = 0; //The m_impulseClamp value controls how quickly the dynamic rigid body comes to rest. The defual value is 0.0
-			// m_dynamicsWorld->addConstraint(rightSpring);
-
-			btPoint2PointConstraint* centerSpring = new btPoint2PointConstraint(*b1, *b2, btVector3(0,0.5,0), btVector3(0,-0.5,0));
+			btPoint2PointConstraint* centerSpring = new btPoint2PointConstraint(*b1, *b2, btVector3(0,1,0), btVector3(0,-1,0));
 			centerSpring->m_setting.m_damping = 1.5; //the damping value for the constraint controls how stiff the constraint is. The default value is 1.0
 			centerSpring->m_setting.m_impulseClamp = 0; //The m_impulseClamp value controls how quickly the dynamic rigid body comes to rest. The defual value is 0.0
 			m_dynamicsWorld->addConstraint(centerSpring);
@@ -219,7 +150,7 @@ void ChainExample::add_tube()
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 }
 
-void ChainExample::renderScene()
+void cnt_mesh::renderScene()
 {
 	CommonRigidBodyBase::renderScene();	
 }

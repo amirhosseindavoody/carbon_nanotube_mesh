@@ -1,5 +1,5 @@
-#ifndef ET_CHAIN_EXAMPLE_H
-#define ET_CHAIN_EXAMPLE_H
+#ifndef cnt_mesh_h
+#define cnt_mesh_h
 
 
 #include "btBulletDynamicsCommon.h"
@@ -8,16 +8,16 @@
 
 #include "../misc_files/CommonInterfaces/CommonRigidBodyBase.h"
 
-struct ChainExample : public CommonRigidBodyBase
+struct cnt_mesh : public CommonRigidBodyBase
 {
-	ChainExample(struct GUIHelperInterface* helper)
+	cnt_mesh(struct GUIHelperInterface* helper)
 		:CommonRigidBodyBase(helper)
 	{
 	}
-	virtual ~ChainExample(){}
+	virtual ~cnt_mesh(){}
 	virtual void initPhysics();
-	virtual void add_tube();
 	virtual void renderScene();
+	
 	void resetCamera()
 	{
 		float dist = 41;
@@ -26,7 +26,19 @@ struct ChainExample : public CommonRigidBodyBase
 		float targetPos[3]={0,0.46,0};
 		m_guiHelper->resetCamera(dist,yaw,pitch,targetPos[0],targetPos[1],targetPos[2]);
 	}
+
+
+	virtual void add_tube(); // this method adds a tube to the system.
+	virtual void create_container(); // this method creates an open top container for the cnts
+
+	virtual void stepSimulation(float deltaTime)
+	{
+		if (m_dynamicsWorld)
+		{
+			m_dynamicsWorld->stepSimulation(deltaTime);
+		}
+	}
 };
 
 
-#endif //ET_CHAIN_EXAMPLE_H
+#endif //cnt_mesh_h
