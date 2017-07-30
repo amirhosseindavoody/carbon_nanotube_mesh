@@ -1,5 +1,7 @@
 CC=g++
 
+OPT = -O3
+
 CFLAGS = -I/home/amirhossein/bullet3-master/src/ -std=c++17
 
 LFLAGS =  -std=c++17
@@ -22,7 +24,7 @@ HOMDIR = .
 object:
 	@echo
 	@mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) -c $(SRCDIR)/*.cpp
+	$(CC) $(OPT) $(CFLAGS) -c $(SRCDIR)/*.cpp
 	@mv -f ./*.o $(OBJDIR)
 
 # When using flags -Wl,--start-group and -Wl,--end-group the compiler resolves dependencies between libraries by going through the libraries multiple times.
@@ -30,7 +32,7 @@ object:
 
 main: object
 	@echo
-	$(CC) -o $@.exe $(OBJDIR)/*.o -Wl,--start-group $(LFLAGS) -Wl,--end-group
+	$(CC) $(OPT) -o $@.exe $(OBJDIR)/*.o -Wl,--start-group $(LFLAGS) -Wl,--end-group
 	@echo
 
 # Utility targets

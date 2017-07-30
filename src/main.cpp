@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <ctime>
+#include <array>
 
 #include "../misc_files/CommonInterfaces/CommonExampleInterface.h"
 #include "../misc_files/CommonInterfaces/CommonGUIHelperInterface.h"
@@ -44,45 +45,39 @@ static void OnMouseDown(int button, int state, float x, float y) {
 }
 //*************************************************************************************************
 
-// this is a child of DummyGUIHelper that can only return the CommonGraphicsApp pointer that is fed to it.
-class LessDummyGuiHelper : public DummyGUIHelper
-{
-	CommonGraphicsApp* m_app;
-public:
-	virtual CommonGraphicsApp* getAppInterface()
-	{
-		return m_app;
-	}
-
-	LessDummyGuiHelper(CommonGraphicsApp* app)
-		:m_app(app)
-	{
-	}
-};
-
-
-
-
 int main(int argc, char* argv[])
 {
+	// print the start time and start recording the run time
+	std::clock_t start = std::clock();
+	std::time_t start_time = std::time(nullptr);
+	std::cout << std::endl << "start time:" << std::endl << std::asctime(std::localtime(&start_time)) << std::endl;
 
-	std::clock_t begin = std::clock();
+	SimpleOpenGL3App* app;
+	GUIHelperInterface* gui;
 
+	// flag to let the graphic visualization happen
+	const bool visualize = true;
 	
-	// SimpleOpenGL3App is a child of CommonGraphicsApp virtual class.
-	SimpleOpenGL3App* app = new SimpleOpenGL3App("Bullet Standalone Example",1024,768,true);
+	if (visualize)
+	{
+		// SimpleOpenGL3App is a child of CommonGraphicsApp virtual class.
+		app = new SimpleOpenGL3App("carbon nanotube mesh",1024,768,true);
 
-	prevMouseButtonCallback = app->m_window->getMouseButtonCallback();
-	prevMouseMoveCallback = app->m_window->getMouseMoveCallback();
+		prevMouseButtonCallback = app->m_window->getMouseButtonCallback();
+		prevMouseMoveCallback = app->m_window->getMouseMoveCallback();
 
-	app->m_window->setMouseButtonCallback((b3MouseButtonCallback)OnMouseDown);
-	app->m_window->setMouseMoveCallback((b3MouseMoveCallback)OnMouseMove);
-	
-	// OpenGLGuiHelper gui(app,false); // the second argument is a dummy one
-	// LessDummyGuiHelper gui(app);
-	DummyGUIHelper gui;
+		app->m_window->setMouseButtonCallback((b3MouseButtonCallback)OnMouseDown);
+		app->m_window->setMouseMoveCallback((b3MouseMoveCallback)OnMouseMove);
+		
+		gui = new OpenGLGuiHelper(app,false); // the second argument is a dummy one
+	}
+	else
+	{
+		gui = new DummyGUIHelper();
+	}
+		// DummyGUIHelper gui;
 
-	CommonExampleOptions options(&gui);
+	CommonExampleOptions options(gui);
 
 	// CommonExampleInterface* example;
 	example = new cnt_mesh(options.m_guiHelper);
@@ -92,44 +87,41 @@ int main(int argc, char* argv[])
 	example->initPhysics();
 	example->create_container();
 	example->add_tube();
-	example->resetCamera();
-	
-	// std::cin.ignore();
-	
-	b3Clock clock;
+	example->add_tube();
 
+	if (visualize)
+	{
+		example->resetCamera();
+	}
+	
+		
 	int step_number = 0;
-	while(step_number < 1000)
+	while(example->num_tubes() < 100)
 	{
 		step_number ++;
-
-		app->m_instancingRenderer->init();
-		app->m_instancingRenderer->updateCamera(app->getUpAxis());
-
-		btScalar dtSec = btScalar(clock.getTimeInSeconds());
-		if (dtSec<0.1)
-			dtSec = 0.1;
 	
-		// example->stepSimulation(dtSec);
+		btScalar dtSec = 0.05;
+		example->stepSimulation(dtSec);
 
-		example->stepSimulation(5);
-	 	clock.reset();
-
-		example->renderScene();
-	
-
-		// draw some grids in the space
-		DrawGridData dg;
-		dg.upAxis = app->getUpAxis();
-		app->drawGrid(dg);
-		
-		app->swapBuffer();
-	
 		if (step_number % 50 == 0)
 		{
 			example->add_tube();
-			std::cout << "step number: " << step_number << "\n";
+			std::cout << "number of tubes: " << example->num_tubes() << "\n";
 			// std::cin.ignore();
+		}
+
+		if (visualize)
+		{
+			app->m_instancingRenderer->init();
+			app->m_instancingRenderer->updateCamera(app->getUpAxis());
+			example->renderScene();
+			
+			// draw some grids in the space
+			DrawGridData dg;
+			dg.upAxis = app->getUpAxis();
+			app->drawGrid(dg);
+			
+			app->swapBuffer();
 		}
 	}
 
@@ -137,9 +129,11 @@ int main(int argc, char* argv[])
 	delete example;
 	delete app;
 
+	// print the end time and the runtime
 	std::clock_t end = std::clock();
-	float elapsed_secs = float(end - begin) / CLOCKS_PER_SEC;
-	std::cout << "run time: " << elapsed_secs << " seconds\n";
+	std::time_t end_time = std::time(nullptr);
+	std::cout << std::endl << "end time:" << std::endl << std::asctime(std::localtime(&end_time));
+	std::cout << "runtime: " << std::difftime(end_time,start_time) << " seconds" << std::endl << std::endl;
 
 	return 0;
 }
