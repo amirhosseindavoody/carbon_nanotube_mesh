@@ -56,26 +56,19 @@ int main(int argc, char* argv[])
 	GUIHelperInterface* gui;
 
 	// flag to let the graphic visualization happen
-	const bool visualize = true;
+	const bool visualize = false;
 	
-	if (visualize)
-	{
-		// SimpleOpenGL3App is a child of CommonGraphicsApp virtual class.
-		app = new SimpleOpenGL3App("carbon nanotube mesh",1024,768,true);
+	// SimpleOpenGL3App is a child of CommonGraphicsApp virtual class.
+	app = new SimpleOpenGL3App("carbon nanotube mesh",1024,768,true);
 
-		prevMouseButtonCallback = app->m_window->getMouseButtonCallback();
-		prevMouseMoveCallback = app->m_window->getMouseMoveCallback();
+	prevMouseButtonCallback = app->m_window->getMouseButtonCallback();
+	prevMouseMoveCallback = app->m_window->getMouseMoveCallback();
 
-		app->m_window->setMouseButtonCallback((b3MouseButtonCallback)OnMouseDown);
-		app->m_window->setMouseMoveCallback((b3MouseMoveCallback)OnMouseMove);
-		
-		gui = new OpenGLGuiHelper(app,false); // the second argument is a dummy one
-	}
-	else
-	{
-		gui = new DummyGUIHelper();
-	}
-		// DummyGUIHelper gui;
+	app->m_window->setMouseButtonCallback((b3MouseButtonCallback)OnMouseDown);
+	app->m_window->setMouseMoveCallback((b3MouseMoveCallback)OnMouseMove);
+	
+	gui = new OpenGLGuiHelper(app,false); // the second argument is a dummy one
+	// 	gui = new DummyGUIHelper();
 
 	CommonExampleOptions options(gui);
 
@@ -85,18 +78,16 @@ int main(int argc, char* argv[])
 	example->processCommandLineArgs(argc, argv);
 
 	example->initPhysics();
-	example->create_container();
-	example->add_tube();
-	example->add_tube();
+	example->create_container(20.,20.);
 
 	if (visualize)
 	{
 		example->resetCamera();
 	}
 	
-		
 	int step_number = 0;
-	while(example->num_tubes() < 100)
+
+	while(example->num_tubes() < 200)
 	{
 		step_number ++;
 	
@@ -105,7 +96,8 @@ int main(int argc, char* argv[])
 
 		if (step_number % 50 == 0)
 		{
-			example->add_tube();
+			example->add_tube(10, 1., 0.5);
+			example->freeze_tube(10);
 			std::cout << "number of tubes: " << example->num_tubes() << "\n";
 			// std::cin.ignore();
 		}
@@ -125,15 +117,37 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	example->exitPhysics();
-	delete example;
-	delete app;
 
+	if (not visualize)
+	{
+		gui = new OpenGLGuiHelper(app,false); // the second argument is a dummy one
+
+		example->resetCamera();
+		app->m_instancingRenderer->init();
+		app->m_instancingRenderer->updateCamera(app->getUpAxis());
+		example->renderScene();
+		
+		// draw some grids in the space
+		DrawGridData dg;
+		dg.upAxis = app->getUpAxis();
+		app->drawGrid(dg);
+		
+		app->swapBuffer();
+
+	}
+	
 	// print the end time and the runtime
 	std::clock_t end = std::clock();
 	std::time_t end_time = std::time(nullptr);
 	std::cout << std::endl << "end time:" << std::endl << std::asctime(std::localtime(&end_time));
 	std::cout << "runtime: " << std::difftime(end_time,start_time) << " seconds" << std::endl << std::endl;
+	
+	std::cin.ignore();
+
+	example->exitPhysics();
+	delete example;
+	delete app;
+
 
 	return 0;
 }

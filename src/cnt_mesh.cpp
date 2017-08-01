@@ -1,6 +1,9 @@
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <vector>
 #include <array>
+#include <cmath>
 
 #include "cnt_mesh.h"
 
@@ -70,7 +73,7 @@ void cnt_mesh::create_container(int _half_Lx, int _half_Lz)
 
 		btTransform groundTransform;
 		groundTransform.setIdentity();
-		groundTransform.setOrigin(btVector3(0,0,half_Lz/2));	
+		groundTransform.setOrigin(btVector3(0,0,half_Lz));	
 		createRigidBody(mass,groundTransform,groundShape, btVector4(0,0,1,1)); // I think the last input is not used for anything. On paper it is supposed to be the collor
 	}
 
@@ -84,7 +87,7 @@ void cnt_mesh::create_container(int _half_Lx, int _half_Lz)
 
 		btTransform groundTransform;
 		groundTransform.setIdentity();
-		groundTransform.setOrigin(btVector3(-half_Lx/2,0,0));	
+		groundTransform.setOrigin(btVector3(-half_Lx,0,0));	
 		createRigidBody(mass,groundTransform,groundShape, btVector4(0,0,1,1)); // I think the last input is not used for anything. On paper it is supposed to be the collor
 	}
 
@@ -96,17 +99,19 @@ void cnt_mesh::create_container(int _half_Lx, int _half_Lz)
 
 		btTransform groundTransform;
 		groundTransform.setIdentity();
-		groundTransform.setOrigin(btVector3(half_Lx/2,0,0));	
+		groundTransform.setOrigin(btVector3(half_Lx,0,0));	
 		createRigidBody(mass,groundTransform,groundShape, btVector4(0,0,1,1)); // I think the last input is not used for anything. On paper it is supposed to be the collor
 	}
 	
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 }
 
-void cnt_mesh::add_tube(int _number_of_sections, float _section_length, float _diameter, std::array<float, 3> _drop_coordinate)
+void cnt_mesh::add_tube(int _number_of_sections, float _section_length, float _diameter)
 {
 	tubes.push_back(tube(_number_of_sections, _section_length, _diameter));
 	tube& _tube = tubes.back();
+
+	std::array<float, 3> _drop_coordinate = drop_coordinate();
 
 	// create a few dynamic rigidbodies
 	//*********************************************************************************************
@@ -150,7 +155,7 @@ void cnt_mesh::add_tube(int _number_of_sections, float _section_length, float _d
 	for(int i=0;i<_number_of_sections;++i)
 	{
 		btScalar x_loc = _drop_coordinate[0];
-		btScalar y_loc = _drop_coordinate[1]+i*_section_length;
+		btScalar y_loc = _drop_coordinate[1]+(i+0.5)*_section_length;
 		btScalar z_loc = _drop_coordinate[2];
 		btVector3 origin(x_loc, y_loc, z_loc);
 		startTransform.setOrigin(origin);
@@ -166,6 +171,7 @@ void cnt_mesh::add_tube(int _number_of_sections, float _section_length, float _d
 		centerSpring->m_setting.m_damping = 1.5; //the damping value for the constraint controls how stiff the constraint is. The default value is 1.0
 		centerSpring->m_setting.m_impulseClamp = 0; //The m_impulseClamp value controls how quickly the dynamic rigid body comes to rest. The defual value is 0.0
 		m_dynamicsWorld->addConstraint(centerSpring);
+		_tube.springs.push_back(centerSpring);
 	}
 
 
@@ -173,12 +179,12 @@ void cnt_mesh::add_tube(int _number_of_sections, float _section_length, float _d
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 	
 	// update the average height of the mesh stack
-	// volume = volume + 2*
+	volume = volume + 2*acos(-1)*_diameter*_section_length*float(_number_of_sections);
 }
 
 void cnt_mesh::renderScene()
 {
-	CommonRigidBodyBase::renderScene();	
+	CommonRigidBodyBase::renderScene();
 }
 
 
