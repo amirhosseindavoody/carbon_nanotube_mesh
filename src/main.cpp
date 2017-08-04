@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
 	example->processCommandLineArgs(argc, argv);
 
 	example->initPhysics();
-	example->create_container(20.,20.);
+	example->create_container(10.,10.);
 
 	if (visualize)
 	{
@@ -87,7 +87,8 @@ int main(int argc, char* argv[])
 	
 	int step_number = 0;
 
-	while(example->num_tubes() < 200)
+	// while((example->num_tubes() < 200) and (step_number < 20000))
+	while(example->num_tubes() < 400)
 	{
 		step_number ++;
 	
@@ -97,8 +98,19 @@ int main(int argc, char* argv[])
 		if (step_number % 50 == 0)
 		{
 			example->add_tube(10, 1., 0.5);
-			example->freeze_tube(10);
-			std::cout << "number of tubes: " << example->num_tubes() << "\n";
+			example->add_tube(10, 1., 0.5);
+			example->add_tube(10, 1., 0.5);
+			example->add_tube(10, 1., 0.5);
+			example->add_tube(10, 1., 0.5);
+			example->add_tube(10, 1., 0.5);
+			example->add_tube(10, 1., 0.5);
+			example->add_tube(10, 1., 0.5);
+			example->add_tube(10, 1., 0.5);
+			example->add_tube(10, 1., 0.5);
+
+			example->freeze_tube(100);
+			// example->remove_tube(199);
+			std::cout << "number of tubes: " << example->num_tubes() << "   step number:" << step_number << "\n";
 			// std::cin.ignore();
 		}
 
@@ -118,10 +130,9 @@ int main(int argc, char* argv[])
 	}
 
 
+	// if we did not visualize the simulation all along now visualize it one last time.
 	if (not visualize)
 	{
-		gui = new OpenGLGuiHelper(app,false); // the second argument is a dummy one
-
 		example->resetCamera();
 		app->m_instancingRenderer->init();
 		app->m_instancingRenderer->updateCamera(app->getUpAxis());

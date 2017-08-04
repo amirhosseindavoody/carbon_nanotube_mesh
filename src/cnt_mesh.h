@@ -5,12 +5,15 @@
 #include <ctime>
 #include <vector>
 #include <array>
+#include <list>
 
 #include "btBulletDynamicsCommon.h"
 #include "LinearMath/btVector3.h"
 #include "LinearMath/btAlignedObjectArray.h" 
 
 #include "../misc_files/CommonInterfaces/CommonRigidBodyBase.h"
+
+#include "linked_list.h"
 
 struct cnt_mesh : public CommonRigidBodyBase
 {
@@ -70,21 +73,14 @@ struct cnt_mesh : public CommonRigidBodyBase
 			diameter = _diameter;
 			length = float(number_of_sections)*section_length;
 			isDynamic = true;
+			sections.reserve(_number_of_sections);
+			springs.reserve(_number_of_sections-1);
 		}
 	};
 
+	std::array<float, 3> drop_coordinate(); // this method gives the appropriate coordinate for releasing the next tube
 
-	// this method gives the appropriate coordinate for releasing the next tube
-	std::array<float, 3> drop_coordinate()
-	{
-		std::array<float, 3> _drop_coordinate = {0., 0., 0.};
-		
-		_drop_coordinate[0] = half_Lx*((2.0*float(std::rand())/float(RAND_MAX))-1.0);
-		_drop_coordinate[1] = 2.0 + volume/(2.*half_Lx * 2.*half_Lz);
-		_drop_coordinate[2] = half_Lz*((2.0*float(std::rand())/float(RAND_MAX))-1.0);
-		
-		return _drop_coordinate;
-	}
+	void create_large_mesh_body(); // INCOMPLETE: this method creates a new static body so that we can remove unecessary static CNTs.
 
 public:
 	cnt_mesh(struct GUIHelperInterface* helper)
@@ -92,23 +88,15 @@ public:
 	{
 		std::srand(std::time(0)); // use current time as seed for random generator
 		std::cout << "seeded the random number generator!!!" << std::endl;
+		tubes.reserve(10000);
 	}
 	virtual ~cnt_mesh(){}
 	virtual void initPhysics();
 	virtual void renderScene();
 	
-	void resetCamera()
-	{
-		float dist = 41;
-		float pitch = -35;
-		float yaw = 52;
-		float targetPos[3]={0,0.46,0};
-		m_guiHelper->resetCamera(dist,yaw,pitch,targetPos[0],targetPos[1],targetPos[2]);
-	}
+	void resetCamera();
 
-
-
-	virtual void stepSimulation(float deltaTime)
+	inline void stepSimulation(float deltaTime)
 	{
 		if (m_dynamicsWorld)
 		{
@@ -119,60 +107,12 @@ public:
 	void add_tube(int _number_of_sections = 10, float _section_length = 1, float _diameter = 0.5); // this method adds a tube to the system.
 	void create_container(int _half_Lx=20, int _half_Lz=20); // this method creates an open top container for the cnts
 
-	inline int num_tubes()
-	{
-		return tubes.size();
-	}
+	// gets the number of tubes in the simulation
+	inline int num_tubes()	{return tubes.size();}
 
-	void freeze_tube(int _number_of_active_tubes)
-	{
-		int n = num_tubes() - _number_of_active_tubes;
-		for (int i=0; i<n; i++)
-		{
-			tube& _tube = tubes[i];
-			if (_tube.isDynamic)
-			{
-				//make the sections static by putting their mass equal to zero
-				for (int j=0; j<_tube.sections.size(); j++)
-				{
-					btRigidBody& rigid_body = *(_tube.sections[j]);
-					rigid_body.setMassProps(0., btVector3(0.,0.,0.));
-				}
-				//delete the springs between the tube sections
-				for (int j=0; j<_tube.springs.size(); j++)
-				{
-					m_dynamicsWorld->removeConstraint(_tube.springs[j]);
-					delete _tube.springs[j];
-					_tube.springs[j] = NULL;
-				}
-				_tube.springs.clear();
-				_tube.isDynamic = false;
-			}
-		}
-	}
-
-	void remove_tube(int _max_number_of_tubes)
-	{
-		int n = num_tubes() - _max_number_of_tubes;
-
-		for (int i=0; i<n; i++)
-		{
-			tube& _tube = tubes[i];
-			if (not _tube.isDynamic)
-			{				
-				for (int j=0; j<_tube.sections.size(); j++)
-				{
-					deleteRigidBody(_tube.sections[j]);
-					delete _tube.sections[j];
-					_tube.sections[j] = NULL;
-				}
-				_tube.sections.clear();
-				std::cout << "tube(" << i << ") section size:" << _tube.sections.size();
-			}
-		}
-
-		tubes.erase(tubes.begin(),tubes.begin()+2);
-	}
+	void freeze_tube(int _number_of_active_tubes); // make tubes static in the simulation and only leave _number_of_active_tubes as dynamic in the simulation.
+	void remove_tube(int _max_number_of_tubes); // remove the tubes from the simulation and only leave _max_number_of_tubes in the simulation
+	void save_tube(tube &_tube);
 
 };
 
