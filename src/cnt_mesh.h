@@ -13,8 +13,6 @@
 
 #include "../misc_files/CommonInterfaces/CommonRigidBodyBase.h"
 
-#include "linked_list.h"
-
 struct cnt_mesh : public CommonRigidBodyBase
 {
 
@@ -113,6 +111,8 @@ public:
 	void freeze_tube(int _number_of_active_tubes); // make tubes static in the simulation and only leave _number_of_active_tubes as dynamic in the simulation.
 	void remove_tube(int _max_number_of_tubes); // remove the tubes from the simulation and only leave _max_number_of_tubes in the simulation
 	void save_tube(tube &_tube);
+
+	void processCommandLineArgs(int argc, char* argv[]);
 
 };
 

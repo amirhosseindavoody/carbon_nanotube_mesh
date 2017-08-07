@@ -4,6 +4,7 @@
 #include <vector>
 #include <array>
 #include <cmath>
+#include <experimental/filesystem>
 
 #include "cnt_mesh.h"
 
@@ -303,6 +304,9 @@ void cnt_mesh::resetCamera()
 void cnt_mesh::save_tube(tube &_tube)
 {
 
+
+
+
 	btTransform trans;
 	btRigidBody* rigid_body;
 	//make the sections static by putting their mass equal to zero
@@ -313,6 +317,15 @@ void cnt_mesh::save_tube(tube &_tube)
 		std::cout << "Y coordinate = " << trans.getOrigin().getY() << std::endl;
 		std::cin.ignore();
 	}
+}
+
+void cnt_mesh::processCommandLineArgs(int argc, char* argv[])
+{
+	namespace fs = std::experimental::filesystem;
+
+
+	std::cout << "current path is " << fs::current_path() << std::endl;
+	std::cin.ignore();
 }
 
 
