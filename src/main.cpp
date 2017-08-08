@@ -87,8 +87,8 @@ int main(int argc, char* argv[])
 	
 	int step_number = 0;
 
-	// while((example->num_tubes() < 200) and (step_number < 20000))
-	while(example->num_tubes() < 400)
+	while((example->num_tubes() < 200) and (step_number < 20000))
+	// while(example->num_tubes() < 400)
 	{
 		step_number ++;
 	
@@ -97,19 +97,12 @@ int main(int argc, char* argv[])
 
 		if (step_number % 50 == 0)
 		{
-			example->add_tube(10, 1., 0.5);
-			example->add_tube(10, 1., 0.5);
-			example->add_tube(10, 1., 0.5);
-			example->add_tube(10, 1., 0.5);
-			example->add_tube(10, 1., 0.5);
-			example->add_tube(10, 1., 0.5);
-			example->add_tube(10, 1., 0.5);
-			example->add_tube(10, 1., 0.5);
-			example->add_tube(10, 1., 0.5);
-			example->add_tube(10, 1., 0.5);
-
+			for (int i=0; i<10; i++)
+			{
+				example->add_tube(10, 1., 0.5);
+			}
 			example->freeze_tube(100);
-			// example->remove_tube(199);
+			// example->remove_tube(100);
 			std::cout << "number of tubes: " << example->num_tubes() << "   step number:" << step_number << "\n";
 			// std::cin.ignore();
 		}

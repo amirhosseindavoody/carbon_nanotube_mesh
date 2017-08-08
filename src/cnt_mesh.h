@@ -6,6 +6,8 @@
 #include <vector>
 #include <array>
 #include <list>
+#include <experimental/filesystem>
+#include <fstream>
 
 #include "btBulletDynamicsCommon.h"
 #include "LinearMath/btVector3.h"
@@ -17,6 +19,14 @@ struct cnt_mesh : public CommonRigidBodyBase
 {
 
 	private:
+
+	// infomation storing the simulation information
+	std::experimental::filesystem::directory_entry output_directory; // this is the address of the output_directory
+	std::experimental::filesystem::path output_file_path; // this is the full address of the output file.
+	std::fstream file; // this is the output file that the coordinate of the cnts are written into.
+	int number_of_saved_tubes; // this is the total number of cnts whos coordinates are saved into output file.
+	int number_of_cnt_output_files; // this is the number of output files that the cnt coordinates has been written into.
+
 	// container properties
 	float half_Lx,half_Lz; // container size. y-axis is the direction in which the top of the container is open (vertical direction and the direction in which gravity is applied), Lx and Lz are the direction in which the container is enclosed
 	float Ly; // this is an average height for the stack of cnt mesh
@@ -87,8 +97,16 @@ public:
 		std::srand(std::time(0)); // use current time as seed for random generator
 		std::cout << "seeded the random number generator!!!" << std::endl;
 		tubes.reserve(10000);
+
+		// initialize the output parameters
+		number_of_saved_tubes = 0;
+		number_of_cnt_output_files = 0;
 	}
-	virtual ~cnt_mesh(){}
+	virtual ~cnt_mesh()
+	{
+		file.close();
+		// std::cout << "ran" << "\n";
+	}
 	virtual void initPhysics();
 	virtual void renderScene();
 	

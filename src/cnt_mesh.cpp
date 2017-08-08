@@ -5,6 +5,7 @@
 #include <array>
 #include <cmath>
 #include <experimental/filesystem>
+#include <fstream>
 
 #include "cnt_mesh.h"
 
@@ -303,9 +304,17 @@ void cnt_mesh::resetCamera()
 
 void cnt_mesh::save_tube(tube &_tube)
 {
+	if (number_of_saved_tubes % 50 == 0)
+	{
+		file.close();
+		number_of_cnt_output_files ++;
+		std::string filename = "tube"+std::to_string(number_of_cnt_output_files)+".dat";
+		output_file_path = output_directory / filename;
+		file.open(output_file_path, std::ios::out);
+	}
 
-
-
+	number_of_saved_tubes ++;
+	file << "tube number:" << number_of_saved_tubes << " ; ";
 
 	btTransform trans;
 	btRigidBody* rigid_body;
@@ -314,9 +323,9 @@ void cnt_mesh::save_tube(tube &_tube)
 	{
 		rigid_body = _tube.sections[j];
 		rigid_body->getMotionState()->getWorldTransform(trans);
-		std::cout << "Y coordinate = " << trans.getOrigin().getY() << std::endl;
-		std::cin.ignore();
+		file << trans.getOrigin().getX() << "," << trans.getOrigin().getY() << "," << trans.getOrigin().getZ() << ";";
 	}
+	file << "\n";
 }
 
 void cnt_mesh::processCommandLineArgs(int argc, char* argv[])
@@ -325,7 +334,38 @@ void cnt_mesh::processCommandLineArgs(int argc, char* argv[])
 
 
 	std::cout << "current path is " << fs::current_path() << std::endl;
-	std::cin.ignore();
+	
+	output_directory.assign("/home/amirhossein/research/test");
+	
+	if (not fs::exists(output_directory.path()))
+	{
+		std::cout << "warning: output directory does NOT exist!!!" << std::endl;
+		std::cout << "output directory: " << output_directory.path() << std::endl;
+		fs::create_directories(output_directory.path());
+		// std::exit(EXIT_FAILURE);
+	}
+
+	if (not fs::is_directory(output_directory.path()))
+	{
+		std::cout << "error: output path is NOT a directory!!!" << std::endl;
+		std::cout << "output path: " << output_directory.path() << std::endl;
+		std::exit(EXIT_FAILURE);
+	}
+
+	if (not fs::is_empty(output_directory.path()))
+	{
+		std::cout << "warning: output directory is NOT empty!!!" << std::endl;
+		std::cout << "output directory: " << output_directory.path() << std::endl;
+		std::cout << "deleting the existing directory!!!" << std::endl;
+		fs::remove_all(output_directory.path());
+		fs::create_directories(output_directory.path());
+		// std::exit(EXIT_FAILURE);
+	}
+
+	output_file_path	 = output_directory.path() / "tube.dat";
+	std::cout << "output file name:" << output_file_path << std::endl;
+	// std::cin.ignore();
+
 }
 
 
