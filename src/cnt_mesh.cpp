@@ -110,7 +110,7 @@ void cnt_mesh::create_container(int _half_Lx, int _half_Lz)
 
 void cnt_mesh::add_tube(int _number_of_sections, float _section_length, float _diameter)
 {
-	tubes.push_back(tube(_number_of_sections, _section_length, _diameter));
+	tubes.emplace_back(_number_of_sections, _section_length, _diameter);
 	tube& _tube = tubes.back();
 
 	std::array<float, 3> _drop_coordinate = drop_coordinate();
@@ -122,11 +122,11 @@ void cnt_mesh::add_tube(int _number_of_sections, float _section_length, float _d
 	btCollisionShape* colShape;
 
 	bool colShape_exists = false;
-	for (int i=0; i<tube_section_collision_shapes.size(); i++)
+	for (std::list<tube_section_collision_shape>::iterator it=tube_section_collision_shapes.begin(); it != tube_section_collision_shapes.end(); it++)
 	{
-		if (tube_section_collision_shapes[i].equals(_section_length, _diameter))
+		if (it->equals(_section_length, _diameter))
 		{
-			colShape = tube_section_collision_shapes[i].colShape;
+			colShape = it->colShape;
 			colShape_exists = true;
 			break;
 		}
@@ -134,9 +134,9 @@ void cnt_mesh::add_tube(int _number_of_sections, float _section_length, float _d
 
 	if (not colShape_exists)
 	{
-		colShape = new btCylinderShape(btVector3(_diameter,_section_length/2.0,1));
+		colShape = new btCylinderShape(btVector3(_diameter/2.0,_section_length/2.0,_diameter/2.0));
 		m_collisionShapes.push_back(colShape);
-		tube_section_collision_shapes.push_back(tube_section_collision_shape(_section_length,_diameter));
+		tube_section_collision_shapes.emplace_back(_section_length,_diameter);
 		tube_section_collision_shapes.back().colShape = colShape;
 		std::cout << "new collision shape created!" << std::endl;
 	}
@@ -181,49 +181,18 @@ void cnt_mesh::add_tube(int _number_of_sections, float _section_length, float _d
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 	
 	// update the average height of the mesh stack
-	volume = volume + 2*acos(-1)*_diameter*_section_length*float(_number_of_sections);
-}
-
-// INCOMPLETE: this method creates a new static body so that we can remove unecessary static CNTs.
-void cnt_mesh::create_large_mesh_body()
-{
-	// btTransform trans;
-	// trans.setIdentity();
-
-	// for(int i=0;i<8;i++) {
-
-	// 	btTriangleIndexVertexArray* meshInterface = new btTriangleIndexVertexArray();
-	// 	btIndexedMesh part;
-
-	// 	part.m_vertexBase = (const unsigned char*)LandscapeVtx[i];
-	// 	part.m_vertexStride = sizeof(btScalar) * 3;
-	// 	part.m_numVertices = LandscapeVtxCount[i];
-	// 	part.m_triangleIndexBase = (const unsigned char*)LandscapeIdx[i];
-	// 	part.m_triangleIndexStride = sizeof( short) * 3;
-	// 	part.m_numTriangles = LandscapeIdxCount[i]/3;
-	// 	part.m_indexType = PHY_SHORT;
-
-	// 	meshInterface->addIndexedMesh(part,PHY_SHORT);
-
-	// 	bool	useQuantizedAabbCompression = true;
-	// 	btBvhTriangleMeshShape* trimeshShape = new btBvhTriangleMeshShape(meshInterface,useQuantizedAabbCompression);
-	// 	btVector3 localInertia(0,0,0);
-	// 	trans.setOrigin(btVector3(0,-25,0));
-
-	// 	btRigidBody* body = createRigidBody(0,trans,trimeshShape);
-	// 	body->setFriction (btScalar(0.9));
-		
-	// }
-	
+	float fill_factor = 1.1;
+	volume = volume + fill_factor*acos(-1)*std::pow(_diameter/2.0,2.0)*_section_length*float(_number_of_sections);
 }
 
 // make tubes static in the simulation and only leave _number_of_active_tubes as dynamic in the simulation.
 void cnt_mesh::freeze_tube(int _number_of_active_tubes)
 {
 	int n = num_tubes() - _number_of_active_tubes;
+	std::list<tube>::iterator it = tubes.begin();
 	for (int i=0; i<n; i++)
 	{
-		tube& _tube = tubes[i];
+		tube& _tube = *it;
 		if (_tube.isDynamic)
 		{
 			//make the sections static by putting their mass equal to zero
@@ -244,6 +213,7 @@ void cnt_mesh::freeze_tube(int _number_of_active_tubes)
 
 			save_tube(_tube);
 		}
+		it++;
 	}
 }
 
@@ -251,12 +221,10 @@ void cnt_mesh::freeze_tube(int _number_of_active_tubes)
 void cnt_mesh::remove_tube(int _max_number_of_tubes)
 {
 	int n = num_tubes() - _max_number_of_tubes;
-	// std::cout << "n = " << n << "  num_tubes()=" << num_tubes() << "  _max_number_of_tubes=" << _max_number_of_tubes << std::endl;
-	for (int i=0; i<n; ++i)
+
+	while (num_tubes() > _max_number_of_tubes)
 	{
-		// std::cout << "i = " << i << " n = " << n << std::endl;
-		// std::cout << "n = " << n << "  num_tubes()=" << num_tubes() << "  _max_number_of_tubes=" << _max_number_of_tubes << std::endl;
-		tube& _tube = tubes[i];
+		tube& _tube = tubes.front();
 		if (not _tube.isDynamic)
 		{				
 			for (int j=0; j<_tube.sections.size(); ++j)
@@ -266,12 +234,8 @@ void cnt_mesh::remove_tube(int _max_number_of_tubes)
 				_tube.sections[j] = NULL;
 			}
 			_tube.sections.clear();
-			// std::cout << "tube(" << i << ") section size:" << _tube.sections.size();
 		}
-	}
-	if (n>0)
-	{
-		tubes.erase(tubes.begin(),tubes.begin()+n);
+		tubes.pop_front();
 	}
 }
 
@@ -281,7 +245,8 @@ std::array<float, 3> cnt_mesh::drop_coordinate()
 	std::array<float, 3> _drop_coordinate = {0., 0., 0.};
 	
 	_drop_coordinate[0] = half_Lx*((2.0*float(std::rand())/float(RAND_MAX))-1.0);
-	_drop_coordinate[1] = 2.0 + volume/(2.*half_Lx * 2.*half_Lz);
+	// _drop_coordinate[1] = 2.0 + volume/(2.*half_Lx * 2.*half_Lz);
+	_drop_coordinate[1] = 5.0 + Ly;
 	_drop_coordinate[2] = half_Lz*((2.0*float(std::rand())/float(RAND_MAX))-1.0);
 	
 	return _drop_coordinate;
@@ -311,19 +276,19 @@ void cnt_mesh::save_tube(tube &_tube)
 		std::string filename = "tube"+std::to_string(number_of_cnt_output_files)+".dat";
 		output_file_path = output_directory / filename;
 		file.open(output_file_path, std::ios::out);
+		file << std::showpos << std::scientific;
 	}
 
 	number_of_saved_tubes ++;
-	file << "tube number:" << number_of_saved_tubes << " ; ";
+	file << "tube number: " << number_of_saved_tubes << " ; ";
 
 	btTransform trans;
 	btRigidBody* rigid_body;
-	//make the sections static by putting their mass equal to zero
 	for (int j=0; j<_tube.sections.size(); j++)
 	{
 		rigid_body = _tube.sections[j];
 		rigid_body->getMotionState()->getWorldTransform(trans);
-		file << trans.getOrigin().getX() << "," << trans.getOrigin().getY() << "," << trans.getOrigin().getZ() << ";";
+		file << trans.getOrigin().getX() << " , " << trans.getOrigin().getY() << " , " << trans.getOrigin().getZ() << " ; ";
 	}
 	file << "\n";
 }
@@ -366,6 +331,23 @@ void cnt_mesh::processCommandLineArgs(int argc, char* argv[])
 	std::cout << "output file name:" << output_file_path << std::endl;
 	// std::cin.ignore();
 
+}
+
+
+void cnt_mesh::get_Ly()
+{
+	btTransform trans;
+	for (std::list<tube>::iterator it = tubes.begin(); it != tubes.end(); it++)
+	{
+		if (it->isDynamic)
+		{
+			for (int i=0; i < it->sections.size(); i++)
+			{
+				it->sections[i]->getMotionState()->getWorldTransform(trans);
+				Ly = std::max(Ly, trans.getOrigin().getY());
+			}
+		}
+	}
 }
 
 

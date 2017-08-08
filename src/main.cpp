@@ -47,6 +47,7 @@ static void OnMouseDown(int button, int state, float x, float y) {
 
 int main(int argc, char* argv[])
 {
+
 	// print the start time and start recording the run time
 	std::clock_t start = std::clock();
 	std::time_t start_time = std::time(nullptr);
@@ -56,7 +57,7 @@ int main(int argc, char* argv[])
 	GUIHelperInterface* gui;
 
 	// flag to let the graphic visualization happen
-	const bool visualize = false;
+	const bool visualize = true;
 	
 	// SimpleOpenGL3App is a child of CommonGraphicsApp virtual class.
 	app = new SimpleOpenGL3App("carbon nanotube mesh",1024,768,true);
@@ -87,7 +88,7 @@ int main(int argc, char* argv[])
 	
 	int step_number = 0;
 
-	while((example->num_tubes() < 200) and (step_number < 20000))
+	while((example->num_tubes() < 10000) and (step_number < 10000))
 	// while(example->num_tubes() < 400)
 	{
 		step_number ++;
@@ -96,30 +97,34 @@ int main(int argc, char* argv[])
 		example->stepSimulation(dtSec);
 
 		if (step_number % 50 == 0)
-		{
+		{	
+			example->get_Ly();
+
 			for (int i=0; i<10; i++)
 			{
 				example->add_tube(10, 1., 0.5);
 			}
 			example->freeze_tube(100);
-			// example->remove_tube(100);
+			example->remove_tube(400);
 			std::cout << "number of tubes: " << example->num_tubes() << "   step number:" << step_number << "\n";
-			// std::cin.ignore();
+			
+			if (visualize)
+			{
+				app->m_instancingRenderer->init();
+				app->m_instancingRenderer->updateCamera(app->getUpAxis());
+				example->renderScene();
+				
+				// draw some grids in the space
+				DrawGridData dg;
+				dg.upAxis = app->getUpAxis();
+				app->drawGrid(dg);
+				
+				app->swapBuffer();
+
+				// std::cin.ignore();
+			}
 		}
 
-		if (visualize)
-		{
-			app->m_instancingRenderer->init();
-			app->m_instancingRenderer->updateCamera(app->getUpAxis());
-			example->renderScene();
-			
-			// draw some grids in the space
-			DrawGridData dg;
-			dg.upAxis = app->getUpAxis();
-			app->drawGrid(dg);
-			
-			app->swapBuffer();
-		}
 	}
 
 

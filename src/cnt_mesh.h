@@ -32,13 +32,13 @@ struct cnt_mesh : public CommonRigidBodyBase
 	float Ly; // this is an average height for the stack of cnt mesh
 	float volume; // volume of the total carbon nanotubes in the container
 
-	// vector to store all the tubes that we will in the simulation
+	// list to store all the tubes that we will in the simulation
 	class tube;
-	std::vector<tube> tubes;
+	std::list<tube> tubes;
 
 	// vector to store all the collision shapes of the cnt sections that we will create in the simulation
 	class tube_section_collision_shape;
-	std::vector<tube_section_collision_shape> tube_section_collision_shapes;
+	std::list<tube_section_collision_shape> tube_section_collision_shapes;
 
 	// class to store collision shapes of carbon nanotube sections. The diameter and the length of the section is used to see
 	// if we have created such collision before or we need to create it for the first time.
@@ -88,15 +88,12 @@ struct cnt_mesh : public CommonRigidBodyBase
 
 	std::array<float, 3> drop_coordinate(); // this method gives the appropriate coordinate for releasing the next tube
 
-	void create_large_mesh_body(); // INCOMPLETE: this method creates a new static body so that we can remove unecessary static CNTs.
-
 public:
 	cnt_mesh(struct GUIHelperInterface* helper)
 		:CommonRigidBodyBase(helper)
 	{
 		std::srand(std::time(0)); // use current time as seed for random generator
 		std::cout << "seeded the random number generator!!!" << std::endl;
-		tubes.reserve(10000);
 
 		// initialize the output parameters
 		number_of_saved_tubes = 0;
@@ -105,7 +102,6 @@ public:
 	virtual ~cnt_mesh()
 	{
 		file.close();
-		// std::cout << "ran" << "\n";
 	}
 	virtual void initPhysics();
 	virtual void renderScene();
@@ -128,9 +124,11 @@ public:
 
 	void freeze_tube(int _number_of_active_tubes); // make tubes static in the simulation and only leave _number_of_active_tubes as dynamic in the simulation.
 	void remove_tube(int _max_number_of_tubes); // remove the tubes from the simulation and only leave _max_number_of_tubes in the simulation
-	void save_tube(tube &_tube);
+	void save_tube(tube &_tube); // save the coordinates of the tube to an output file.
 
 	void processCommandLineArgs(int argc, char* argv[]);
+
+	void get_Ly();
 
 };
 
