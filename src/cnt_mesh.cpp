@@ -269,7 +269,7 @@ void cnt_mesh::resetCamera()
 
 void cnt_mesh::save_tube(tube &_tube)
 {
-	if (number_of_saved_tubes % 50 == 0)
+	if (number_of_saved_tubes % 10000 == 0)
 	{
 		file.close();
 		number_of_cnt_output_files ++;
@@ -300,7 +300,7 @@ void cnt_mesh::processCommandLineArgs(int argc, char* argv[])
 
 	std::cout << "current path is " << fs::current_path() << std::endl;
 	
-	output_directory.assign("/home/amirhossein/research/test");
+	output_directory.assign("/home/amirhossein/research/cnt_mesh_longer_bids");
 	
 	if (not fs::exists(output_directory.path()))
 	{
