@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 	example->processCommandLineArgs(argc, argv);
 
 	example->initPhysics();
-	example->create_container(10.,10.);
+	example->create_container(10.,10.); //create_container(_half_Lx, _half_Lz)
 
 	if (visualize)
 	{
@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
 
 			for (int i=0; i<10; i++)
 			{
-				example->add_tube(10, 1., 0.5);
+				example->add_tube(10, 1., 0.5); //add_tube(_number_of_sections, _section_length, _diameter)
 			}
 			example->freeze_tube(100);
 			example->remove_tube(400);

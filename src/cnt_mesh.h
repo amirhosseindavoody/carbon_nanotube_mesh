@@ -64,8 +64,7 @@ struct cnt_mesh : public CommonRigidBodyBase
 	};
 
 	// class to store information and the rigid bodies of each separate cnt.
-	class tube
-	{
+	class tube {
 	public:
 		int number_of_sections;
 		float section_length;
@@ -74,8 +73,7 @@ struct cnt_mesh : public CommonRigidBodyBase
 		bool isDynamic;
 		std::vector<btRigidBody*> sections;
 		std::vector<btPoint2PointConstraint*> springs;
-		tube(int _number_of_sections = 10, float _section_length = 1, float _diameter = 0.5)
-		{
+		tube(int _number_of_sections = 10, float _section_length = 1, float _diameter = 0.5) {
 			number_of_sections = _number_of_sections;
 			section_length = _section_length;
 			diameter = _diameter;

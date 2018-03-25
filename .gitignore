@@ -1,2 +1,5 @@
 *.exe
 *.o
+
+.DS_Store
+bullet3-master/
