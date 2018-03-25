@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 	GUIHelperInterface* gui;
 
 	// flag to let the graphic visualization happen
-	const bool visualize = true;
+	const bool visualize = false;
 	
 	// SimpleOpenGL3App is a child of CommonGraphicsApp virtual class.
 	app = new SimpleOpenGL3App("carbon nanotube mesh",1024,768,true);
@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 	example->processCommandLineArgs(argc, argv);
 
 	example->initPhysics();
-	example->create_container(10.,10.); //create_container(_half_Lx, _half_Lz)
+	example->create_container(100.,100.); //create_container(_half_Lx, _half_Lz)
 
 	if (visualize)
 	{
@@ -88,24 +88,24 @@ int main(int argc, char* argv[])
 	
 	int step_number = 0;
 
-	while((example->num_tubes() < 10000) and (step_number < 10000))
-	// while(example->num_tubes() < 400)
+	while(true)
 	{
 		step_number ++;
 	
 		btScalar dtSec = 0.05;
 		example->stepSimulation(dtSec);
 
-		if (step_number % 50 == 0)
+		if (step_number % 50 == 0) // add new tubes every couple of steps.
 		{	
 			example->get_Ly();
 
+			// add this many cnt's at a time
 			for (int i=0; i<10; i++)
 			{
-				example->add_tube(10, 1., 0.5); //add_tube(_number_of_sections, _section_length, _diameter)
+				example->add_tube(10, 10., 1.2); // parameters are _number_of_sections, _section_length, _diameter
 			}
-			example->freeze_tube(100);
-			example->remove_tube(400);
+			example->freeze_tube(100); // keep only this many of tubes active (for example 100) and freeze the rest of the tubes
+			example->remove_tube(1000); // keep only this many of tubes in the simulation (for example 400) and delete the rest of objects
 			std::cout << "number of tubes: " << example->num_tubes() << "   step number:" << step_number << "\n";
 			
 			if (visualize)
