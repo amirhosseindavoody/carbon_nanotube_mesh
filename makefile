@@ -2,18 +2,20 @@ CC=g++
 
 OPT = -O3
 
-CFLAGS = -I/home/amirhossein/bullet3-master/src/ -std=c++17
+BULLET = /home/amirhossein/Downloads/bullet3-master
+
+CFLAGS = -I$(BULLET)/src/ -std=c++17
 
 LFLAGS =  -std=c++17
 # LFLAGS += -pthread -lstdc++fs -lGL -lGLU
 LFLAGS += -pthread -lstdc++fs
 
-LFLAGS += /home/amirhossein/bullet3-master/bin/libBullet3Common_gmake_x64_release.a
-LFLAGS += /home/amirhossein/bullet3-master/bin/libBulletCollision_gmake_x64_release.a
-LFLAGS += /home/amirhossein/bullet3-master/bin/libBulletDynamics_gmake_x64_release.a
-LFLAGS += /home/amirhossein/bullet3-master/bin/libBulletExampleBrowserLib_gmake_x64_release.a
-LFLAGS += /home/amirhossein/bullet3-master/bin/libLinearMath_gmake_x64_release.a
-LFLAGS += /home/amirhossein/bullet3-master/bin/libOpenGL_Window_gmake_x64_release.a
+LFLAGS += $(BULLET)/bin/libBullet3Common_gmake_x64_release.a
+LFLAGS += $(BULLET)/bin/libBulletCollision_gmake_x64_release.a
+LFLAGS += $(BULLET)/bin/libBulletDynamics_gmake_x64_release.a
+LFLAGS += $(BULLET)/bin/libBulletExampleBrowserLib_gmake_x64_release.a
+LFLAGS += $(BULLET)/bin/libLinearMath_gmake_x64_release.a
+LFLAGS += $(BULLET)/bin/libOpenGL_Window_gmake_x64_release.a
 
 LFLAGS += -ldl
 
