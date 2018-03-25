@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
 			// add this many cnt's at a time
 			for (int i=0; i<10; i++)
 			{
-				example->add_tube(10, 10., 1.2); // parameters are _number_of_sections, _section_length, _diameter
+				example->add_tube(10, 10., 1.4); // parameters are _number_of_sections, _section_length, _diameter
 			}
 			example->freeze_tube(100); // keep only this many of tubes active (for example 100) and freeze the rest of the tubes
 			example->remove_tube(1000); // keep only this many of tubes in the simulation (for example 400) and delete the rest of objects
