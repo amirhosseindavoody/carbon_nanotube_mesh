@@ -338,7 +338,7 @@ void cnt_mesh::processCommandLineArgs(int argc, char* argv[])
 // function to set the output directory
 void cnt_mesh::set_output_dir(std::string output_path)
 {
-	output_directory = prepare_directory(output_dir, keep_old_files=true);
+	output_directory = prepare_directory(output_path, keep_old_files=true);
 }
 
 

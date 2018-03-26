@@ -70,7 +70,7 @@ inline std::experimental::filesystem::directory_entry check_directory(std::strin
 
   std::cout << "\n..." << std::endl;
 
-  f (path[0]=='~'){
+  if (path[0]=='~'){
     std::string home_dir = getenv("HOME");
     path.erase(0,1);
     path = home_dir + path;
