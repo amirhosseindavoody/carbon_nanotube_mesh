@@ -7,6 +7,7 @@
 #include <experimental/filesystem>
 #include <fstream>
 
+#include "./helper/prepare_directory.hpp"
 #include "cnt_mesh.h"
 
 #include "btBulletDynamicsCommon.h"
@@ -26,6 +27,7 @@ void cnt_mesh::initPhysics()
 		m_dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe+btIDebugDraw::DBG_DrawContactPoints);
 }
 
+// create a rectangular container using half planes
 void cnt_mesh::create_container(int _half_Lx, int _half_Lz)
 {
 
@@ -108,6 +110,7 @@ void cnt_mesh::create_container(int _half_Lx, int _half_Lz)
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 }
 
+// add a tube with certain number of sections, section length, and diameter
 void cnt_mesh::add_tube(int _number_of_sections, float _section_length, float _diameter)
 {
 	tubes.emplace_back(_number_of_sections, _section_length, _diameter);
@@ -266,7 +269,7 @@ void cnt_mesh::resetCamera()
 	m_guiHelper->resetCamera(dist,yaw,pitch,targetPos[0],targetPos[1],targetPos[2]);
 }
 
-
+// save coordinates of the tube
 void cnt_mesh::save_tube(tube &_tube)
 {
 	if (number_of_saved_tubes % 10000 == 0)
@@ -296,7 +299,6 @@ void cnt_mesh::save_tube(tube &_tube)
 void cnt_mesh::processCommandLineArgs(int argc, char* argv[])
 {
 	namespace fs = std::experimental::filesystem;
-
 
 	std::cout << "current path is " << fs::current_path() << std::endl;
 	
@@ -331,6 +333,12 @@ void cnt_mesh::processCommandLineArgs(int argc, char* argv[])
 	std::cout << "output file name:" << output_file_path << std::endl;
 	// std::cin.ignore();
 
+}
+
+// function to set the output directory
+void cnt_mesh::set_output_dir(std::string output_path)
+{
+	output_directory = prepare_directory(output_dir, keep_old_files=true);
 }
 
 

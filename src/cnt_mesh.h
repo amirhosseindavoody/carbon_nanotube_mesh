@@ -65,7 +65,7 @@ struct cnt_mesh : public CommonRigidBodyBase
 
 	// class to store information and the rigid bodies of each separate cnt.
 	class tube {
-	public:
+	  public:
 		int number_of_sections;
 		float section_length;
 		float diameter;
@@ -86,9 +86,8 @@ struct cnt_mesh : public CommonRigidBodyBase
 
 	std::array<float, 3> drop_coordinate(); // this method gives the appropriate coordinate for releasing the next tube
 
-public:
-	cnt_mesh(struct GUIHelperInterface* helper)
-		:CommonRigidBodyBase(helper)
+  public:
+	cnt_mesh(struct GUIHelperInterface* helper): CommonRigidBodyBase(helper)
 	{
 		std::srand(std::time(0)); // use current time as seed for random generator
 		std::cout << "seeded the random number generator!!!" << std::endl;
@@ -97,6 +96,7 @@ public:
 		number_of_saved_tubes = 0;
 		number_of_cnt_output_files = 0;
 	}
+	
 	virtual ~cnt_mesh()
 	{
 		file.close();
@@ -125,6 +125,9 @@ public:
 	void save_tube(tube &_tube); // save the coordinates of the tube to an output file.
 
 	void processCommandLineArgs(int argc, char* argv[]);
+	
+	// function to set the output directory
+	void set_output_dir(std::string output_path); 
 
 	void get_Ly();
 

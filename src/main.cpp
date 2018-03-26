@@ -10,6 +10,8 @@
 #include "../misc_files/OpenGLWindow/SimpleOpenGL3App.h"
 #include "../misc_files/ExampleBrowser/OpenGLGuiHelper.h"
 
+#include "../lib/json.hpp"
+
 #include "cnt_mesh.h"
 
 
@@ -53,6 +55,31 @@ int main(int argc, char* argv[])
 	std::time_t start_time = std::time(nullptr);
 	std::cout << std::endl << "start time:" << std::endl << std::asctime(std::localtime(&start_time)) << std::endl;
 
+
+	// get the input JSON filename
+	std::string filename;
+	if (argc <= 1){
+		filename = "input.json";
+	} else {
+		filename = argv[1];
+	}
+
+	// read the input JSON file
+	std::ifstream input_file(filename.c_str());
+	nlohmann::json j;
+	input_file >> j;
+
+
+	std::string output_path = j["output directory"];
+	float container_half_width = float(j["container width [m]"])/2.;
+	float tube_diameter = j["cnt diameter [m]"];
+	int number_of_tube_sections = j["cnt number of sections"];
+	float section_length = j["cnt section length [m]"];
+	int number_of_tubes_added_together = j["number of tubes added together"];
+	int number_of_active_tubes = j["number of active tubes"];
+	int number_of_tubes_before_deletion = j["number of tubes before deletion"];
+
+
 	SimpleOpenGL3App* app;
 	GUIHelperInterface* gui;
 
@@ -69,17 +96,18 @@ int main(int argc, char* argv[])
 	app->m_window->setMouseMoveCallback((b3MouseMoveCallback)OnMouseMove);
 	
 	gui = new OpenGLGuiHelper(app,false); // the second argument is a dummy one
-	// 	gui = new DummyGUIHelper();
+	// gui = new DummyGUIHelper();
 
 	CommonExampleOptions options(gui);
 
 	// CommonExampleInterface* example;
 	example = new cnt_mesh(options.m_guiHelper);
 	
-	example->processCommandLineArgs(argc, argv);
+	// example->processCommandLineArgs(argc, argv);
+	example->set_output_dir(output_path);
 
 	example->initPhysics();
-	example->create_container(100.,100.); //create_container(_half_Lx, _half_Lz)
+	example->create_container(container_half_width, container_half_width); //create_container(_half_Lx, _half_Lz)
 
 	if (visualize)
 	{
@@ -100,12 +128,12 @@ int main(int argc, char* argv[])
 			example->get_Ly();
 
 			// add this many cnt's at a time
-			for (int i=0; i<10; i++)
+			for (int i=0; i<number_of_tubes_added_together; i++)
 			{
-				example->add_tube(10, 10., 1.4); // parameters are _number_of_sections, _section_length, _diameter
+				example->add_tube(number_of_tube_sections, section_length, tube_diameter); // parameters are _number_of_sections, _section_length, _diameter
 			}
-			example->freeze_tube(100); // keep only this many of tubes active (for example 100) and freeze the rest of the tubes
-			example->remove_tube(1000); // keep only this many of tubes in the simulation (for example 400) and delete the rest of objects
+			example->freeze_tube(number_of_active_tubes); // keep only this many of tubes active (for example 100) and freeze the rest of the tubes
+			example->remove_tube(number_of_tubes_before_deletion); // keep only this many of tubes in the simulation (for example 400) and delete the rest of objects
 			std::cout << "number of tubes: " << example->num_tubes() << "   step number:" << step_number << "\n";
 			
 			if (visualize)

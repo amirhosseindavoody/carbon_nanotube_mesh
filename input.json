@@ -1,0 +1,14 @@
+{
+    "output directory":"~/research/cnt_mesh_experiment",
+    
+    "container width [m]":200,
+
+    "cnt diameter [nm]":1.5,
+    "cnt number of sections": 10,
+    "cnt section length [nm]": 10,
+
+    "number of tubes added together": 10,
+    "number of active tubes": 100,
+    "number of tubes before deletion": 1000
+
+}
