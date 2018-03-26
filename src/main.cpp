@@ -71,10 +71,10 @@ int main(int argc, char* argv[])
 
 
 	std::string output_path = j["output directory"];
-	float container_half_width = float(j["container width [m]"])/2.;
-	float tube_diameter = j["cnt diameter [m]"];
+	float container_half_width = float(j["container width [nm]"])/2.;
+	float tube_diameter = j["cnt diameter [nm]"];
 	int number_of_tube_sections = j["cnt number of sections"];
-	float section_length = j["cnt section length [m]"];
+	float section_length = j["cnt section length [nm]"];
 	int number_of_tubes_added_together = j["number of tubes added together"];
 	int number_of_active_tubes = j["number of active tubes"];
 	int number_of_tubes_before_deletion = j["number of tubes before deletion"];

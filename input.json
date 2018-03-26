@@ -1,7 +1,7 @@
 {
     "output directory":"~/research/cnt_mesh_experiment",
     
-    "container width [m]":200,
+    "container width [nm]":200,
 
     "cnt diameter [nm]":1.5,
     "cnt number of sections": 10,
