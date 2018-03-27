@@ -346,6 +346,8 @@ void cnt_mesh::set_output_dir(std::string output_path)
 void cnt_mesh::get_Ly()
 {
 	btTransform trans;
+	float avgY=0;
+	int count=0;
 	for (std::list<tube>::iterator it = tubes.begin(); it != tubes.end(); it++)
 	{
 		if (it->isDynamic)
@@ -353,10 +355,19 @@ void cnt_mesh::get_Ly()
 			for (int i=0; i < it->sections.size(); i++)
 			{
 				it->sections[i]->getMotionState()->getWorldTransform(trans);
-				Ly = std::max(Ly, trans.getOrigin().getY());
+				// Ly = std::max(Ly, trans.getOrigin().getY());
+				avgY += trans.getOrigin().getY();
+				count++;
 			}
 		}
 	}
+
+	if (count==0) {
+		Ly = 0;
+	} else {
+		Ly = avgY/float(count);
+	}
+	
 }
 
 
