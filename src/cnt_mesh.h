@@ -114,15 +114,23 @@ struct cnt_mesh : public CommonRigidBodyBase
 		}
 	}
 
-	void add_tube(int _number_of_sections = 10, float _section_length = 1, float _diameter = 0.5); // this method adds a tube to the system.
-	void create_container(int _half_Lx=20, int _half_Lz=20); // this method creates an open top container for the cnts
+	// this method adds a tube to the system.
+	void add_tube(int _number_of_sections = 10, float _section_length = 1, float _diameter = 0.5);
+
+	// this method creates an open top container for the cnts
+	void create_container(int _half_Lx=20, int _half_Lz=20);
 
 	// gets the number of tubes in the simulation
 	inline int num_tubes()	{return tubes.size();}
 
-	void freeze_tube(int _number_of_active_tubes); // make tubes static in the simulation and only leave _number_of_active_tubes as dynamic in the simulation.
-	void remove_tube(int _max_number_of_tubes); // remove the tubes from the simulation and only leave _max_number_of_tubes in the simulation
-	void save_tube(tube &_tube); // save the coordinates of the tube to an output file.
+	// make tubes static in the simulation and only leave _number_of_active_tubes as dynamic in the simulation.
+	void freeze_tube(int _number_of_active_tubes);
+
+	// remove the tubes from the simulation and only leave _max_number_of_tubes in the simulation
+	void remove_tube(int _max_number_of_tubes);
+
+	// save the coordinates of the tube to an output file.
+	void save_tube(tube &_tube);
 
 	void processCommandLineArgs(int argc, char* argv[]);
 	
