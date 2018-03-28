@@ -142,7 +142,18 @@ struct cnt_mesh : public CommonRigidBodyBase
 	// function to set the output directory
 	void set_output_dir(std::string output_path); 
 
+	// update Ly, which is roughly the height of the filled container
 	void get_Ly();
+
+	// read Ly, which is roughly the height of the filled container
+	inline const float& read_Ly() {
+		return Ly;
+	};
+	
+	// get number of saved tubes
+	inline const int& no_of_saved_tubes() {
+		return number_of_saved_tubes;
+	};
 
 };
 
