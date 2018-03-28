@@ -152,7 +152,6 @@ int main(int argc, char* argv[])
 				
 				app->swapBuffer();
 
-				// std::cin.ignore();
 			}
 		}
 

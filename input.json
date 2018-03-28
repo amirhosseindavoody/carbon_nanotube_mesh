@@ -1,11 +1,11 @@
 {
-    "output directory":"~/research/cnt_mesh_10_nm_bids_test",
+    "output directory":"~/research/cnt_mesh_20_nm_bids_1.5_thick",
     
     "container width [nm]":100,
 
     "cnt diameter [nm]":1.5,
     "cnt number of sections": 10,
-    "cnt section length [nm]": 10,
+    "cnt section length [nm]": 20,
 
     "number of tubes added together": 10,
     "number of active tubes": 100,
