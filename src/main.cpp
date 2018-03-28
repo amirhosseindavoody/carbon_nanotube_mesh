@@ -80,6 +80,7 @@ int main(int argc, char* argv[])
 	int number_of_tubes_before_deletion = j["number of tubes before deletion"];
 
 
+
 	SimpleOpenGL3App* app;
 	GUIHelperInterface* gui;
 
@@ -103,8 +104,9 @@ int main(int argc, char* argv[])
 	// CommonExampleInterface* example;
 	example = new cnt_mesh(options.m_guiHelper);
 	
-	// example->processCommandLineArgs(argc, argv);
 	example->set_output_dir(output_path);
+	example->save_json_properties(j);
+
 
 	example->initPhysics();
 	example->create_container(container_half_width, container_half_width); //create_container(_half_Lx, _half_Lz)

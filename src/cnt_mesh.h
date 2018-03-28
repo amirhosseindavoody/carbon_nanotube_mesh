@@ -11,7 +11,9 @@
 
 #include "btBulletDynamicsCommon.h"
 #include "LinearMath/btVector3.h"
-#include "LinearMath/btAlignedObjectArray.h" 
+#include "LinearMath/btAlignedObjectArray.h"
+
+#include "../lib/json.hpp"
 
 #include "../misc_files/CommonInterfaces/CommonRigidBodyBase.h"
 
@@ -44,7 +46,7 @@ struct cnt_mesh : public CommonRigidBodyBase
 	// if we have created such collision before or we need to create it for the first time.
 	class tube_section_collision_shape
 	{
-	public:
+		public:
 		float length;
 		float diameter;
 		btCollisionShape* colShape;
@@ -113,6 +115,9 @@ struct cnt_mesh : public CommonRigidBodyBase
 			m_dynamicsWorld->stepSimulation(deltaTime,10,deltaTime);
 		}
 	}
+
+	// set and save the json properties that is read and parsed from the input_json file.
+	void save_json_properties(nlohmann::json j);
 
 	// this method adds a tube to the system.
 	void add_tube(int _number_of_sections = 10, float _section_length = 1, float _diameter = 0.5);

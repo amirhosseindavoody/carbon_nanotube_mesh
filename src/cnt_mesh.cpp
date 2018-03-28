@@ -7,6 +7,7 @@
 #include <experimental/filesystem>
 #include <fstream>
 
+#include "../lib/json.hpp"
 #include "./helper/prepare_directory.hpp"
 #include "cnt_mesh.h"
 
@@ -370,4 +371,10 @@ void cnt_mesh::get_Ly()
 	
 }
 
-
+// set and save the json properties that is read and parsed from the input_json file.
+void cnt_mesh::save_json_properties(nlohmann::json j) {
+	std::ofstream json_file;
+	json_file.open(output_directory.path() / "input.json", std::ios::out);
+	json_file << std::setw(4) << j << std::endl;
+	json_file.close();
+};

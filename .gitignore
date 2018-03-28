@@ -1,5 +1,7 @@
 *.exe
 *.o
 
+.ipynb_checkpoints/
+
 .DS_Store
 bullet3-master/
