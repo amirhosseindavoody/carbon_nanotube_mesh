@@ -47,8 +47,21 @@ static void OnMouseDown(int button, int state, float x, float y) {
 }
 //*************************************************************************************************
 
-int main(int argc, char* argv[])
-{
+// helper class to generate randomized section length
+class section_length_generator {
+	int _min_length=0, _length_variation=0;
+	
+	public:
+	// constructor
+	section_length_generator(int min_length, int max_length): _min_length(min_length), _length_variation(max_length-min_length) {};
+	
+	// get a random length
+	float get_length(){
+		return _min_length+(std::rand()%_length_variation);
+	}
+};
+
+int main(int argc, char* argv[]) {
 
 	// print the start time and start recording the run time
 	std::clock_t start = std::clock();
@@ -72,9 +85,24 @@ int main(int argc, char* argv[])
 
 	std::string output_path = j["output directory"];
 	float container_half_width = float(j["container width [nm]"])/2.;
+	
 	float tube_diameter = j["cnt diameter [nm]"];
 	int number_of_tube_sections = j["cnt number of sections"];
-	float section_length = j["cnt section length [nm]"];
+
+	section_length_generator* length_generator=nullptr;
+	if (j["cnt section type"]=="uniform"){
+		float section_length = j["cnt section length [nm]"];
+		length_generator = new section_length_generator(section_length, section_length);
+	} else if (j["cnt section type"]=="random") {
+		float min_length = j["cnt section length [nm]"][0];
+		float max_length = j["cnt section length [nm]"][1];
+		length_generator = new section_length_generator(min_length, max_length);
+	} else {
+		throw std::invalid_argument("invalid argument for \"cnt section type\"");
+	}
+	
+	
+	
 	int number_of_tubes_added_together = j["number of tubes added together"];
 	int number_of_active_tubes = j["number of active tubes"];
 	int number_of_tubes_before_deletion = j["number of tubes before deletion"];
@@ -132,7 +160,7 @@ int main(int argc, char* argv[])
 			// add this many cnt's at a time
 			for (int i=0; i<number_of_tubes_added_together; i++)
 			{
-				example->add_tube(number_of_tube_sections, section_length, tube_diameter); // parameters are _number_of_sections, _section_length, _diameter
+				example->add_tube(number_of_tube_sections, length_generator->get_length(), tube_diameter); // parameters are _number_of_sections, _section_length, _diameter
 			}
 			example->freeze_tube(number_of_active_tubes); // keep only this many of tubes active (for example 100) and freeze the rest of the tubes
 			example->remove_tube(number_of_tubes_before_deletion); // keep only this many of tubes in the simulation (for example 400) and delete the rest of objects
