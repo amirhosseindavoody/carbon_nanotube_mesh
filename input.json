@@ -1,9 +1,9 @@
 {
-    "output directory":"~/research/cnt_mesh_random_bids_1.5nm_thick",
+    "output directory":"~/research/cnt_mesh_random_5to20_bids_4nm_thick",
     
     "container width [nm]":100,
 
-    "cnt diameter [nm]":1.5,
+    "cnt diameter [nm]":4,
     "cnt number of sections": 10,
     "cnt section type": "random",
     "cnt section length [nm]": [5,20],
