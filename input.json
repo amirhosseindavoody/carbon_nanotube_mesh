@@ -1,11 +1,13 @@
 {
     "output directory":"~/research/cnt_mesh_random_5to20_bids_4nm_thick",
+    "keep old files":true,
+
+    "visualize":false,
     
     "container width [nm]":100,
 
-    "cnt diameter [nm]":4,
-    "cnt number of sections": 10,
-    "cnt section type": "random",
+    "cnt diameter [nm]":0.5,
+    "cnt total length [nm]": [500,500],
     "cnt section length [nm]": [5,20],
 
     "number of tubes added together": 10,

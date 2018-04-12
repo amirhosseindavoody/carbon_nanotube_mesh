@@ -80,28 +80,7 @@ int main(int argc, char* argv[]) {
 	// read the input JSON file
 	std::ifstream input_file(filename.c_str());
 	nlohmann::json j;
-	input_file >> j;
-
-
-	std::string output_path = j["output directory"];
-	float container_half_width = float(j["container width [nm]"])/2.;
-	
-	float tube_diameter = j["cnt diameter [nm]"];
-	int number_of_tube_sections = j["cnt number of sections"];
-
-	section_length_generator* length_generator=nullptr;
-	if (j["cnt section type"]=="uniform"){
-		float section_length = j["cnt section length [nm]"];
-		length_generator = new section_length_generator(section_length, section_length);
-	} else if (j["cnt section type"]=="random") {
-		float min_length = j["cnt section length [nm]"][0];
-		float max_length = j["cnt section length [nm]"][1];
-		length_generator = new section_length_generator(min_length, max_length);
-	} else {
-		throw std::invalid_argument("invalid argument for \"cnt section type\"");
-	}
-	
-	
+	input_file >> j;	
 	
 	int number_of_tubes_added_together = j["number of tubes added together"];
 	int number_of_active_tubes = j["number of active tubes"];
@@ -113,7 +92,7 @@ int main(int argc, char* argv[]) {
 	GUIHelperInterface* gui;
 
 	// flag to let the graphic visualization happen
-	const bool visualize = false;
+	bool visualize = j["visualize"];
 	
 	// SimpleOpenGL3App is a child of CommonGraphicsApp virtual class.
 	app = new SimpleOpenGL3App("carbon nanotube mesh",1024,768,true);
@@ -130,27 +109,29 @@ int main(int argc, char* argv[]) {
 	CommonExampleOptions options(gui);
 
 	// CommonExampleInterface* example;
-	example = new cnt_mesh(options.m_guiHelper);
+	example = new cnt_mesh(options.m_guiHelper, j);
 	
-	example->set_output_dir(output_path);
+	example->parse_json_prop();
 	example->save_json_properties(j);
 
 
 	example->initPhysics();
-	example->create_container(container_half_width, container_half_width); //create_container(_half_Lx, _half_Lz)
+	example->create_container(); //container size is set in input.json
+	example->create_tube_colShapes();
 
-	if (visualize)
-	{
+	if (visualize) {
 		example->resetCamera();
 	}
 	
 	int step_number = 0;
 
+	// while(example->num_tubes()<1)
 	while(true)
 	{
 		step_number ++;
 	
-		btScalar dtSec = 0.05;
+		// btScalar dtSec = 0.05;
+		btScalar dtSec = 0.01;
 		example->stepSimulation(dtSec);
 
 		if (step_number % 50 == 0) // add new tubes every couple of steps.
@@ -160,10 +141,10 @@ int main(int argc, char* argv[]) {
 			// add this many cnt's at a time
 			for (int i=0; i<number_of_tubes_added_together; i++)
 			{
-				example->add_tube(number_of_tube_sections, length_generator->get_length(), tube_diameter); // parameters are _number_of_sections, _section_length, _diameter
+				example->add_tube();
 			}
-			example->freeze_tube(number_of_active_tubes); // keep only this many of tubes active (for example 100) and freeze the rest of the tubes
-			example->remove_tube(number_of_tubes_before_deletion); // keep only this many of tubes in the simulation (for example 400) and delete the rest of objects
+			// example->freeze_tube(number_of_active_tubes); // keep only this many of tubes active (for example 100) and freeze the rest of the tubes
+			// example->remove_tube(number_of_tubes_before_deletion); // keep only this many of tubes in the simulation (for example 400) and delete the rest of objects
 			
 			std::cout << "number of saved tubes: " << example->no_of_saved_tubes() << ",  height [nm]:" << example->read_Ly() << "      \r" << std::flush;
 			
