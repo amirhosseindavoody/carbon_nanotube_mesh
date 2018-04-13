@@ -47,20 +47,6 @@ static void OnMouseDown(int button, int state, float x, float y) {
 }
 //*************************************************************************************************
 
-// helper class to generate randomized section length
-class section_length_generator {
-	int _min_length=0, _length_variation=0;
-	
-	public:
-	// constructor
-	section_length_generator(int min_length, int max_length): _min_length(min_length), _length_variation(max_length-min_length) {};
-	
-	// get a random length
-	float get_length(){
-		return _min_length+(std::rand()%_length_variation);
-	}
-};
-
 int main(int argc, char* argv[]) {
 
 	// print the start time and start recording the run time
@@ -125,6 +111,11 @@ int main(int argc, char* argv[]) {
 	
 	int step_number = 0;
 
+
+	example->get_Ly();
+	example->add_tube();
+
+
 	// while(example->num_tubes()<1)
 	while(true)
 	{
@@ -136,17 +127,17 @@ int main(int argc, char* argv[]) {
 
 		if (step_number % 50 == 0) // add new tubes every couple of steps.
 		{	
-			example->get_Ly();
+			// example->get_Ly();
 
-			// add this many cnt's at a time
-			for (int i=0; i<number_of_tubes_added_together; i++)
-			{
-				example->add_tube();
-			}
+			// // add this many cnt's at a time
+			// for (int i=0; i<number_of_tubes_added_together; i++)
+			// {
+			// 	example->add_tube();
+			// }
 			// example->freeze_tube(number_of_active_tubes); // keep only this many of tubes active (for example 100) and freeze the rest of the tubes
 			// example->remove_tube(number_of_tubes_before_deletion); // keep only this many of tubes in the simulation (for example 400) and delete the rest of objects
 			
-			std::cout << "number of saved tubes: " << example->no_of_saved_tubes() << ",  height [nm]:" << example->read_Ly() << "      \r" << std::flush;
+			// std::cout << "number of saved tubes: " << example->no_of_saved_tubes() << ",  height [nm]:" << example->read_Ly() << "      \r" << std::flush;
 			
 			if (visualize)
 			{

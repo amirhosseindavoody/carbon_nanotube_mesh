@@ -1,6 +1,7 @@
 CC=g++
 
 OPT = -O3
+# OPT = -g
 
 BULLET = /home/amirhossein/Downloads/bullet3-master
 

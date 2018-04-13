@@ -139,13 +139,15 @@ struct cnt_mesh : public CommonRigidBodyBase
 	void create_container();
 
 	// gets the number of tubes in the simulation
-	inline int num_tubes()	{return tubes.size();}
+	inline int num_tubes() {
+		return tubes.size();
+	}
 
 	// make tubes static in the simulation and only leave _number_of_active_tubes as dynamic in the simulation.
-	void freeze_tube(int _number_of_active_tubes);
+	void freeze_tube(int number_of_active_tubes);
 
 	// remove the tubes from the simulation and only leave _max_number_of_tubes in the simulation
-	void remove_tube(int _max_number_of_tubes);
+	void remove_tube(int max_number_of_tubes);
 
 	// save the coordinates of the tube to an output file.
 	void save_tube(tube &t);
