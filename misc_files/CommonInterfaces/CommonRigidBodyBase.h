@@ -47,7 +47,7 @@ struct CommonRigidBodyBase : public CommonExampleInterface
 	}
 
 
-	btDiscreteDynamicsWorld*	getDynamicsWorld()
+	btDiscreteDynamicsWorld* getDynamicsWorld()
 	{
 		return m_dynamicsWorld;
 	}

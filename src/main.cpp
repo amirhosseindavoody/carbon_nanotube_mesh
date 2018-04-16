@@ -113,7 +113,7 @@ int main(int argc, char* argv[]) {
 
 
 	example->get_Ly();
-	example->add_tube();
+	example->add_tube_in_xz();
 
 
 	// while(example->num_tubes()<1)
@@ -132,7 +132,7 @@ int main(int argc, char* argv[]) {
 			// // add this many cnt's at a time
 			// for (int i=0; i<number_of_tubes_added_together; i++)
 			// {
-			// 	example->add_tube();
+			// 	example->add_tube_in_xz();
 			// }
 			// example->freeze_tube(number_of_active_tubes); // keep only this many of tubes active (for example 100) and freeze the rest of the tubes
 			// example->remove_tube(number_of_tubes_before_deletion); // keep only this many of tubes in the simulation (for example 400) and delete the rest of objects

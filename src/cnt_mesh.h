@@ -36,6 +36,8 @@ struct cnt_mesh : public CommonRigidBodyBase
 	float _half_Lx,_half_Lz; // container size. y-axis is the direction in which the top of the container is open (vertical direction and the direction in which gravity is applied), Lx and Lz are the direction in which the container is enclosed
 	float Ly; // this is an average height for the stack of cnt mesh
 
+	float drop_height=0;
+
 	std::vector<float> _tube_diameter;
 	std::vector<float> _section_length;
 	std::vector<float> _tube_length;
@@ -50,13 +52,12 @@ struct cnt_mesh : public CommonRigidBodyBase
 		bool isDynamic=true;
 		std::vector<btRigidBody*> bodies; // btRigidBody objects that make the tube
 		std::vector<float> body_length;
-		// std::vector<btPoint2PointConstraint*> constraints; // movement constraints that connect the bodies
-		std::vector<btConeTwistConstraint*> constraints; // movement constraints that connect the bodies
+		std::vector<btTypedConstraint*> constraints; // movement constraints that connect the bodies
 	};
 	// list to store all the tubes that we will in the simulation
 	std::list<tube> tubes;
 
-	std::array<float, 3> drop_coordinate(); // this method gives the appropriate coordinate for releasing the next tube
+	btVector3 drop_coordinate(); // this method gives the appropriate coordinate for releasing the next tube
 
   public:
 	// constructor
@@ -100,6 +101,8 @@ struct cnt_mesh : public CommonRigidBodyBase
 		for (int i=min_section_length; i<=max_section_length; ++i){
 			_section_length.push_back(float(i));
 		}
+
+		drop_height = float(_json_prop["drop height [nm]"]);
 	}
 
 	// create all the btCollisionShape that are used to make tubes
@@ -134,6 +137,9 @@ struct cnt_mesh : public CommonRigidBodyBase
 
 	// this method adds a tube to the system.
 	void add_tube();
+
+	// this method adds a tube in the xz plane
+	void add_tube_in_xz();
 
 	// this method creates an open top container for the cnts
 	void create_container();
