@@ -2,7 +2,7 @@
     "output directory":"~/research/cnt_mesh_fiber",
     "keep old files":false,
 
-    "visualize":true,
+    "visualize":false,
     
     "container width [nm]":300,
 
@@ -14,6 +14,7 @@
 
     "number of tubes added together": 1,
     "number of active tubes": 100,
-    "number of tubes before deletion": 1000
+    "number of tubes before deletion": 1000,
+    "number of unsaved tubes": 100
 
 }

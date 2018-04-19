@@ -196,10 +196,10 @@ void cnt_mesh::save_tube(tube &t) {
   btTransform trans;
   for (const auto& b: t.bodies) {
     b->getMotionState()->getWorldTransform(trans);
-    file << trans.getOrigin().getX() << " , " << trans.getOrigin().getY() << " , " << trans.getOrigin().getZ() << " ; ";
+    file << trans.getOrigin().x() << " , " << trans.getOrigin().y() << " , " << trans.getOrigin().z() << " ; ";
   }
 
-  file << "\n";
+  file << std::endl;
 }
 
 
@@ -341,8 +341,6 @@ void cnt_mesh::add_tube() {
   m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 }
 
-
-
 // this method adds a tube in the xz plane
 void cnt_mesh::add_tube_in_xz(){
 
@@ -366,8 +364,8 @@ void cnt_mesh::add_tube_in_xz(){
   btVector3 q_axis = ax.rotate(btVector3(0,1,0),pi/2); // axis vector for the quaternion describing orientation of tube sections
   qt.setRotation(q_axis,pi/2);
 
-  // btVector3 drop_coor = drop_coordinate();
-  btVector3 drop_coor(0,Ly,0);
+  btVector3 drop_coor = drop_coordinate();
+  // btVector3 drop_coor(0,Ly,0);
   
   // set the density of the material making the tubes
   btScalar density=1;
@@ -397,7 +395,7 @@ void cnt_mesh::add_tube_in_xz(){
 
     // create rigid bodies
     my_tube.bodies.push_back(createRigidBody(mass,startTransform,colShape));	// no static object
-    my_tube.bodies.back()->setMassProps(mass,btVector3(1,0,1)); // turn off rotation along the y-axis of the cylinder shapes
+    // my_tube.bodies.back()->setMassProps(mass,btVector3(1,0,1)); // turn off rotation along the y-axis of the cylinder shapes
     my_tube.body_length.push_back(sec_length_plus_distances);
 
     c_length += my_tube.body_length.back();
@@ -411,9 +409,9 @@ void cnt_mesh::add_tube_in_xz(){
     btRigidBody* b2 = my_tube.bodies[i+1];
     
     // // spring constraint
-    // btPoint2PointConstraint* centerSpring = new btPoint2PointConstraint(*b1, *b2, btVector3(0,(my_tube.body_length[i]+my_tube.diameter)/2,0), btVector3(0,-(my_tube.body_length[i+1]+my_tube.diameter)/2,0));
+    // btPoint2PointConstraint* centerSpring = new btPoint2PointConstraint(*b1, *b2, btVector3(0,(my_tube.body_length[i])/2,0), btVector3(0,-(my_tube.body_length[i+1])/2,0));
     // centerSpring->m_setting.m_damping = 1.5; //the damping value for the constraint controls how stiff the constraint is. The default value is 1.0
-    // centerSpring->m_setting.m_impulseClamp = 0; //The m_impulseClamp value controls how quickly the dynamic rigid body comes to rest. The defual value is 0.0
+    // centerSpring->m_setting.m_impulseClamp = 0; //The m_impulseClamp value controls how quickly the dynamic rigid body comes to rest. The defualt value is 0.0
 
 
     // cone constarint
@@ -427,16 +425,16 @@ void cnt_mesh::add_tube_in_xz(){
 
     btConeTwistConstraint* centerSpring = new btConeTwistConstraint(*b1, *b2, frameInA, frameInB);
     centerSpring->setLimit(
-                            pi/20, // _swingSpan1
-                            pi/20, // _swingSpan2
-                            pi, // _twistSpan
-                            2, // _softness
-                            0.3, // _biasFactor
+                            0, // _swingSpan1
+                            0, // _swingSpan2
+                            pi/2, // _twistSpan
+                            1, // _softness
+                            0.3000000119F, // _biasFactor
                             1.0F // _relaxationFactor
                           );
 
 
-    m_dynamicsWorld->addConstraint(centerSpring,true);
+    m_dynamicsWorld->addConstraint(centerSpring,false);
     my_tube.constraints.push_back(centerSpring);
   }
 
@@ -445,3 +443,22 @@ void cnt_mesh::add_tube_in_xz(){
   m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 
 };
+
+
+
+// make tubes static in the simulation and only leave number_of_active_tubes as dynamic in the simulation.
+void cnt_mesh::save_tubes(int number_of_unsaved_tubes) {
+  if (tubes.size() <= number_of_unsaved_tubes)
+    return;
+
+  auto it = prev(tubes.end(),number_of_unsaved_tubes);
+
+  int n=0;
+  while(!it->isSaved){
+    save_tube(*it);
+    it->isSaved=true;
+    it--;
+    if (it==tubes.begin())
+      break;
+  }
+}

@@ -71,6 +71,7 @@ int main(int argc, char* argv[]) {
 	int number_of_tubes_added_together = j["number of tubes added together"];
 	int number_of_active_tubes = j["number of active tubes"];
 	int number_of_tubes_before_deletion = j["number of tubes before deletion"];
+	int number_of_unsaved_tubes = j["number of unsaved tubes"];
 
 
 
@@ -112,32 +113,32 @@ int main(int argc, char* argv[]) {
 	int step_number = 0;
 
 
-	example->get_Ly();
-	example->add_tube_in_xz();
+	// example->get_Ly();
+	// example->add_tube_in_xz();
 
 
-	// while(example->num_tubes()<1)
 	while(true)
 	{
 		step_number ++;
 	
-		// btScalar dtSec = 0.05;
-		btScalar dtSec = 0.01;
+		btScalar dtSec = 0.05;
+		// btScalar dtSec = 0.01;
 		example->stepSimulation(dtSec);
 
 		if (step_number % 50 == 0) // add new tubes every couple of steps.
 		{	
-			// example->get_Ly();
+			example->get_Ly();
 
-			// // add this many cnt's at a time
-			// for (int i=0; i<number_of_tubes_added_together; i++)
-			// {
-			// 	example->add_tube_in_xz();
-			// }
+			// add this many cnt's at a time
+			for (int i=0; i<number_of_tubes_added_together; i++)
+			{
+				example->add_tube_in_xz();
+			}
+			example->save_tubes(number_of_unsaved_tubes);
 			// example->freeze_tube(number_of_active_tubes); // keep only this many of tubes active (for example 100) and freeze the rest of the tubes
 			// example->remove_tube(number_of_tubes_before_deletion); // keep only this many of tubes in the simulation (for example 400) and delete the rest of objects
 			
-			// std::cout << "number of saved tubes: " << example->no_of_saved_tubes() << ",  height [nm]:" << example->read_Ly() << "      \r" << std::flush;
+			std::cout << "number of saved tubes: " << example->no_of_saved_tubes() << ",  height [nm]:" << example->read_Ly() << "      \r" << std::flush;
 			
 			if (visualize)
 			{

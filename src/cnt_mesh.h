@@ -50,6 +50,7 @@ struct cnt_mesh : public CommonRigidBodyBase
 		float diameter=0; // diameter of the tube which is the same for all body objects
 		float length=0;
 		bool isDynamic=true;
+		bool isSaved=false;
 		std::vector<btRigidBody*> bodies; // btRigidBody objects that make the tube
 		std::vector<float> body_length;
 		std::vector<btTypedConstraint*> constraints; // movement constraints that connect the bodies
@@ -170,6 +171,8 @@ struct cnt_mesh : public CommonRigidBodyBase
 	inline const int& no_of_saved_tubes() {
 		return number_of_saved_tubes;
 	};
+
+	void save_tubes(int number_of_unsaved_tubes);
 
 };
 
