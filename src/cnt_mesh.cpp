@@ -180,24 +180,39 @@ void cnt_mesh::resetCamera() {
 // save coordinates of the tube
 void cnt_mesh::save_one_tube(tube &t) {
   if (number_of_saved_tubes % 10000 == 0) {
-    file.close();
     number_of_cnt_output_files ++;
-    std::string filename = "tube"+std::to_string(number_of_cnt_output_files)+".dat";
+    
+    position_file.close();
+    std::string filename = "tube"+std::to_string(number_of_cnt_output_files)+".pos.dat";
     output_file_path = _output_directory / filename;
-    file.open(output_file_path, std::ios::out);
-    file << std::showpos << std::scientific;
+    position_file.open(output_file_path, std::ios::out);
+    position_file << std::showpos << std::scientific;
+    
+    orientation_file.close();
+    filename = "tube"+std::to_string(number_of_cnt_output_files)+".orient.dat";
+    output_file_path = _output_directory / filename;
+    orientation_file.open(output_file_path, std::ios::out);
+    orientation_file << std::showpos << std::scientific;
   }
 
   number_of_saved_tubes ++;
-  file << "tube number: " << number_of_saved_tubes << " ; ";
+  position_file << "tube number: " << number_of_saved_tubes << " ; ";
+  orientation_file << "tube number: " << number_of_saved_tubes << " ; ";
+
 
   btTransform trans;
   for (const auto& b: t.bodies) {
     b->getMotionState()->getWorldTransform(trans);
-    file << trans.getOrigin().x() << " , " << trans.getOrigin().y() << " , " << trans.getOrigin().z() << " ; ";
+    position_file << trans.getOrigin().x() << " , " << trans.getOrigin().y() << " , " << trans.getOrigin().z() << " ; ";
+    
+    btQuaternion qt = trans.getRotation();
+    btVector3 ax(0,1,0); // initial axis of the cylinder
+    ax = ax.rotate(qt.getAxis(), qt.getAngle());
+    orientation_file << ax.x() << " , " << ax.y() << " , " << ax.z() << " ; ";
   }
 
-  file << std::endl;
+  position_file << std::endl;
+  orientation_file << std::endl;
 }
 
 

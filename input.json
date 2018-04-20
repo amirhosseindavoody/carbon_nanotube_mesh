@@ -1,6 +1,6 @@
 {
     "output directory":"~/research/cnt_mesh_fiber",
-    "keep old files":false,
+    "keep old files":true,
 
     "visualize":false,
     
