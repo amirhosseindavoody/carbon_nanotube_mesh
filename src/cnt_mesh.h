@@ -157,7 +157,7 @@ struct cnt_mesh : public CommonRigidBodyBase
 	void remove_tube(int max_number_of_tubes);
 
 	// save the coordinates of the tube to an output file.
-	void save_tube(tube &t);
+	void save_one_tube(tube &t);
 
 	// update Ly, which is roughly the height of the filled container
 	void get_Ly();

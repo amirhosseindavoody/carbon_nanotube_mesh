@@ -109,7 +109,7 @@ void cnt_mesh::freeze_tube(int number_of_active_tubes) {
     return;
 
   int n = tubes.size() - number_of_active_tubes;
-  // std::cout << n << "\n";
+
   int i=0;
   for (auto& t: tubes) {
     if (t.isDynamic) {
@@ -128,8 +128,6 @@ void cnt_mesh::freeze_tube(int number_of_active_tubes) {
 
       // t.constraints.clear();
       t.isDynamic = false;
-
-      save_tube(t);
 
       i++;
     }
@@ -180,7 +178,7 @@ void cnt_mesh::resetCamera() {
 }
 
 // save coordinates of the tube
-void cnt_mesh::save_tube(tube &t) {
+void cnt_mesh::save_one_tube(tube &t) {
   if (number_of_saved_tubes % 10000 == 0) {
     file.close();
     number_of_cnt_output_files ++;
@@ -455,7 +453,7 @@ void cnt_mesh::save_tubes(int number_of_unsaved_tubes) {
 
   int n=0;
   while(!it->isSaved){
-    save_tube(*it);
+    save_one_tube(*it);
     it->isSaved=true;
     it--;
     if (it==tubes.begin())
