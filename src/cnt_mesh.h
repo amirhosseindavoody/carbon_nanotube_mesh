@@ -26,8 +26,9 @@ struct cnt_mesh : public CommonRigidBodyBase
 	// infomation storing the simulation information
 	std::experimental::filesystem::directory_entry _output_directory; // this is the address of the output directory
 	std::experimental::filesystem::path output_file_path; // this is the full address of the output file.
-	std::fstream position_file; // this is the output file that the coordinate of the cnts are written into.
-	std::fstream orientation_file; // this is the output file that the coordinate of the cnts are written into.
+	std::fstream position_file; // this is the output file that the coordinate of cnt sections are written into.
+	std::fstream orientation_file; // this is the output file that the orientation of cnt sections are written into.
+	std::fstream length_file; // this is the output file that the length of cnt sections are written into.
 	int number_of_saved_tubes; // this is the total number of cnts whos coordinates are saved into output file.
 	int number_of_cnt_output_files; // this is the number of output files that the cnt coordinates has been written into.
 
@@ -147,10 +148,10 @@ struct cnt_mesh : public CommonRigidBodyBase
 	}
 
 	// make tubes static in the simulation and only leave _number_of_active_tubes as dynamic in the simulation.
-	void freeze_tube(int number_of_active_tubes);
+	void freeze_tubes(unsigned number_of_active_tubes);
 
 	// remove the tubes from the simulation and only leave _max_number_of_tubes in the simulation
-	void remove_tube(int max_number_of_tubes);
+	void remove_tubes(unsigned max_number_of_tubes);
 
 	// save the coordinates of the tube to an output file.
 	void save_one_tube(tube &t);
