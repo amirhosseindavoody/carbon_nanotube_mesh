@@ -104,41 +104,66 @@ void cnt_mesh::create_container(){
 }
 
 // make tubes static in the simulation and only leave number_of_active_tubes as dynamic in the simulation.
-void cnt_mesh::freeze_tube(int number_of_active_tubes) {
+void cnt_mesh::freeze_tubes(unsigned number_of_active_tubes) {
   if (tubes.size() <= number_of_active_tubes)
     return;
+  
+  auto it = std::prev(tubes.end(),number_of_active_tubes+1);
 
-  int n = tubes.size() - number_of_active_tubes;
-
-  int i=0;
-  for (auto& t: tubes) {
-    if (t.isDynamic) {
-      
-      //make the sections static by putting their mass equal to zero
-      for(auto& b: t.bodies){
+  while(it->isDynamic){
+      // make the sections static by putting their mass equal to zero
+      for(auto& b: it->bodies){
         b->setMassProps(0,btVector3(0,0,0));
       }
 
       //delete constraints between the tube sections
-      for (auto& c: t.constraints) {
+      for (auto& c: it->constraints) {
         m_dynamicsWorld->removeConstraint(c);
         delete c;
         c = nullptr;
       }
 
-      // t.constraints.clear();
-      t.isDynamic = false;
+      it->constraints.clear();
+      it->isDynamic = false;
 
-      i++;
-    }
-
-    if (i>=n)
-      break;
+      if (it==tubes.begin())
+        break;
+      else
+        --it;
   }
+
+
+  // int n = tubes.size() - number_of_active_tubes;
+
+  // int i=0;
+  // for (auto& t: tubes) {
+  //   if (t.isDynamic) {
+      
+  //     //make the sections static by putting their mass equal to zero
+  //     for(auto& b: t.bodies){
+  //       b->setMassProps(0,btVector3(0,0,0));
+  //     }
+
+  //     //delete constraints between the tube sections
+  //     for (auto& c: t.constraints) {
+  //       m_dynamicsWorld->removeConstraint(c);
+  //       delete c;
+  //       c = nullptr;
+  //     }
+
+  //     t.constraints.clear();
+  //     t.isDynamic = false;
+
+  //     i++;
+  //   }
+
+  //   if (i>=n)
+  //     break;
+  // }
 }
 
 // remove the tubes from the simulation and only leave max_number_of_tubes in the simulation
-void cnt_mesh::remove_tube(int max_number_of_tubes) {
+void cnt_mesh::remove_tubes(unsigned max_number_of_tubes) {
   if (tubes.size()<=max_number_of_tubes)
     return;
   
@@ -177,29 +202,52 @@ void cnt_mesh::resetCamera() {
   m_guiHelper->resetCamera(dist,yaw,pitch,targetPos[0],targetPos[1],targetPos[2]);
 }
 
-// save coordinates of the tube
+// save properties of the input tube
 void cnt_mesh::save_one_tube(tube &t) {
   if (number_of_saved_tubes % 10000 == 0) {
-    file.close();
     number_of_cnt_output_files ++;
-    std::string filename = "tube"+std::to_string(number_of_cnt_output_files)+".dat";
+    
+    position_file.close();
+    std::string filename = "tube"+std::to_string(number_of_cnt_output_files)+".pos.dat";
     output_file_path = _output_directory / filename;
-    file.open(output_file_path, std::ios::out);
-    file << std::showpos << std::scientific;
+    position_file.open(output_file_path, std::ios::out);
+    position_file << std::showpos << std::scientific;
+    
+    orientation_file.close();
+    filename = "tube"+std::to_string(number_of_cnt_output_files)+".orient.dat";
+    output_file_path = _output_directory / filename;
+    orientation_file.open(output_file_path, std::ios::out);
+    orientation_file << std::showpos << std::scientific;
+
+    length_file.close();
+    filename = "tube"+std::to_string(number_of_cnt_output_files)+".len.dat";
+    output_file_path = _output_directory / filename;
+    length_file.open(output_file_path, std::ios::out);
+    length_file << std::showpos << std::scientific;
   }
 
   number_of_saved_tubes ++;
-  file << "tube number: " << number_of_saved_tubes << " ; ";
+  position_file << "tube number: " << number_of_saved_tubes << " ; ";
+  orientation_file << "tube number: " << number_of_saved_tubes << " ; ";
 
+  int i=0;
   btTransform trans;
   for (const auto& b: t.bodies) {
     b->getMotionState()->getWorldTransform(trans);
-    file << trans.getOrigin().x() << " , " << trans.getOrigin().y() << " , " << trans.getOrigin().z() << " ; ";
+    position_file << trans.getOrigin().x() << " , " << trans.getOrigin().y() << " , " << trans.getOrigin().z() << " ; ";
+    
+    btQuaternion qt = trans.getRotation();
+    btVector3 ax(0,1,0); // initial axis of the cylinder
+    ax = ax.rotate(qt.getAxis(), qt.getAngle());
+    orientation_file << ax.x() << " , " << ax.y() << " , " << ax.z() << " ; ";
+
+    length_file << t.body_length[i++] << ";";
   }
 
-  file << std::endl;
+  position_file << std::endl;
+  orientation_file << std::endl;
+  length_file << std::endl;
 }
-
 
 void cnt_mesh::get_Ly() {
   btTransform trans;
@@ -441,8 +489,6 @@ void cnt_mesh::add_tube_in_xz(){
   m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 
 };
-
-
 
 // make tubes static in the simulation and only leave number_of_active_tubes as dynamic in the simulation.
 void cnt_mesh::save_tubes(int number_of_unsaved_tubes) {

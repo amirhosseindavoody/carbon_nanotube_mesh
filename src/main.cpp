@@ -135,8 +135,8 @@ int main(int argc, char* argv[]) {
 				example->add_tube_in_xz();
 			}
 			example->save_tubes(number_of_unsaved_tubes);
-			// example->freeze_tube(number_of_active_tubes); // keep only this many of tubes active (for example 100) and freeze the rest of the tubes
-			// example->remove_tube(number_of_tubes_before_deletion); // keep only this many of tubes in the simulation (for example 400) and delete the rest of objects
+			example->freeze_tubes(number_of_active_tubes); // keep only this many of tubes active (for example 100) and freeze the rest of the tubes
+			// example->remove_tubes(number_of_tubes_before_deletion); // keep only this many of tubes in the simulation (for example 400) and delete the rest of objects
 			
 			std::cout << "number of saved tubes: " << example->no_of_saved_tubes() << ",  height [nm]:" << example->read_Ly() << "      \r" << std::flush;
 			
