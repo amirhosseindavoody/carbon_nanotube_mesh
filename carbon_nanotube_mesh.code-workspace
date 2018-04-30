@@ -3,5 +3,8 @@
 		{
 			"path": "."
 		}
-	]
+	],
+	"settings": {
+		"python.pythonPath": "/Users/amirhossein/anaconda/envs/py36/bin/python"
+	}
 }
