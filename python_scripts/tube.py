@@ -56,9 +56,16 @@ class tube:
     self._tck, self._u = tck, u
 
   # getter function for interpolated coordinates
+  # def r_fine(self):
+  #   if not hasattr(self,'_r_fine'):
+  #     self.calculate_r_fine()
+  #   return self._r_fine
+
+  # getter function for interpolated coordinates
   def r_fine(self):
-    if not hasattr(self,'_r_fine'):
-      self.calculate_r_fine()
+    if hasattr(self, '_r_fine'):
+      return self._r_fine
+    self.calculate_r_fine()
     return self._r_fine
 
   def tangent_vec(self):
