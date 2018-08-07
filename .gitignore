@@ -5,3 +5,6 @@
 
 .DS_Store
 bullet3-master/
+
+.vscode
+__pycache__
