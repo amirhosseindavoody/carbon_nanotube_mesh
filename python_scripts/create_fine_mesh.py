@@ -6,7 +6,7 @@ import os
 import matplotlib as mpl
 from tqdm import tqdm
 import argparse
-from typing import List
+from typing import List, Tuple
 
 import plotly.offline as plo
 import plotly.graph_objs as go
@@ -93,7 +93,7 @@ def min_neighbor_distance(fibers: List[fiber], mode='fine', n=1000):
 
   return min_dist_per_cnt, pair_min_dist
 
-def create_single_CNTs(fib: fiber, coor: np.ndarray):
+def create_single_CNTs(fib: fiber, coor: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
   '''
   Create coordinates of single CNTs inside a fiber
 
@@ -123,7 +123,7 @@ def create_single_CNTs(fib: fiber, coor: np.ndarray):
     a3 = vec
 
     pos.append(r[i] + np.matmul(coor, np.vstack((a1, a2))))
-    orient.append(a3)
+    orient.append([a3 for i in range(coor.shape[0])])
   
   pos = np.array(pos).swapaxes(0, 1)
   orient = np.array(orient).swapaxes(0, 1)
@@ -136,7 +136,9 @@ def main():
   parser.add_argument('--drawRough', help='Plot the rough mesh created through BulletPhysics simulation', action='store_true')
   parser.add_argument('--check_interpolation', help='Check interpolation function to see if the fine mesh has proper shape', action='store_true')
   parser.add_argument('--nearest_neighbor', help='Calculate and plot the distance to the nearest neighbor for each fiber', action='store_true')
+  parser.add_argument('--plot_cnts', help='Create and plot position of individual CNTs for a limited number of fibers', action='store_true')
   parser.add_argument('--create_cnts', help='Create the position of individual CNTs within the fibers', action='store_true')
+  parser.add_argument('--check_cnt_nearest_neighbor', help='Calculate the nearest neighbors distance for each CNT', action='store_true')
 
   args = parser.parse_args()
 
@@ -268,7 +270,7 @@ def main():
 
     plt.show()
 
-  if args.create_cnts:
+  if args.plot_cnts:
     fiber_diameter = 5
     cnt_diameter = 1.4
 
@@ -277,6 +279,7 @@ def main():
 
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
+    ax.set_aspect('equal')
     ax.plot(coor[:, 0], coor[:, 1], 'o')
 
     theta = np.linspace(0, 2*np.pi, 100)
@@ -284,6 +287,77 @@ def main():
     y = fiber_diameter*np.sin(theta)
     ax.plot(x, y)
     
+    cnt_pos = []
+    cnt_orient = []
+
+    for fib in tqdm(fibers[:10]):
+      p, o = create_single_CNTs(fib, coor)
+      cnt_pos.append(p)
+      cnt_orient.append(o)
+
+    cnt_pos = np.array(cnt_pos)
+    cnt_orient = np.array(cnt_orient)
+
+    # fig = plt.figure()
+    # ax = fig.add_subplot(1, 1, 1, projection='3d')
+    # ax.set_aspect('equal')
+    # for f in range(1):
+    #   for r in cnt_pos[f, :, :, :]:
+    #     ax.plot(r[:, 2], r[:, 0], r[:, 1])
+
+    # ax.view_init(elev=10., azim=np.pi/2)
+    # plt.show()
+
+    coor_per_cnt = cnt_pos.shape[2]
+    cnt_pos = cnt_pos.reshape((-1, coor_per_cnt, 3))
+    cnt_orient = cnt_orient.reshape((-1, coor_per_cnt, 3))
+
+    # plot cnt's using plotly
+    data = []
+    for r in cnt_pos[:, :, :]:
+      trace = go.Scatter3d(
+        x=r[:, 2], y=r[:, 0], z=r[:, 1],
+        marker={'size':1, 'colorscale':'Viridis'},
+        line={'width':10}
+      )
+      data.append(trace)
+
+    layout = {
+        'autosize':True,
+        'title':'Iris dataset',
+        'scene':{
+          'xaxis':{
+            'gridcolor':'rgb(255, 255, 255)',
+            'zerolinecolor':'rgb(255, 255, 255)',
+            'showbackground':True,
+            'backgroundcolor':'rgb(230, 230,230)'
+          },
+          'yaxis':{
+            'gridcolor':'rgb(255, 255, 255)',
+            'zerolinecolor':'rgb(255, 255, 255)',
+            'showbackground':True,
+            'backgroundcolor':'rgb(230, 230,230)'
+          },
+          'zaxis':{
+            'gridcolor':'rgb(255, 255, 255)',
+            'zerolinecolor':'rgb(255, 255, 255)',
+            'showbackground':True,
+            'backgroundcolor':'rgb(230, 230,230)'
+          },
+          'aspectratio':{'x':1, 'y':1, 'z':0.02}
+        },
+    }
+
+    fig = go.Figure(data=data, layout=layout)
+    plo.plot(fig, filename=os.path.join(directory, "temp-pyplot.html"))
+
+  if args.create_cnts:
+    fiber_diameter = 5
+    cnt_diameter = 1.4
+
+    coor = util.HCP_coordinates(fiber_diameter, cnt_diameter)
+    print(f"number of cnts per fiber: {coor.shape[0]}")
+
     cnt_pos = []
     cnt_orient = []
 
@@ -295,23 +369,119 @@ def main():
     cnt_pos = np.array(cnt_pos)
     cnt_orient = np.array(cnt_orient)
 
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1, projection='3d')
-    ax.set_aspect('equal')
+    coor_per_cnt = cnt_pos.shape[2]
+    cnt_pos = cnt_pos.reshape((-1, coor_per_cnt, 3))
+    cnt_orient = cnt_orient.reshape((-1, coor_per_cnt, 3))
 
-    for f in range(1):
-        for r in cnt_pos[f, :, :, :]:
-            ax.plot(r[:, 2], r[:, 0], r[:, 1])
-    # ax.set_xlim([-1500, 500])
-    ax.set_ylim([-500,50])
-    # _ = ax.set_zlim([0,20])
+    
+    header = 'ARMA_MAT_TXT_FN008\n'
+    header += f'{cnt_pos.shape[0]} {cnt_pos.shape[1]}\n'
+    header += f'fiber diameter: {fiber_diameter}, cnt diameter: {cnt_diameter}'
+    fmt = "%+.4e"
+    cmts = ""
 
-    # ax.view_init(elev=10., azim=np.pi/2)
-    ax.view_init(azim=-np.pi/4)
+    # filename = os.path.join(directory, "single_cnt.pos.x.dat")
+    # np.savetxt(filename, cnt_pos[:, :, 0], header=header, fmt=fmt, comments=cmts)
+    filename = os.path.join(directory, "single_cnt.pos.x")
+    np.save(filename, cnt_pos[:, :, 0])
 
-    plt.show()
+    # filename = os.path.join(directory, "single_cnt.pos.y.dat")
+    # np.savetxt(filename, cnt_pos[:, :, 1], header=header, fmt=fmt, comments=cmts)
+    filename = os.path.join(directory, "single_cnt.pos.y")
+    np.save(filename, cnt_pos[:, :, 1])
 
-  
+    # filename = os.path.join(directory, "single_cnt.pos.z.dat")
+    # np.savetxt(filename, cnt_pos[:, :, 2], header=header, fmt=fmt, comments=cmts)
+    filename = os.path.join(directory, "single_cnt.pos.z")
+    np.save(filename, cnt_pos[:, :, 2])
+
+    # filename = os.path.join(directory, "single_cnt.orient.x.dat")
+    # np.savetxt(filename, cnt_orient[:, :, 0], header=header, fmt=fmt, comments=cmts)
+
+    # filename = os.path.join(directory, "single_cnt.orient.y.dat")
+    # np.savetxt(filename, cnt_orient[:, :, 1], header=header, fmt=fmt, comments=cmts)
+
+    # filename = os.path.join(directory, "single_cnt.orient.z.dat")
+    # np.savetxt(filename, cnt_orient[:, :, 2], header=header, fmt=fmt, comments=cmts)
+
+  if args.check_cnt_nearest_neighbor:
+
+    filename = os.path.join(directory, "single_cnt.pos.x.npy")
+    x = np.load(filename)
+    filename = os.path.join(directory, "single_cnt.pos.y.npy")
+    y = np.load(filename)
+    filename = os.path.join(directory, "single_cnt.pos.z.npy")
+    z = np.load(filename)
+
+    for i in range(x.shape[1]):
+      print(x[0,i], y[0,i], z[0,i])
+
+    # print(x.shape)
+
+    # print('***********')
+    # for i in range(2):
+    #   print(x[i])
+
+    # print('***********')
+
+    # x = x.flatten()
+    # for i in range(200):
+    #   print(x[i])
+
+    # print(type(x[0]))
+
+    # filename = os.path.join(directory, "single_cnt.pos.x.dat")
+    # x = np.loadtxt(filename, skiprows=3)
+
+    # filename = os.path.join(directory, "single_cnt.pos.y.dat")
+    # y = np.loadtxt(filename, skiprows=3)
+
+    # filename = os.path.join(directory, "single_cnt.pos.z.dat")
+    # z = np.loadtxt(filename, skiprows=3)
+
+    # cnt_pos = np.stack((x, y, z), axis=2)
+    # del x, y, z
+
+    # print(cnt_pos.shape)
+    # # input('done with loading!!!')
+
+    # # n = cnt_pos.shape[0]
+    # # pair_min_dist = np.full((n,n),1.e14)
+
+    # # input('done with preparation')
+
+    # temp = np.zeros((cnt_pos.shape[1], cnt_pos.shape[1], 3))
+
+    # min_dist_per_cnt = []
+    # for i, c1 in enumerate(tqdm(cnt_pos)):
+    #   pair_min_dist = []
+    #   for j, c2 in enumerate(cnt_pos):
+    #     if i == j:
+    #       continue
+    #     for d in range(3):
+    #       x, y = np.meshgrid(c1[:, d], c2[:, d])
+    #       temp[:, :, d] = x-y
+    #     t = np.linalg.norm(temp, axis=2).min()
+    #     pair_min_dist.append(t.min())
+    #   min_dist_per_cnt.append(np.amin(pair_min_dist))
+
+    # # min_dist_per_cnt = pair_min_dist.min(axis=1)
+
+    # hist_min_dist, bins = np.histogram(pair_min_dist, bins=1000, range=(0, 50), density=True)
+    # bins = (bins[:-1]+bins[1:])/2
+
+    # fig = plt.figure()
+    # ax = fig.add_subplot(1, 1, 1)
+    # _ = ax.plot(bins, hist_min_dist)
+    # ax.set_title("Probability distribution function of minimum distances between CNT fibers")
+    # ax.set_xlabel("distance [nm]")
+    # ax.set_ylabel("Probability distribution")
+
+    # filename = os.path.join(directory, 'distance_distribution_cnt.png')
+    # plt.savefig(filename, dpi=400)
+
+    # plt.show()
+
 
 if __name__ == '__main__':
   main()

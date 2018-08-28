@@ -90,7 +90,7 @@ def rotation_from_quaternion(q):
   R[2, 2] = q[0]**2-q[1]**2-q[2]**2+q[3]**2
   return R
 
-def HCP_coordinates(diameter=5, lattice_constant=1):
+def HCP_coordinates(diameter=5, lattice_constant=1) -> np.ndarray:
   """
   Get coordinates of a hexagonal close-packed (HCP) lattice in a circular area.
   We do this by using a BFS algorithm to check all the neighbors.

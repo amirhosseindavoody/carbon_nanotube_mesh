@@ -38,8 +38,6 @@ class fiber:
       return self._r_fine
     raise 'Unknown mode!'
 
-
-
   def num_nodes(self, mode='rough'):
     '''
     Get the number of nodes in the rough mesh
@@ -82,21 +80,21 @@ class fiber:
       self._r_fine = self.calculate_r_fine(n=n, s=s, k=k)
     return self._r_fine
 
-  def tangent_vec(self):
+  def tangent_vec(self) -> np.ndarray:
     """
     Returns:
-      tangent_vec : normalized tangent vectors at the interpolated points, output has shape (N,3)
+      np.ndarray of shape (N,3): normalized tangent vectors at the interpolated points
     """
     if not hasattr(self, '_tck'):
       self.calculate_r_fine()
     tck = self._tck
     u_fine = np.linspace(0, 1, self.r(mode='fine').shape[0])
     deriv_x, deriv_y, deriv_z = interpolate.splev(u_fine, tck, der=1)
-    tangent_vec = np.stack((deriv_x, deriv_y, deriv_z), axis=1)
+    t_vec = np.stack((deriv_x, deriv_y, deriv_z), axis=1)
     
     normalize = lambda v: v/np.linalg.norm(v)
-    tangent_vec = np.apply_along_axis(normalize, axis=1, arr=tangent_vec)
-    return tangent_vec
+    t_vec = np.apply_along_axis(normalize, axis=1, arr=t_vec)
+    return t_vec
 
   def scale(self, factor=10):
     '''
