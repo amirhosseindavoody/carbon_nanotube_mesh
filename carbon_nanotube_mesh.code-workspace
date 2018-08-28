@@ -5,7 +5,7 @@
 		}
 	],
 	"settings": {
-    "python.pythonPath": "/Users/amirhossein/anaconda/envs/py36/bin/python",
+    "python.pythonPath": "~/.conda/envs/py36/bin/python",
     "files.associations": {
       "array": "cpp",
       "string_view": "cpp",

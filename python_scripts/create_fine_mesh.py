@@ -25,9 +25,6 @@ import util
 # mpl.rc('legend', fontsize=20)  # default fontsize for legends
 # mpl.rc('figure', titlesize=35)  # default title size for figures with subplot
 
-
-directory = os.path.expanduser("~/research/cnt_mesh_fiber")
-
 def load_fibers(directory: str):
   '''
   Load all the fiber mesh points in the a directory
@@ -41,17 +38,17 @@ def load_fibers(directory: str):
   fibers = []
 
   for i in range(1, 100):
-      filename = os.path.join(directory, f'tube{i}.pos.dat')
-      if (not os.path.isfile(filename)):
-          continue
-      print(f"reading file: {filename}")
-      with open(filename) as file:
-          for line in file:
-              line = line.strip('\n; ')
-              line = line.split(';')
-              line = line[1:]
-              r = [list(map(float,n.split(','))) for n in line]
-              fibers.append(fiber(r))
+    filename = os.path.join(directory, f'tube{i}.pos.dat')
+    if (not os.path.isfile(filename)):
+      continue
+    print(f"reading file: {filename}")
+    with open(filename) as file:
+      for line in file:
+        line = line.strip('\n; ')
+        line = line.split(';')
+        line = line[1:]
+        r = [list(map(float,n.split(','))) for n in line]
+        fibers.append(fiber(r))
   
   return fibers
 
@@ -89,7 +86,7 @@ def min_neighbor_distance(fibers: List[fiber], mode='fine', n=1000):
   min_dist_per_cnt = pair_min_dist.min(axis=1)
 
   for i in range(pair_min_dist.shape[0]):
-      pair_min_dist[i, i] = -1
+    pair_min_dist[i, i] = -1
 
   return min_dist_per_cnt, pair_min_dist
 
@@ -142,7 +139,7 @@ def main():
 
   args = parser.parse_args()
 
-  directory = os.path.expanduser("~/research/cnt_mesh_fiber.1")
+  directory = os.path.expanduser("~/research/mesh/cnt_mesh_fiber")
 
   fibers = load_fibers(directory)
   
@@ -176,7 +173,7 @@ def main():
     begin = 0
     n_fibers = len(fibers)
 
-    mode = 'fine'
+    mode = 'rough'
 
     for f in fibers[begin:begin+n_fibers]:
       ax.plot(f.z(mode), f.x(mode), f.y(mode))
@@ -229,7 +226,7 @@ def main():
     m = []
     std = []
 
-    for f in fibers[2259:2260]:
+    for f in fibers[:]:
       dr = np.diff(f.r(mode='fine'), axis=0)
       dr = np.linalg.norm(dr, axis=1)
       m.append(np.mean(dr))
@@ -356,7 +353,7 @@ def main():
     cnt_diameter = 1.4
 
     coor = util.HCP_coordinates(fiber_diameter, cnt_diameter)
-    print(f"number of cnts per fiber: {coor.shape[0]}")
+    print(f'number of cnts per fiber: {coor.shape[0]}')
 
     cnt_pos = []
     cnt_orient = []
@@ -380,29 +377,32 @@ def main():
     fmt = "%+.4e"
     cmts = ""
 
-    # filename = os.path.join(directory, "single_cnt.pos.x.dat")
-    # np.savetxt(filename, cnt_pos[:, :, 0], header=header, fmt=fmt, comments=cmts)
+    filename = os.path.join(directory, "single_cnt.pos.x.dat")
+    np.savetxt(filename, cnt_pos[:, :, 0], header=header, fmt=fmt, comments=cmts)
+    
+    filename = os.path.join(directory, "single_cnt.pos.y.dat")
+    np.savetxt(filename, cnt_pos[:, :, 1], header=header, fmt=fmt, comments=cmts)
+
+    filename = os.path.join(directory, "single_cnt.pos.z.dat")
+    np.savetxt(filename, cnt_pos[:, :, 2], header=header, fmt=fmt, comments=cmts)
+
     filename = os.path.join(directory, "single_cnt.pos.x")
     np.save(filename, cnt_pos[:, :, 0])
 
-    # filename = os.path.join(directory, "single_cnt.pos.y.dat")
-    # np.savetxt(filename, cnt_pos[:, :, 1], header=header, fmt=fmt, comments=cmts)
     filename = os.path.join(directory, "single_cnt.pos.y")
     np.save(filename, cnt_pos[:, :, 1])
 
-    # filename = os.path.join(directory, "single_cnt.pos.z.dat")
-    # np.savetxt(filename, cnt_pos[:, :, 2], header=header, fmt=fmt, comments=cmts)
     filename = os.path.join(directory, "single_cnt.pos.z")
     np.save(filename, cnt_pos[:, :, 2])
 
-    # filename = os.path.join(directory, "single_cnt.orient.x.dat")
-    # np.savetxt(filename, cnt_orient[:, :, 0], header=header, fmt=fmt, comments=cmts)
+    filename = os.path.join(directory, "single_cnt.orient.x.dat")
+    np.savetxt(filename, cnt_orient[:, :, 0], header=header, fmt=fmt, comments=cmts)
 
-    # filename = os.path.join(directory, "single_cnt.orient.y.dat")
-    # np.savetxt(filename, cnt_orient[:, :, 1], header=header, fmt=fmt, comments=cmts)
+    filename = os.path.join(directory, "single_cnt.orient.y.dat")
+    np.savetxt(filename, cnt_orient[:, :, 1], header=header, fmt=fmt, comments=cmts)
 
-    # filename = os.path.join(directory, "single_cnt.orient.z.dat")
-    # np.savetxt(filename, cnt_orient[:, :, 2], header=header, fmt=fmt, comments=cmts)
+    filename = os.path.join(directory, "single_cnt.orient.z.dat")
+    np.savetxt(filename, cnt_orient[:, :, 2], header=header, fmt=fmt, comments=cmts)
 
   if args.check_cnt_nearest_neighbor:
 
