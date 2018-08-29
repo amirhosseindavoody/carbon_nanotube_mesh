@@ -22,7 +22,9 @@ int main()
   omp_set_num_threads(n_threads);
   std::cout << "maximum number of threads: "<< omp_get_max_threads() << std::endl;
 
-  std::string directory = "/home/amirhossein/research/mesh/cnt_mesh_fiber/";
+  // std::string directory = "/home/amirhossein/research/mesh/cnt_mesh_fiber/";
+  std::string directory = "/Users/amirhossein/research/cnt_mesh_fiber.1/";
+
   std::cout << "input directory: " << directory << std::endl;
 
   cnpy::NpyArray x = cnpy::npy_load(directory + "single_cnt.pos.x.npy");
@@ -47,10 +49,8 @@ int main()
   std::vector<std::vector<float_t>> t(d2, std::vector<float_t>(3, 0));
   std::vector<std::vector<std::vector<float_t>>> pos(d1, t);
 
-  for (int_t i = 0; i < d1; ++i)
-  {
-    for (int_t j = 0; j < d2; ++j)
-    {
+  for (int_t i = 0; i < d1; ++i) {
+    for (int_t j = 0; j < d2; ++j) {
       int_t k = i * d2 + j;
       pos[i][j][0] = data_x[k];
       pos[i][j][1] = data_y[k];
@@ -73,12 +73,21 @@ int main()
   float_t dr = radius/float_t(nh);
 
 
-  
-  for (int_t i=0; i<d1; ++i) {
-    std::cout << i << "\r" << std::flush;
-    #pragma omp parallel shared(pos, hist)
-    {
-      #pragma omp for
+  int_t p = 0;
+
+  #pragma omp parallel
+  {
+    std::vector<int_t> hist_private(nh, 0);
+
+    #pragma omp for
+    for (int_t i=0; i<d1; ++i) {
+      #pragma omp critical
+      {
+        p++;
+        std::cout << "progress: " << p << "/" << d1 << "                                             \r" << std::flush;
+      }
+
+
       for (int_t j=i+1; j<d1; ++j) {
         float_t min_d = radius + 1;
 
@@ -93,13 +102,48 @@ int main()
 
         int_t idx = static_cast<int_t>(min_d/dr);
         if (idx < nh) {
-          #pragma omp atomic
-          hist[idx] += 1;
+          hist_private[idx] += 1;
         }
 
       }
+
     }
+
+    #pragma omp critical
+    {
+      for(int_t i=0; i<nh; ++i) {
+        hist[i] += hist_private[i];
+      }
+    }
+
   }
+
+  // for (int_t i=0; i<d1; ++i) {
+  //   std::cout << i << "\r" << std::flush;
+  //   #pragma omp parallel shared(pos, hist)
+  //   {
+  //     #pragma omp for
+  //     for (int_t j=i+1; j<d1; ++j) {
+  //       float_t min_d = radius + 1;
+
+  //       for (int_t k=0; k<d2; ++k) {
+  //         for (int_t l=0; l<d2; ++l) {
+  //           float_t d = std::sqrt(std::pow(pos[i][k][0] - pos[j][l][0], 2) + std::pow(pos[i][k][1] - pos[j][l][1], 2) + std::pow(pos[i][k][2] - pos[j][l][2], 2));
+  //           if (d<min_d) {
+  //             min_d = d;
+  //           }
+  //         }
+  //       }
+
+  //       int_t idx = static_cast<int_t>(min_d/dr);
+  //       if (idx < nh) {
+  //         #pragma omp atomic
+  //         hist[idx] += 1;
+  //       }
+
+  //     }
+  //   }
+  // }
 
   std::ofstream file(directory + "histogram.dat");
 
