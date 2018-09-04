@@ -43,7 +43,7 @@ def load_fibers(directory: str):
     filename = os.path.join(directory, f'tube{i}.pos.dat')
     if (not os.path.isfile(filename)):
       continue
-    print(f"reading file: {filename}")
+    print(f'reading file: {filename}')
     with open(filename) as file:
       for line in file:
         line = line.strip('\n; ')
