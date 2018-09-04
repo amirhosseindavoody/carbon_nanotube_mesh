@@ -529,17 +529,19 @@ def main():
   if args.histogram:
     src_filename = os.path.join(directory, 'histogram.dat')
     i = 0
-    dst_filename = os.path.join(directory, f'histogram.{i}.dat')
+    dst_directory = os.path.join(directory, 'histogram_log')
+    os.makedirs(dst_directory, exist_ok=True)
+    dst_filename = os.path.join(dst_directory, f'histogram.{i}.dat')
     while(os.path.exists(dst_filename)):
       i += 1
-      dst_filename = os.path.join(directory, f'histogram.{i}.dat')
+      dst_filename = os.path.join(dst_directory, f'histogram.{i}.dat')
     shutil.copyfile(src_filename, dst_filename)
 
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
 
     i = 0
-    filename = os.path.join(directory, f'histogram.{i}.dat')
+    filename = os.path.join(dst_directory, f'histogram.{i}.dat')
     while(os.path.exists(filename)):
       df = pd.read_csv(filename, header=None)
       # print(df)
@@ -554,11 +556,15 @@ def main():
       ax.plot(dist, hist, label=f'{i}')
 
       i += 1
-      filename = os.path.join(directory, f'histogram.{i}.dat')
+      filename = os.path.join(dst_directory, f'histogram.{i}.dat')
     
     # ax.legend()
     ax.set_xlabel(f'Distance [nm]')
     ax.set_ylabel(f'Probability distribution')
+
+    filename = os.path.join(directory, f'cnt_histogram.png')
+    plt.savefig(filename, dpi=800)
+
     plt.show()
 
 if __name__ == '__main__':
