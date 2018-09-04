@@ -130,16 +130,19 @@ def create_single_CNTs(fib: fiber, coor: np.ndarray) -> Tuple[np.ndarray, np.nda
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('--drop', help='Plot the mean height of fibers by their dropping order to see if any fiber have slipped through and fallen down', action='store_true')
-  parser.add_argument('--drawRough', help='Plot the rough mesh created through BulletPhysics simulation', action='store_true')
+  parser.add_argument('--plot', help='Plot the rough or fine FIBER mesh created through BulletPhysics simulation', action='store_true')
   parser.add_argument('--check_interpolation', help='Check interpolation function to see if the fine mesh has proper shape', action='store_true')
   parser.add_argument('--nearest_neighbor', help='Calculate and plot the distance to the nearest neighbor for each fiber', action='store_true')
   parser.add_argument('--plot_cnts', help='Create and plot position of individual CNTs for a limited number of fibers', action='store_true')
   parser.add_argument('--create_cnts', help='Create the position of individual CNTs within the fibers', action='store_true')
-  parser.add_argument('--check_cnt_nearest_neighbor', help='Calculate the nearest neighbors distance for each CNT', action='store_true')
+  parser.add_argument('--check_npy_files', help='Load cnt coordinates written into npy file format to check for errors', action='store_true')
+  parser.add_argument('--trim', help='trim created mesh in the low density regions', action='store_true')
+  parser.add_argument('--random_mesh', help='create a randomly oriented mesh of molecules, this option is independent of BulletPhysics related options', action='store_true')
 
   args = parser.parse_args()
 
   directory = os.path.expanduser("~/research/mesh/cnt_mesh_fiber")
+  directory = os.path.expanduser("~/research/cnt_mesh_fiber.1")
 
   fibers = load_fibers(directory)
   
@@ -165,7 +168,7 @@ def main():
 
     plt.show()
 
-  if args.drawRough:
+  if args.plot:
     fig = plt.figure()
     ax = fig.add_subplot('111', projection='3d')
     ax.set_aspect('equal')
@@ -372,8 +375,9 @@ def main():
 
     
     header = 'ARMA_MAT_TXT_FN008\n'
-    header += f'{cnt_pos.shape[0]} {cnt_pos.shape[1]}\n'
-    header += f'fiber diameter: {fiber_diameter}, cnt diameter: {cnt_diameter}'
+    # header += f'{cnt_pos.shape[0]} {cnt_pos.shape[1]}\n'
+    header += f'{cnt_pos.shape[0]} {cnt_pos.shape[1]}'
+    # header += f'fiber diameter: {fiber_diameter}, cnt diameter: {cnt_diameter}'
     fmt = "%+.4e"
     cmts = ""
 
@@ -404,7 +408,7 @@ def main():
     filename = os.path.join(directory, "single_cnt.orient.z.dat")
     np.savetxt(filename, cnt_orient[:, :, 2], header=header, fmt=fmt, comments=cmts)
 
-  if args.check_cnt_nearest_neighbor:
+  if args.check_npy_files:
 
     filename = os.path.join(directory, "single_cnt.pos.x.npy")
     x = np.load(filename)
@@ -416,72 +420,106 @@ def main():
     for i in range(x.shape[1]):
       print(x[0,i], y[0,i], z[0,i])
 
-    # print(x.shape)
+  if args.trim:
+    xlim = [[f.x('fine').min() for f in fibers],
+            [f.x('fine').max() for f in fibers]]
+    xlim = np.array(xlim)
+    xlim = (xlim[0,:].min(), xlim[1,:].max())
+    
+    ylim = [[f.y('fine').min() for f in fibers],
+            [f.y('fine').max() for f in fibers]]
+    ylim = np.array(ylim)
+    ylim = (ylim[0, :].min(), ylim[1, :].max())
 
-    # print('***********')
-    # for i in range(2):
-    #   print(x[i])
+    zlim = [[f.z('fine').min() for f in fibers],
+            [f.z('fine').max() for f in fibers]]
+    zlim = np.array(zlim)
+    zlim = (zlim[0, :].min(), zlim[1, :].max())
 
-    # print('***********')
+    ylim = (0, ylim[1])
 
-    # x = x.flatten()
-    # for i in range(200):
-    #   print(x[i])
+    print(f'xlim: {xlim[0]} , {xlim[1]}')
+    print(f'ylim: {ylim[0]} , {ylim[1]}')
+    print(f'zlim: {zlim[0]} , {zlim[1]}')
 
-    # print(type(x[0]))
+    nx, ny, nz = 10, 10, 10
+    dx, dy, dz = (xlim[1]-xlim[0])/nx, (ylim[1]-ylim[0])/ny, (zlim[1]-zlim[0])/nz
 
-    # filename = os.path.join(directory, "single_cnt.pos.x.dat")
-    # x = np.loadtxt(filename, skiprows=3)
+    print(dx, dy, dz)
 
-    # filename = os.path.join(directory, "single_cnt.pos.y.dat")
-    # y = np.loadtxt(filename, skiprows=3)
 
-    # filename = os.path.join(directory, "single_cnt.pos.z.dat")
-    # z = np.loadtxt(filename, skiprows=3)
 
-    # cnt_pos = np.stack((x, y, z), axis=2)
-    # del x, y, z
+    hist = np.zeros((nx, ny, nz), dtype=int)
+    for f in tqdm(fibers):
+      ix, iy, iz = ((f.x('fine')-xlim[0])/dx).astype(int).clip(0,nx-1), ((f.y('fine')-ylim[0])/dy).astype(int).clip(0,ny-1), ((f.z('fine')-zlim[0])/dz).astype(int).clip(0,nz-1)
 
-    # print(cnt_pos.shape)
-    # # input('done with loading!!!')
+      # for i in range(len(ix)):
+      #   hist[ix[i], iy[i], iz[i]] += 1
+      for i in zip(ix, iy, iz):
+        hist[i] += 1
 
-    # # n = cnt_pos.shape[0]
-    # # pair_min_dist = np.full((n,n),1.e14)
+    hist = hist.swapaxes(0,1)
+    print(hist)
 
-    # # input('done with preparation')
+    print(np.sum(hist))
+    
+  if args.random_mesh:
+    xlen = 2000
+    ylen = 100
+    zlen = 2000
 
-    # temp = np.zeros((cnt_pos.shape[1], cnt_pos.shape[1], 3))
+    num_point = int(1.e7)
 
-    # min_dist_per_cnt = []
-    # for i, c1 in enumerate(tqdm(cnt_pos)):
-    #   pair_min_dist = []
-    #   for j, c2 in enumerate(cnt_pos):
-    #     if i == j:
-    #       continue
-    #     for d in range(3):
-    #       x, y = np.meshgrid(c1[:, d], c2[:, d])
-    #       temp[:, :, d] = x-y
-    #     t = np.linalg.norm(temp, axis=2).min()
-    #     pair_min_dist.append(t.min())
-    #   min_dist_per_cnt.append(np.amin(pair_min_dist))
+    volume = xlen * ylen * zlen
+    print(f'total volume: {volume:.2e} [nm^3]')
+    print(f'number of points: {num_point:.2e}')
+    print(f'density: {num_point/volume} [nm^-3]')
 
-    # # min_dist_per_cnt = pair_min_dist.min(axis=1)
+    cnt_pos = np.random.rand(num_point, 3)
+    cnt_pos *= np.array([xlen, ylen, zlen])
+    
+    cnt_orient_polar = np.random.rand(num_point, 2)
+    cnt_orient_polar[:, 0] = np.arccos(1-2*cnt_orient_polar[:, 0])
+    cnt_orient_polar[:, 1] *= 2*np.pi
 
-    # hist_min_dist, bins = np.histogram(pair_min_dist, bins=1000, range=(0, 50), density=True)
-    # bins = (bins[:-1]+bins[1:])/2
+    cnt_orient = np.zeros((num_point, 3))
+    cnt_orient[:, 0] = np.sin(cnt_orient_polar[:, 0]) * np.cos(cnt_orient_polar[:, 1])
+    cnt_orient[:, 1] = np.sin(cnt_orient_polar[:, 0]) * np.sin(cnt_orient_polar[:, 1])
+    cnt_orient[:, 2] = np.cos(cnt_orient_polar[:, 0])
+
+    directory = os.path.expanduser('~/research/mesh/random_mesh')
+    if (not os.path.exists(directory)):
+      os.makedirs(directory)
+    
+    header = 'ARMA_MAT_TXT_FN008\n'
+    # header += f'{cnt_pos.shape[0]} {cnt_pos.shape[1]}\n'
+    header += f'{cnt_pos.shape[0]} 1'
+    # header += f'density: {num_point/volume} [nm^-3]'
+    fmt = "%+.4e"
+    cmts = ""
+
+    filename = os.path.join(directory, "single_cnt.pos.x.dat")
+    np.savetxt(filename, cnt_pos[:, 0], header=header, fmt=fmt, comments=cmts)
+
+    filename = os.path.join(directory, "single_cnt.pos.y.dat")
+    np.savetxt(filename, cnt_pos[:, 1], header=header, fmt=fmt, comments=cmts)
+
+    filename = os.path.join(directory, "single_cnt.pos.z.dat")
+    np.savetxt(filename, cnt_pos[:, 2], header=header, fmt=fmt, comments=cmts)
+
+    filename = os.path.join(directory, "single_cnt.orient.x.dat")
+    np.savetxt(filename, cnt_orient[:, 0], header=header, fmt=fmt, comments=cmts)
+
+    filename = os.path.join(directory, "single_cnt.orient.y.dat")
+    np.savetxt(filename, cnt_orient[:, 1], header=header, fmt=fmt, comments=cmts)
+
+    filename = os.path.join(directory, "single_cnt.orient.z.dat")
+    np.savetxt(filename, cnt_orient[:, 2], header=header, fmt=fmt, comments=cmts)
 
     # fig = plt.figure()
-    # ax = fig.add_subplot(1, 1, 1)
-    # _ = ax.plot(bins, hist_min_dist)
-    # ax.set_title("Probability distribution function of minimum distances between CNT fibers")
-    # ax.set_xlabel("distance [nm]")
-    # ax.set_ylabel("Probability distribution")
-
-    # filename = os.path.join(directory, 'distance_distribution_cnt.png')
-    # plt.savefig(filename, dpi=400)
-
+    # ax = fig.add_subplot('111', projection='3d')
+    # ax.plot(cnt_pos[:,2], cnt_pos[:, 0], cnt_pos[:,1], linestyle='none', marker='.')
     # plt.show()
-
 
 if __name__ == '__main__':
   main()

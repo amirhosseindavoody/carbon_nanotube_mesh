@@ -74,17 +74,39 @@ int main()
 
 
   int_t p = 0;
+  int_t total = (d1*(d1-1))/2;
 
   #pragma omp parallel
   {
     std::vector<int_t> hist_private(nh, 0);
 
+    int_t i_private = 0;
+
     #pragma omp for
     for (int_t i=0; i<d1; ++i) {
       #pragma omp critical
       {
-        p++;
-        std::cout << "progress: " << p << "/" << d1 << "                                             \r" << std::flush;
+        p += (d1-i-1);
+        std::cout << "progress: " << (100*p)/total << " percent                                             \r" << std::flush;
+      }
+
+
+      if (i_private%1000 == 0) {
+        #pragma omp critical
+        {
+          for(int_t i=0; i<nh; ++i) {
+            hist[i] += hist_private[i];
+            hist_private[i] = 0;
+          }
+
+          std::ofstream file(directory + "histogram.dat", std::ios::trunc);
+
+          for (auto &h : hist) {
+            file << h << " , ";
+          }
+          file << std::endl;
+          file.close();
+        }
       }
 
 
@@ -99,6 +121,8 @@ int main()
             }
           }
         }
+
+        i_private++;
 
         int_t idx = static_cast<int_t>(min_d/dr);
         if (idx < nh) {
@@ -145,7 +169,7 @@ int main()
   //   }
   // }
 
-  std::ofstream file(directory + "histogram.dat");
+  std::ofstream file(directory + "histogram.dat", std::ios::trunc);
 
   for (auto& h: hist) {
     file << h << " , ";
