@@ -22,8 +22,8 @@ int main()
   omp_set_num_threads(n_threads);
   std::cout << "maximum number of threads: "<< omp_get_max_threads() << std::endl;
 
-  // std::string directory = "/home/amirhossein/research/mesh/cnt_mesh_fiber/";
-  std::string directory = "/Users/amirhossein/research/cnt_mesh_fiber.1/";
+  std::string directory = "/home/amirhossein/research/mesh/cnt_mesh_fiber/";
+  // std::string directory = "/Users/amirhossein/research/cnt_mesh_fiber.1/";
 
   std::cout << "input directory: " << directory << std::endl;
 
@@ -84,14 +84,9 @@ int main()
 
     #pragma omp for
     for (int_t i=0; i<d1; ++i) {
-      #pragma omp critical
-      {
-        p += (d1-i-1);
-        std::cout << "progress: " << (100*p)/total << " percent                                             \r" << std::flush;
-      }
 
-
-      if (i_private%1000 == 0) {
+      if (i_private>100000) {
+        i_private = 0;
         #pragma omp critical
         {
           for(int_t i=0; i<nh; ++i) {
@@ -129,6 +124,12 @@ int main()
           hist_private[idx] += 1;
         }
 
+      }
+
+      #pragma omp critical
+      {
+        p += (d1-i-1);
+        std::cout << "progress: " << float_t(100*p)/float_t(total) << " percent                                             \r" << std::flush;
       }
 
     }
