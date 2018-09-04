@@ -10,3 +10,5 @@ bullet3-master/
 __pycache__
 
 cnpy/
+
+*.code-workspace
