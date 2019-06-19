@@ -33,3 +33,12 @@ The following files and directories exist in the repository:
 In order to compile the `cpp` code you need to install the following dependencies on your computer
 - `Armadillo`: A library for doing linear algebra calculations in `cpp`. [Here](http://arma.sourceforge.net/) is their homepage with instructions on how to install it.
 - `BulletPhysics`: This one is a little bit tricky so I have put some notes in a special [wiki page](https://github.com/amirhosseindavoody/carbon_nanotube_mesh/wiki) dedicated to how to use this library.
+
+# Output file explanation
+The output of the `BulletPhysics` simulation are two sets of files named as follows
+- `tube1.orient.dat`, `tube2.orient.dat`, etc. : information about the orientation of solid cylinders.
+- `tube1.pos.dat`, `tube2.pos.dat`, etc. : information about the coordinates of solid cylinders.
+
+The output of the step 2 and 3 are the following sets of files:
+- `single_cnt.pos.x.dat`, `single_cnt.pos.y.dat`, `single_cnt.pos.z.dat`: Information about the position of individual CNTs in CNT fibers in x, y, and z direction. Each line in the file refers to coordinated of one CNT.
+- - `single_cnt.orient.x.dat`, `single_cnt.orient.y.dat`, `single_cnt.orient.z.dat`: Information about the orientation of individual CNTs in CNT fibers in x, y, and z direction. Each line in the file refers to coordinated of one CNT.
